@@ -310,138 +310,288 @@ outer regions individually, with those regions being as defined in the
 2020 (first) survey.</p>
 <p>This work note summarises the analysis and findings. The next section
 discusses the datasets retrieved from the Australian Bureau of
-Statistics (ABS) Table Builder. Section 3 presents the analysis
-results</p>
+Statistics (ABS) Table Builder. Section 3 shows the regions used in the
+2020 (first) survey and in this analysis. Section 4 presents the
+analysis results</p>
 </div>
 <div id="data" class="section level1">
 <h1>2.0 Data</h1>
-<pre class="r"><code>#Load datasets
-library(readr)</code></pre>
-<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.1.2</code></pre>
-<pre class="r"><code>X2016_1yr_ago_State &lt;- read_csv(&quot;01 data/2016_1yr_ago_State.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...15`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 88 Columns: 15
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): STATE (1YRS), New South Wales
-## dbl (12): Victoria, Queensland, South Australia, Western Australia, Tasmania...
-## lgl  (1): ...15
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>X2016_1yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2016_1yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...87`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 88 Columns: 87
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): LGA (1YRS), Alpine (S)
-## dbl (84): Ararat (RC), Ballarat (C), Banyule (C), Bass Coast (S), Baw Baw (S...
-## lgl  (1): ...87
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>X2016_2016_5yr_ago_State &lt;- read_csv(&quot;01 data/2016_5yr_ago_State.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...15`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 88 Columns: 15
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): STATE (5YRS), New South Wales
-## dbl (12): Victoria, Queensland, South Australia, Western Australia, Tasmania...
-## lgl  (1): ...15
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>X2016_2016_5yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2016_5yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...87`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 88 Columns: 87
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): LGA (5YRS), Alpine (S)
-## dbl (84): Ararat (RC), Ballarat (C), Banyule (C), Bass Coast (S), Baw Baw (S...
-## lgl  (1): ...87
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>X2021_1yr_ago_State &lt;- read_csv(&quot;01 data/2021_1yr_ago_State.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...15`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 87 Columns: 15
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): STATE (1YRS), New South Wales
-## dbl (12): Victoria, Queensland, South Australia, Western Australia, Tasmania...
-## lgl  (1): ...15
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>X2021_1yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2021_1yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...87`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 87 Columns: 87
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): LGA (1YRS), Alpine
-## dbl (84): Ararat, Ballarat, Banyule, Bass Coast, Baw Baw, Bayside (Vic.), Be...
-## lgl  (1): ...87
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>X2021_5yr_ago_State &lt;- read_csv(&quot;01 data/2021_5yr_ago_State.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...2`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 86 Columns: 2
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (2): LGA (UR), ...2
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>X2021_5yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2021_5yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...87`</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 87 Columns: 87
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): LGA (5YRS), Alpine
-## dbl (84): Ararat, Ballarat, Banyule, Bass Coast, Baw Baw, Bayside (Vic.), Be...
-## lgl  (1): ...87
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>#delete empty first rows from each table
-X2016_1yr_ago_State &lt;- X2016_1yr_ago_State[-1,]
-X2016_1yr_ago_Vic_LGA &lt;- X2016_1yr_ago_Vic_LGA[-1,]
-X2016_2016_5yr_ago_State &lt;- X2016_2016_5yr_ago_State[-1,]
-X2016_2016_5yr_ago_Vic_LGA &lt;- X2016_2016_5yr_ago_Vic_LGA[-1,]
-X2021_1yr_ago_State &lt;- X2021_1yr_ago_State[-1,]
-X2021_1yr_ago_Vic_LGA &lt;- X2021_1yr_ago_Vic_LGA[-1,]
-X2021_5yr_ago_State &lt;- X2021_5yr_ago_State[-1,]
-X2021_5yr_ago_Vic_LGA &lt;- X2021_5yr_ago_Vic_LGA[-1,]
+<p>Eight datasets were extracted as Comma-Separated Values (CSV) files
+using the ABS Table Builder online system. These were the results for
+the questions about usual place of residence 1 year ago and 5 years
+ago<label for="tufte-sn-1" class="margin-toggle sidenote-number">1</label><input type="checkbox" id="tufte-sn-1" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">1</span> Specifically the Place of usual residence one year ago
+(PUR1P) and Place of usual residence five years ago (PUR5P) variables.
+Details are avaiable at <a href="https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p" class="uri">https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p</a></span>,
+with data retrieved for the 2016 and 2021 censuses. Separate tables were
+extracted for respondents who answered that their previous place of
+residence was within a specific Victorian LGA, and for those whose
+previous place of residence was in another state or territory.</p>
+<p>Some minor edits were made directly to the CSV files prior to
+importation into R<label for="tufte-sn-2" class="margin-toggle sidenote-number">2</label><input type="checkbox" id="tufte-sn-2" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">2</span> The LGA name fields used for 2016 and 2021 were
+inconsistent. The 2016 version also showed the type of LGA, (Shire,
+Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV
+files were updated to adopt the 2016 approach.</span>. Examples of the data tables are shown
+below.</p>
+<p><!--
+<caption>--><span class="marginnote shownote">2016 census, State/Territory of usual residence one year ago,results by LGA for Victoria, first 6 results</span><!--</caption>--></p>
+<table>
 
-#delete empty last column from each table
-X2016_1yr_ago_State &lt;- X2016_1yr_ago_State[,1:ncol(X2016_1yr_ago_State)-1]
-X2016_1yr_ago_Vic_LGA &lt;- X2016_1yr_ago_Vic_LGA[,1:ncol(X2016_1yr_ago_Vic_LGA)-1]
-X2016_2016_5yr_ago_State &lt;- X2016_2016_5yr_ago_State[,1:ncol(X2016_2016_5yr_ago_State)-1]
-X2016_2016_5yr_ago_Vic_LGA &lt;- X2016_2016_5yr_ago_Vic_LGA[,1:ncol(X2016_2016_5yr_ago_Vic_LGA)-1]
-X2021_1yr_ago_State &lt;- X2021_1yr_ago_State[,1:ncol(X2021_1yr_ago_State)-1]
-X2021_1yr_ago_Vic_LGA &lt;- X2021_1yr_ago_Vic_LGA[-1,ncol(X2021_1yr_ago_Vic_LGA)-1]
-X2021_5yr_ago_State &lt;- X2021_5yr_ago_State[-1,ncol(X2021_5yr_ago_State)-1]
-X2021_5yr_ago_Vic_LGA &lt;- X2021_5yr_ago_Vic_LGA[-1,ncol(X2021_5yr_ago_Vic_LGA)-1]</code></pre>
+<colgroup>
+<col width="8%" />
+<col width="9%" />
+<col width="5%" />
+<col width="6%" />
+<col width="9%" />
+<col width="10%" />
+<col width="5%" />
+<col width="11%" />
+<col width="17%" />
+<col width="10%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">STATE (1YRS)</th>
+<th align="right">New South Wales</th>
+<th align="right">Victoria</th>
+<th align="right">Queensland</th>
+<th align="right">South Australia</th>
+<th align="right">Western Australia</th>
+<th align="right">Tasmania</th>
+<th align="right">Northern Territory</th>
+<th align="right">Australian Capital Territory</th>
+<th align="right">Other Territories</th>
+<th align="right">Overseas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alpine (S)</td>
+<td align="right">128</td>
+<td align="right">10,802</td>
+<td align="right">61</td>
+<td align="right">12</td>
+<td align="right">26</td>
+<td align="right">12</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">68</td>
+</tr>
+<tr class="even">
+<td align="left">Ararat (RC)</td>
+<td align="right">26</td>
+<td align="right">9,684</td>
+<td align="right">30</td>
+<td align="right">21</td>
+<td align="right">35</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">73</td>
+</tr>
+<tr class="odd">
+<td align="left">Ballarat (C)</td>
+<td align="right">254</td>
+<td align="right">90,368</td>
+<td align="right">327</td>
+<td align="right">156</td>
+<td align="right">130</td>
+<td align="right">65</td>
+<td align="right">59</td>
+<td align="right">35</td>
+<td align="right">0</td>
+<td align="right">633</td>
+</tr>
+<tr class="even">
+<td align="left">Banyule (C)</td>
+<td align="right">334</td>
+<td align="right">109,352</td>
+<td align="right">328</td>
+<td align="right">100</td>
+<td align="right">144</td>
+<td align="right">46</td>
+<td align="right">63</td>
+<td align="right">65</td>
+<td align="right">0</td>
+<td align="right">1,611</td>
+</tr>
+<tr class="odd">
+<td align="left">Bass Coast (S)</td>
+<td align="right">99</td>
+<td align="right">29,121</td>
+<td align="right">114</td>
+<td align="right">23</td>
+<td align="right">52</td>
+<td align="right">20</td>
+<td align="right">37</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">139</td>
+</tr>
+<tr class="even">
+<td align="left">Baw Baw (S)</td>
+<td align="right">110</td>
+<td align="right">43,156</td>
+<td align="right">153</td>
+<td align="right">39</td>
+<td align="right">65</td>
+<td align="right">25</td>
+<td align="right">21</td>
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">157</td>
+</tr>
+</tbody>
+</table>
+<p><!--
+<caption>--><span class="marginnote shownote">2016 census, LGA of usual residence one year ago, results byLGA for Victoria, first 6 results</span><!--</caption>--></p>
+<table>
+
+<colgroup>
+<col width="10%" />
+<col width="7%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">LGA (1YRS)</th>
+<th align="right">Alpine (S)</th>
+<th align="right">Ararat (RC)</th>
+<th align="right">Ballarat (C)</th>
+<th align="right">Banyule (C)</th>
+<th align="right">Bass Coast (S)</th>
+<th align="right">Baw Baw (S)</th>
+<th align="right">Bayside (C)</th>
+<th align="right">Benalla (RC)</th>
+<th align="right">Boroondara (C)</th>
+<th align="right">Brimbank (C)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alpine (S)</td>
+<td align="right">10,359</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">8</td>
+<td align="right">3</td>
+<td align="right">14</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Ararat (RC)</td>
+<td align="right">4</td>
+<td align="right">9,265</td>
+<td align="right">49</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">7</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">Ballarat (C)</td>
+<td align="right">4</td>
+<td align="right">109</td>
+<td align="right">85,943</td>
+<td align="right">49</td>
+<td align="right">14</td>
+<td align="right">21</td>
+<td align="right">22</td>
+<td align="right">4</td>
+<td align="right">52</td>
+<td align="right">38</td>
+</tr>
+<tr class="even">
+<td align="left">Banyule (C)</td>
+<td align="right">12</td>
+<td align="right">5</td>
+<td align="right">26</td>
+<td align="right">102,254</td>
+<td align="right">18</td>
+<td align="right">15</td>
+<td align="right">33</td>
+<td align="right">3</td>
+<td align="right">540</td>
+<td align="right">57</td>
+</tr>
+<tr class="odd">
+<td align="left">Bass Coast (S)</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">10</td>
+<td align="right">29</td>
+<td align="right">27,123</td>
+<td align="right">52</td>
+<td align="right">14</td>
+<td align="right">3</td>
+<td align="right">39</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">Baw Baw (S)</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">16</td>
+<td align="right">16</td>
+<td align="right">60</td>
+<td align="right">40,455</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">25</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table>
+<p>Unfortunately, the place of usual residence 1 and 5 years ago
+variables from the ABS datasets includes people who did not move in the
+values shown for each LGA and State/Territory. Hence it will be
+necessary to get the datasets for the Usual address one year ago
+indicator (UAI1P) and Usual address five years ago indicator (UAI5P)<label for="tufte-sn-3" class="margin-toggle sidenote-number">3</label><input type="checkbox" id="tufte-sn-3" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">3</span> See details at <a href="https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p" class="uri">https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p</a></span></p>
+</div>
+<div id="regions" class="section level1">
+<h1>3.0 Regions</h1>
+<p>Inner, middle and outer regions were defined in the 2020 Melbourne
+COVID-19 survey as follows.</p>
+<pre><code>## Rows: 79 Columns: 2
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): Local Government Area (LGA), Region
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## # A tibble: 79 × 2
+##    `Local Government Area (LGA)` Region
+##    &lt;chr&gt;                         &lt;chr&gt; 
+##  1 Alpine (S)                    &lt;NA&gt;  
+##  2 Ararat (RC)                   &lt;NA&gt;  
+##  3 Ballarat (C)                  &lt;NA&gt;  
+##  4 Banyule (C)                   Middle
+##  5 Bass Coast (S)                &lt;NA&gt;  
+##  6 Baw Baw (S)                   &lt;NA&gt;  
+##  7 Bayside (C)                   Middle
+##  8 Benalla (RC)                  &lt;NA&gt;  
+##  9 Boroondara (C)                Middle
+## 10 Brimbank (C)                  Middle
+## # … with 69 more rows</code></pre>
 </div>
 <div id="results" class="section level1">
-<h1>3.0 Results</h1>
+<h1>4.0 Results</h1>
 </div>
 
 

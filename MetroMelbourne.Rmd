@@ -30,51 +30,100 @@ options(htmltools.dir.version = FALSE)
 # 1.0 Introduction
 As part of the work program for the upcoming Metro Melbourne COVID-19 2023 (second) survey PTRG is comparing the usual place of residence results from the 2016 and 2021 Australian census. The analysis includes looking at Metro Melbourne as a whole, and also the inner, middle and outer regions individually, with those regions being as defined in the 2020 (first) survey. 
 
-This work note summarises the analysis and findings. The next section discusses the datasets retrieved from the Australian Bureau of Statistics (ABS) Table Builder. Section 3 presents the analysis results
+This work note summarises the analysis and findings. The next section discusses the datasets retrieved from the Australian Bureau of Statistics (ABS) Table Builder. Section 3 shows the regions used in the 2020 (first) survey and in this analysis. Section 4 presents the analysis results
 
 
 # 2.0 Data 
+Eight datasets were extracted as Comma-Separated Values (CSV) files using the ABS Table Builder online system. These were the results for the questions about usual place of residence 1 year ago and 5 years ago^[Specifically the Place of usual residence one year ago (PUR1P) and Place of usual residence five years ago (PUR5P) variables.  Details are avaiable at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p], with data retrieved for the 2016 and 2021 censuses. Separate tables were extracted for respondents who answered that their previous place of residence was within a specific Victorian LGA, and for those whose previous place of residence was in another state or territory. 
 
-```{r loadsurveydata, echo=TRUE, include = TRUE} 
+Some minor edits were made directly to the CSV files prior to importation into R^[The LGA name fields used for 2016 and 2021 were inconsistent. The 2016 version also showed the type of LGA, (Shire, Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV files were updated to adopt the 2016 approach.]. Examples of the data tables are shown below. 
 
-
+```{r loadsurveydata, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
 #Load datasets
 library(readr)
 X2016_1yr_ago_State <- read_csv("01 data/2016_1yr_ago_State.csv", skip = 8)
 X2016_1yr_ago_Vic_LGA <- read_csv("01 data/2016_1yr_ago_Vic_LGA.csv", skip = 8)
-X2016_2016_5yr_ago_State <- read_csv("01 data/2016_5yr_ago_State.csv", skip = 8)
-X2016_2016_5yr_ago_Vic_LGA <- read_csv("01 data/2016_5yr_ago_Vic_LGA.csv", skip = 8)
-X2021_1yr_ago_State <- read_csv("01 data/2021_1yr_ago_State.csv", skip = 8)
-X2021_1yr_ago_Vic_LGA <- read_csv("01 data/2021_1yr_ago_Vic_LGA.csv", skip = 8)
-X2021_5yr_ago_State <- read_csv("01 data/2021_5yr_ago_State.csv", skip = 8)
-X2021_5yr_ago_Vic_LGA <- read_csv("01 data/2021_5yr_ago_Vic_LGA.csv", skip = 8)
+X2016_5yr_ago_State <- read_csv("01 data/2016_5yr_ago_State.csv", skip = 8)
+X2016_5yr_ago_Vic_LGA <- read_csv("01 data/2016_5yr_ago_Vic_LGA.csv", skip = 8)
+X2021_1yr_ago_State <- read_csv("01 data/2021_1yr_ago_State.csv", skip = 9)
+X2021_1yr_ago_Vic_LGA <- read_csv("01 data/2021_1yr_ago_Vic_LGA.csv", skip = 9)
+X2021_5yr_ago_State <- read_csv("01 data/2021_5yr_ago_State.csv", skip = 9)
+X2021_5yr_ago_Vic_LGA <- read_csv("01 data/2021_5yr_ago_Vic_LGA.csv", skip = 9)
 
 
 
 #delete empty first rows from each table
 X2016_1yr_ago_State <- X2016_1yr_ago_State[-1,]
 X2016_1yr_ago_Vic_LGA <- X2016_1yr_ago_Vic_LGA[-1,]
-X2016_2016_5yr_ago_State <- X2016_2016_5yr_ago_State[-1,]
-X2016_2016_5yr_ago_Vic_LGA <- X2016_2016_5yr_ago_Vic_LGA[-1,]
+X2016_5yr_ago_State <- X2016_5yr_ago_State[-1,]
+X2016_5yr_ago_Vic_LGA <- X2016_5yr_ago_Vic_LGA[-1,]
 X2021_1yr_ago_State <- X2021_1yr_ago_State[-1,]
 X2021_1yr_ago_Vic_LGA <- X2021_1yr_ago_Vic_LGA[-1,]
 X2021_5yr_ago_State <- X2021_5yr_ago_State[-1,]
 X2021_5yr_ago_Vic_LGA <- X2021_5yr_ago_Vic_LGA[-1,]
 
 #delete empty last column from each table
-X2016_1yr_ago_State <- X2016_1yr_ago_State[,1:ncol(X2016_1yr_ago_State)-1]
-X2016_1yr_ago_Vic_LGA <- X2016_1yr_ago_Vic_LGA[,1:ncol(X2016_1yr_ago_Vic_LGA)-1]
-X2016_2016_5yr_ago_State <- X2016_2016_5yr_ago_State[,1:ncol(X2016_2016_5yr_ago_State)-1]
-X2016_2016_5yr_ago_Vic_LGA <- X2016_2016_5yr_ago_Vic_LGA[,1:ncol(X2016_2016_5yr_ago_Vic_LGA)-1]
-X2021_1yr_ago_State <- X2021_1yr_ago_State[,1:ncol(X2021_1yr_ago_State)-1]
-X2021_1yr_ago_Vic_LGA <- X2021_1yr_ago_Vic_LGA[-1,ncol(X2021_1yr_ago_Vic_LGA)-1]
-X2021_5yr_ago_State <- X2021_5yr_ago_State[-1,ncol(X2021_5yr_ago_State)-1]
-X2021_5yr_ago_Vic_LGA <- X2021_5yr_ago_Vic_LGA[-1,ncol(X2021_5yr_ago_Vic_LGA)-1]
+#delete total column from each table
+#also delete Not Stated, and Not Applicable; from State tables
+#also delete: Capital City Undefined (Greater Melbourne),	Unincorporated Vic,	No Usual Address (Vic.),	Migratory - Offshore - Shipping (Vic.), and	State Undefined (Vic.); from LGA tables
+X2016_1yr_ago_State <- X2016_1yr_ago_State[,1:(ncol(X2016_1yr_ago_State)-4)]
+X2016_1yr_ago_Vic_LGA <- X2016_1yr_ago_Vic_LGA[,1:(ncol(X2016_1yr_ago_Vic_LGA)-7)]
+X2016_5yr_ago_State <- X2016_5yr_ago_State[,1:(ncol(X2016_5yr_ago_State)-4)]
+X2016_5yr_ago_Vic_LGA <- X2016_5yr_ago_Vic_LGA[,1:(ncol(X2016_5yr_ago_Vic_LGA)-7)]
+X2021_1yr_ago_State <- X2021_1yr_ago_State[,1:(ncol(X2021_1yr_ago_State)-4)]
+X2021_1yr_ago_Vic_LGA <- X2021_1yr_ago_Vic_LGA[,1:(ncol(X2021_1yr_ago_Vic_LGA)-6)]
+X2021_5yr_ago_State <- X2021_5yr_ago_State[,1:(ncol(X2021_5yr_ago_State)-4)]
+X2021_5yr_ago_Vic_LGA <- X2021_5yr_ago_Vic_LGA[,1:(ncol(X2021_5yr_ago_Vic_LGA)-6)]
+
+#delete last 3 to 4 rows from each table, as they contain ABS notes etc. 
+#Also remove total row, 
+#Also remove Unincorporated Vic, No usual address (Vic.) and 	Migratory - Offshore - Shipping (Vic.) rows as these are small and special cases that we do not need to include in this analysis 
+X2016_1yr_ago_State <- head(X2016_1yr_ago_State,-8)
+X2016_1yr_ago_Vic_LGA <- head(X2016_1yr_ago_Vic_LGA,-8)
+X2016_5yr_ago_State <- head(X2016_5yr_ago_State,-8)
+X2016_5yr_ago_Vic_LGA <- head(X2016_5yr_ago_Vic_LGA,-8)
+X2021_1yr_ago_State <- head(X2021_1yr_ago_State,-11)
+X2021_1yr_ago_Vic_LGA <- head(X2021_1yr_ago_Vic_LGA,-11)
+X2021_5yr_ago_State <- head(X2021_5yr_ago_State,-11)
+X2021_5yr_ago_Vic_LGA <- head(X2021_5yr_ago_Vic_LGA,-11)
+
+#Convert second column to numeric, as it is a character for some reason
+X2016_1yr_ago_State$`New South Wales` <- as.numeric(X2016_1yr_ago_State$`New South Wales`)
+X2016_1yr_ago_Vic_LGA$`Alpine (S)` <- as.numeric(X2016_1yr_ago_Vic_LGA$`Alpine (S)`)
+X2016_5yr_ago_State$`New South Wales` <- as.numeric(X2016_5yr_ago_State$`New South Wales`)
+X2016_5yr_ago_Vic_LGA$`Alpine (S)` <- as.numeric(X2016_5yr_ago_Vic_LGA$`Alpine (S)`)
+X2021_1yr_ago_State$`New South Wales` <- as.numeric(X2021_1yr_ago_State$`New South Wales`)
+X2021_1yr_ago_Vic_LGA$`Alpine (S)` <- as.numeric(X2021_1yr_ago_Vic_LGA$`Alpine (S)`)
+X2021_5yr_ago_State$`New South Wales` <- as.numeric(X2021_5yr_ago_State$`New South Wales`)
+X2021_5yr_ago_Vic_LGA$`Alpine (S)` <- as.numeric(X2021_5yr_ago_Vic_LGA$`Alpine (S)`)
+
+
+knitr::kable(
+  head(X2016_1yr_ago_State), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, State/Territory of usual residence one year ago, results by LGA for Victoria, first 6 results')
+
+knitr::kable(
+  head(X2016_1yr_ago_Vic_LGA[,1:11]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, LGA of usual residence one year ago, results by LGA for Victoria, first 6 results')
+
+
+```
+
+Unfortunately, the place of usual residence 1 and 5 years ago variables from the ABS datasets includes people who did not move in the values shown for each LGA and State/Territory.  Hence it will be necessary to get the datasets for the Usual address one year ago indicator (UAI1P) and Usual address five years ago indicator (UAI5P)^[See details at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p]
+
+
+
+# 3.0 Regions
+Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey as follows. 
+
+```{r loadregions, echo=FALSE, include = TRUE} 
+#Load dataset
+library(readr)
+Region <- read_csv("01 data/region.csv")
+Region
 
 
 ```
 
 
-# 3.0 Results 
+# 4.0 Results 
 
 
