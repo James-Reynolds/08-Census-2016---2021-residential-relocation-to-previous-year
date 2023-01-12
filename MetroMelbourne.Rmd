@@ -97,6 +97,12 @@ X2021_1yr_ago_Vic_LGA$`Alpine (S)` <- as.numeric(X2021_1yr_ago_Vic_LGA$`Alpine (
 X2021_5yr_ago_State$`New South Wales` <- as.numeric(X2021_5yr_ago_State$`New South Wales`)
 X2021_5yr_ago_Vic_LGA$`Alpine (S)` <- as.numeric(X2021_5yr_ago_Vic_LGA$`Alpine (S)`)
 
+#change name of first column in all dataframes to LGA
+df.list <- list(X2016_1yr_ago_State, X2016_1yr_ago_Vic_LGA, X2016_5yr_ago_State, X2016_5yr_ago_Vic_LGA, X2021_1yr_ago_State, X2021_1yr_ago_Vic_LGA, X2021_5yr_ago_State, X2021_5yr_ago_Vic_LGA)
+res <- lapply(df.list, function(x) {colnames(x)[1] = "LGA"; x})
+names(res) <- c("X2016_1yr_ago_State", "X2016_1yr_ago_Vic_LGA", "X2016_5yr_ago_State", "X2016_5yr_ago_Vic_LGA", "X2021_1yr_ago_State", "X2021_1yr_ago_Vic_LGA", "X2021_5yr_ago_State", "X2021_5yr_ago_Vic_LGA")
+list2env(res,envir=.GlobalEnv)
+
 
 knitr::kable(
   head(X2016_1yr_ago_State), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, State/Territory of usual residence one year ago, results by LGA for Victoria, first 6 results')
@@ -109,16 +115,77 @@ knitr::kable(
 
 Unfortunately, the place of usual residence 1 and 5 years ago variables from the ABS datasets includes people who did not move in the values shown for each LGA and State/Territory.  Hence it will be necessary to get the datasets for the Usual address one year ago indicator (UAI1P) and Usual address five years ago indicator (UAI5P)^[See details at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p]
 
+Some minor edits were made directly to the CSV files prior to importation into R^[Again, the LGA name fields used for 2016 and 2021 were inconsistent. The 2016 version also showed the type of LGA, (Shire, Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV files were updated to adopt the 2016 approach.]. Examples of the data tables are shown below. 
 
+
+```{r load_place_indicator, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
+#Load datasets
+library(readr)
+X2016_usual_address_1yr_ago_indicator <- read_csv("01 data/2016_usual_address_1yr_ago_indicator.csv", skip = 8)
+X2016_usual_address_5yr_ago_indicator <- read_csv("01 data/2016_usual_address_5yr_ago_indicator.csv", skip = 8)
+X2021_usual_address_1yr_ago_indicator <- read_csv("01 data/2021_usual_address_1yr_ago_indicator.csv", skip = 9)
+X2021_usual_address_5yr_ago_indicator <- read_csv("01 data/2021_usual_address_5yr_ago_indicator.csv", skip = 9)
+
+
+
+#delete empty first rows from each table
+X2016_usual_address_1yr_ago_indicator <- X2016_usual_address_1yr_ago_indicator[-1,]
+X2016_usual_address_5yr_ago_indicator <- X2016_usual_address_5yr_ago_indicator[-1,]
+X2021_usual_address_1yr_ago_indicator <- X2021_usual_address_1yr_ago_indicator[-1,]
+X2021_usual_address_5yr_ago_indicator <- X2021_usual_address_5yr_ago_indicator[-1,]
+
+#delete empty last column from 2016 table
+#delete total column from each table
+X2016_usual_address_1yr_ago_indicator <- X2016_usual_address_1yr_ago_indicator[,1:(ncol(X2016_usual_address_1yr_ago_indicator)-2)]
+X2016_usual_address_5yr_ago_indicator <- X2016_usual_address_5yr_ago_indicator[,1:(ncol(X2016_usual_address_5yr_ago_indicator)-2)]
+X2021_usual_address_1yr_ago_indicator <- X2021_usual_address_1yr_ago_indicator[,1:(ncol(X2021_usual_address_1yr_ago_indicator)-1)]
+X2021_usual_address_5yr_ago_indicator <- X2021_usual_address_5yr_ago_indicator[,1:(ncol(X2021_usual_address_5yr_ago_indicator)-1)]
+
+
+#delete last 3 to 4 rows from each table, as they contain ABS notes etc. 
+#Also remove total row, 
+#Also remove Unincorporated Vic, No usual address (Vic.) and 	Migratory - Offshore - Shipping (Vic.) rows as these are small and special cases that we do not need to include in this analysis 
+X2016_usual_address_1yr_ago_indicator <- head(X2016_usual_address_1yr_ago_indicator,-8)
+X2016_usual_address_5yr_ago_indicator <- head(X2016_usual_address_5yr_ago_indicator,-8)
+X2021_usual_address_1yr_ago_indicator <- head(X2021_usual_address_1yr_ago_indicator,-11)
+X2021_usual_address_5yr_ago_indicator <- head(X2021_usual_address_5yr_ago_indicator,-11)
+
+#Convert second column to numeric, as it is a character for some reason
+X2016_usual_address_1yr_ago_indicator$`Same as in 2016` <- as.numeric(X2016_usual_address_1yr_ago_indicator$`Same as in 2016`)
+X2016_usual_address_5yr_ago_indicator$`Same as in 2016` <- as.numeric(X2016_usual_address_5yr_ago_indicator$`Same as in 2016`)
+X2021_usual_address_1yr_ago_indicator$`Same as in 2021` <- as.numeric(X2021_usual_address_1yr_ago_indicator$`Same as in 2021`)
+X2021_usual_address_5yr_ago_indicator$`Same as in 2021` <- as.numeric(X2021_usual_address_5yr_ago_indicator$`Same as in 2021`)
+
+#change name of first column in all dataframes to LGA
+df.list <- list(X2016_usual_address_1yr_ago_indicator, X2016_usual_address_5yr_ago_indicator, X2021_usual_address_1yr_ago_indicator, X2021_usual_address_5yr_ago_indicator)
+res <- lapply(df.list, function(x) {colnames(x)[1] = "LGA"; x})
+names(res) <- c("X2016_usual_address_1yr_ago_indicator", "X2016_usual_address_5yr_ago_indicator", "X2021_usual_address_1yr_ago_indicator", "X2021_usual_address_5yr_ago_indicator")
+list2env(res,envir=.GlobalEnv)
+
+
+knitr::kable(
+  head(X2016_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2016 census, Usual address one year ago, results by LGA for Victoria, first 6 results')
+
+knitr::kable(
+  head(X2021_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2021 census, Usual residence one year ago, results by LGA for Victoria, first 6 results')
+
+
+```
+
+NEXT STEP IS TO DO THE CALCULATIONS TO INCLUDE SAME_AS_IN_2021 AS A SEPERATE COLUMN, AND CREATE ONE TABLE FOR EACH TIME TO RULE THEM ALL
 
 # 3.0 Regions
 Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey as follows. 
 
-```{r loadregions, echo=FALSE, include = TRUE} 
+```{r loadregions, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
 #Load dataset
 library(readr)
 Region <- read_csv("01 data/region.csv")
-Region
+
+
+knitr::kable(
+  head(Region), align = "ll", caption = 'Victorian LGAs by region, first 6 results')
+
 
 
 ```
