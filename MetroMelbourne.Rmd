@@ -38,10 +38,39 @@ This work note summarises the analysis and findings. The next section discusses 
 ```{r loadsurveydata, echo=TRUE, include = TRUE} 
 
 
-#Load survey results dataset
+#Load datasets
+library(readr)
+X2016_1yr_ago_State <- read_csv("01 data/2016_1yr_ago_State.csv", skip = 8)
+X2016_1yr_ago_Vic_LGA <- read_csv("01 data/2016_1yr_ago_Vic_LGA.csv", skip = 8)
+X2016_2016_5yr_ago_State <- read_csv("01 data/2016_5yr_ago_State.csv", skip = 8)
+X2016_2016_5yr_ago_Vic_LGA <- read_csv("01 data/2016_5yr_ago_Vic_LGA.csv", skip = 8)
+X2021_1yr_ago_State <- read_csv("01 data/2021_1yr_ago_State.csv", skip = 8)
+X2021_1yr_ago_Vic_LGA <- read_csv("01 data/2021_1yr_ago_Vic_LGA.csv", skip = 8)
+X2021_5yr_ago_State <- read_csv("01 data/2021_5yr_ago_State.csv", skip = 8)
+X2021_5yr_ago_Vic_LGA <- read_csv("01 data/2021_5yr_ago_Vic_LGA.csv", skip = 8)
 
-#library(haven)
-#revised_dataset_corrections_210722 <- read_sav("data/Mode_shift_from_PT_revised_dataset - grouping - data corrections 210722.sav")
+
+
+#delete empty first rows from each table
+X2016_1yr_ago_State <- X2016_1yr_ago_State[-1,]
+X2016_1yr_ago_Vic_LGA <- X2016_1yr_ago_Vic_LGA[-1,]
+X2016_2016_5yr_ago_State <- X2016_2016_5yr_ago_State[-1,]
+X2016_2016_5yr_ago_Vic_LGA <- X2016_2016_5yr_ago_Vic_LGA[-1,]
+X2021_1yr_ago_State <- X2021_1yr_ago_State[-1,]
+X2021_1yr_ago_Vic_LGA <- X2021_1yr_ago_Vic_LGA[-1,]
+X2021_5yr_ago_State <- X2021_5yr_ago_State[-1,]
+X2021_5yr_ago_Vic_LGA <- X2021_5yr_ago_Vic_LGA[-1,]
+
+#delete empty last column from each table
+X2016_1yr_ago_State <- X2016_1yr_ago_State[,1:ncol(X2016_1yr_ago_State)-1]
+X2016_1yr_ago_Vic_LGA <- X2016_1yr_ago_Vic_LGA[,1:ncol(X2016_1yr_ago_Vic_LGA)-1]
+X2016_2016_5yr_ago_State <- X2016_2016_5yr_ago_State[,1:ncol(X2016_2016_5yr_ago_State)-1]
+X2016_2016_5yr_ago_Vic_LGA <- X2016_2016_5yr_ago_Vic_LGA[,1:ncol(X2016_2016_5yr_ago_Vic_LGA)-1]
+X2021_1yr_ago_State <- X2021_1yr_ago_State[,1:ncol(X2021_1yr_ago_State)-1]
+X2021_1yr_ago_Vic_LGA <- X2021_1yr_ago_Vic_LGA[-1,ncol(X2021_1yr_ago_Vic_LGA)-1]
+X2021_5yr_ago_State <- X2021_5yr_ago_State[-1,ncol(X2021_5yr_ago_State)-1]
+X2021_5yr_ago_Vic_LGA <- X2021_5yr_ago_Vic_LGA[-1,ncol(X2021_5yr_ago_Vic_LGA)-1]
+
 
 ```
 

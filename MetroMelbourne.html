@@ -315,10 +315,130 @@ results</p>
 </div>
 <div id="data" class="section level1">
 <h1>2.0 Data</h1>
-<pre class="r"><code>#Load survey results dataset
+<pre class="r"><code>#Load datasets
+library(readr)</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.1.2</code></pre>
+<pre class="r"><code>X2016_1yr_ago_State &lt;- read_csv(&quot;01 data/2016_1yr_ago_State.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...15`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 88 Columns: 15
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): STATE (1YRS), New South Wales
+## dbl (12): Victoria, Queensland, South Australia, Western Australia, Tasmania...
+## lgl  (1): ...15
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>X2016_1yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2016_1yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...87`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 88 Columns: 87
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): LGA (1YRS), Alpine (S)
+## dbl (84): Ararat (RC), Ballarat (C), Banyule (C), Bass Coast (S), Baw Baw (S...
+## lgl  (1): ...87
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>X2016_2016_5yr_ago_State &lt;- read_csv(&quot;01 data/2016_5yr_ago_State.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...15`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 88 Columns: 15
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): STATE (5YRS), New South Wales
+## dbl (12): Victoria, Queensland, South Australia, Western Australia, Tasmania...
+## lgl  (1): ...15
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>X2016_2016_5yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2016_5yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...87`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 88 Columns: 87
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): LGA (5YRS), Alpine (S)
+## dbl (84): Ararat (RC), Ballarat (C), Banyule (C), Bass Coast (S), Baw Baw (S...
+## lgl  (1): ...87
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>X2021_1yr_ago_State &lt;- read_csv(&quot;01 data/2021_1yr_ago_State.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...15`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 87 Columns: 15
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): STATE (1YRS), New South Wales
+## dbl (12): Victoria, Queensland, South Australia, Western Australia, Tasmania...
+## lgl  (1): ...15
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>X2021_1yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2021_1yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...87`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 87 Columns: 87
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): LGA (1YRS), Alpine
+## dbl (84): Ararat, Ballarat, Banyule, Bass Coast, Baw Baw, Bayside (Vic.), Be...
+## lgl  (1): ...87
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>X2021_5yr_ago_State &lt;- read_csv(&quot;01 data/2021_5yr_ago_State.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...2`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 86 Columns: 2
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): LGA (UR), ...2
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>X2021_5yr_ago_Vic_LGA &lt;- read_csv(&quot;01 data/2021_5yr_ago_Vic_LGA.csv&quot;, skip = 8)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...87`</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 87 Columns: 87
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): LGA (5YRS), Alpine
+## dbl (84): Ararat, Ballarat, Banyule, Bass Coast, Baw Baw, Bayside (Vic.), Be...
+## lgl  (1): ...87
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>#delete empty first rows from each table
+X2016_1yr_ago_State &lt;- X2016_1yr_ago_State[-1,]
+X2016_1yr_ago_Vic_LGA &lt;- X2016_1yr_ago_Vic_LGA[-1,]
+X2016_2016_5yr_ago_State &lt;- X2016_2016_5yr_ago_State[-1,]
+X2016_2016_5yr_ago_Vic_LGA &lt;- X2016_2016_5yr_ago_Vic_LGA[-1,]
+X2021_1yr_ago_State &lt;- X2021_1yr_ago_State[-1,]
+X2021_1yr_ago_Vic_LGA &lt;- X2021_1yr_ago_Vic_LGA[-1,]
+X2021_5yr_ago_State &lt;- X2021_5yr_ago_State[-1,]
+X2021_5yr_ago_Vic_LGA &lt;- X2021_5yr_ago_Vic_LGA[-1,]
 
-#library(haven)
-#revised_dataset_corrections_210722 &lt;- read_sav(&quot;data/Mode_shift_from_PT_revised_dataset - grouping - data corrections 210722.sav&quot;)</code></pre>
+#delete empty last column from each table
+X2016_1yr_ago_State &lt;- X2016_1yr_ago_State[,1:ncol(X2016_1yr_ago_State)-1]
+X2016_1yr_ago_Vic_LGA &lt;- X2016_1yr_ago_Vic_LGA[,1:ncol(X2016_1yr_ago_Vic_LGA)-1]
+X2016_2016_5yr_ago_State &lt;- X2016_2016_5yr_ago_State[,1:ncol(X2016_2016_5yr_ago_State)-1]
+X2016_2016_5yr_ago_Vic_LGA &lt;- X2016_2016_5yr_ago_Vic_LGA[,1:ncol(X2016_2016_5yr_ago_Vic_LGA)-1]
+X2021_1yr_ago_State &lt;- X2021_1yr_ago_State[,1:ncol(X2021_1yr_ago_State)-1]
+X2021_1yr_ago_Vic_LGA &lt;- X2021_1yr_ago_Vic_LGA[-1,ncol(X2021_1yr_ago_Vic_LGA)-1]
+X2021_5yr_ago_State &lt;- X2021_5yr_ago_State[-1,ncol(X2021_5yr_ago_State)-1]
+X2021_5yr_ago_Vic_LGA &lt;- X2021_5yr_ago_Vic_LGA[-1,ncol(X2021_5yr_ago_Vic_LGA)-1]</code></pre>
 </div>
 <div id="results" class="section level1">
 <h1>3.0 Results</h1>
