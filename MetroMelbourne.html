@@ -12,7 +12,7 @@
 
 <meta name="author" content="Dr James Reynolds, Public Transport Research Group (PTRG), Monash University" />
 
-<meta name="date" content="2023-01-12" />
+<meta name="date" content="2023-01-13" />
 
 <title>Metro Melbourne COVID-19 2023 survey; Census 2016 &amp; 2021 residential relocation</title>
 
@@ -296,7 +296,7 @@ Census 2016 &amp; 2021 residential relocation</h1>
 <h3 class="subtitle">Data analysis</h3>
 <h4 class="author">Dr James Reynolds, Public Transport Research Group
 (PTRG), Monash University</h4>
-<h4 class="date">2023-01-12</h4>
+<h4 class="date">2023-01-13</h4>
 
 
 
@@ -717,15 +717,112 @@ below.</p>
 </tr>
 </tbody>
 </table>
-<p>NEXT STEP IS TO DO THE CALCULATIONS TO INCLUDE SAME_AS_IN_2021 AS A
-SEPERATE COLUMN, AND CREATE ONE TABLE FOR EACH TIME TO RULE THEM ALL</p>
+<p>Next, need to incorporate the ‘same as in YYYY’ into the by State and
+by LGA tables.</p>
+<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
+<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
+<table style="width:100%;">
+<caption>2016 census, combined table, first 6 results for first 8columns</caption>
+
+<colgroup>
+<col width="12%" />
+<col width="13%" />
+<col width="19%" />
+<col width="14%" />
+<col width="9%" />
+<col width="12%" />
+<col width="9%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">LGA</th>
+<th align="right">Same as in 2016</th>
+<th align="right">Elsewhere in Australia</th>
+<th align="right">Overseas in 2015</th>
+<th align="right">Not stated</th>
+<th align="right">Not applicable</th>
+<th align="right">Alpine (S)</th>
+<th align="right">Ararat (RC)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alpine (S)</td>
+<td align="right">9,711</td>
+<td align="right">1,351</td>
+<td align="right">68</td>
+<td align="right">1,107</td>
+<td align="right">94</td>
+<td align="right">648</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Ararat (RC)</td>
+<td align="right">8,580</td>
+<td align="right">1,243</td>
+<td align="right">73</td>
+<td align="right">1,602</td>
+<td align="right">107</td>
+<td align="right">4</td>
+<td align="right">685</td>
+</tr>
+<tr class="odd">
+<td align="left">Ballarat (C)</td>
+<td align="right">76,451</td>
+<td align="right">15,107</td>
+<td align="right">633</td>
+<td align="right">8,217</td>
+<td align="right">1,283</td>
+<td align="right">4</td>
+<td align="right">109</td>
+</tr>
+<tr class="even">
+<td align="left">Banyule (C)</td>
+<td align="right">97,543</td>
+<td align="right">13,051</td>
+<td align="right">1,611</td>
+<td align="right">8,129</td>
+<td align="right">1,535</td>
+<td align="right">12</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">Bass Coast (S)</td>
+<td align="right">24,722</td>
+<td align="right">4,816</td>
+<td align="right">139</td>
+<td align="right">2,831</td>
+<td align="right">303</td>
+<td align="right">5</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Baw Baw (S)</td>
+<td align="right">37,246</td>
+<td align="right">6,417</td>
+<td align="right">157</td>
+<td align="right">4,093</td>
+<td align="right">566</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="regions" class="section level1">
 <h1>3.0 Regions</h1>
 <p>Inner, middle and outer regions were defined in the 2020 Melbourne
-COVID-19 survey as follows.</p>
+COVID-19 survey, as shown in the following table. The additional zones
+of Peri-Urban Area and Rest of Victoria have been defined in the work to
+date for the forthcoming Regional Victoria COVID-19 survey, and the
+following table also shows allocation of LGAs to those zones as well<label for="tufte-sn-5" class="margin-toggle sidenote-number">5</label><input type="checkbox" id="tufte-sn-5" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">5</span> Note that the Peri-Urban Area and Rest of Victoria zones
+have actually been defined using the Statistical Area 3 (SA3)
+boundaries, which are different to LGA boundaries. However, LGA
+boundaries are such that LGAs can be, and have been, assigned to one of
+the Peri-Urban Area and Rest of Victoria zones.</span>.</p>
 <p><!--
-<caption>--><span class="marginnote shownote">Victorian LGAs by region, first 6 results</span><!--</caption>--></p>
+<caption>--><span class="marginnote shownote">Victorian LGAs by region</span><!--</caption>--></p>
 <table>
 <thead>
 <tr class="header">
@@ -736,15 +833,15 @@ COVID-19 survey as follows.</p>
 <tbody>
 <tr class="odd">
 <td align="left">Alpine (S)</td>
-<td align="left">NA</td>
+<td align="left">Rest of Victoria</td>
 </tr>
 <tr class="even">
 <td align="left">Ararat (RC)</td>
-<td align="left">NA</td>
+<td align="left">Rest of Victoria</td>
 </tr>
 <tr class="odd">
 <td align="left">Ballarat (C)</td>
-<td align="left">NA</td>
+<td align="left">Peri-Urban Area</td>
 </tr>
 <tr class="even">
 <td align="left">Banyule (C)</td>
@@ -752,17 +849,313 @@ COVID-19 survey as follows.</p>
 </tr>
 <tr class="odd">
 <td align="left">Bass Coast (S)</td>
-<td align="left">NA</td>
+<td align="left">Peri-Urban Area</td>
 </tr>
 <tr class="even">
 <td align="left">Baw Baw (S)</td>
-<td align="left">NA</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="odd">
+<td align="left">Bayside (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Benalla (RC)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Boroondara (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Brimbank (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Buloke (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Campaspe (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Cardinia (S)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="even">
+<td align="left">Casey (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="odd">
+<td align="left">Central Goldfields (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Colac-Otway (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Corangamite (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Darebin (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">East Gippsland (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Frankston (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="odd">
+<td align="left">Gannawarra (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Glen Eira (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Glenelg (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Golden Plains (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="odd">
+<td align="left">Greater Bendigo (C)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Greater Dandenong (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Greater Geelong (C)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Greater Shepparton (C)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Hepburn (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Hindmarsh (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Hobsons Bay (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Horsham (RC)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Hume (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="even">
+<td align="left">Indigo (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Kingston (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Knox (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="odd">
+<td align="left">Latrobe (C)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Loddon (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Macedon Ranges (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Manningham (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Mansfield (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Maribyrnong (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Maroondah (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="even">
+<td align="left">Melbourne (C)</td>
+<td align="left">Inner</td>
+</tr>
+<tr class="odd">
+<td align="left">Melton (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="even">
+<td align="left">Mildura (RC)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Mitchell (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Moira (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Monash (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Moonee Valley (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Moorabool (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Moreland (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Mornington Peninsula (S)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="even">
+<td align="left">Mount Alexander (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="odd">
+<td align="left">Moyne (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Murrindindi (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="odd">
+<td align="left">Nillumbik (S)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="even">
+<td align="left">Northern Grampians (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Port Phillip (C)</td>
+<td align="left">Inner</td>
+</tr>
+<tr class="even">
+<td align="left">Pyrenees (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Queenscliffe (B)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">South Gippsland (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="odd">
+<td align="left">Southern Grampians (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Stonnington (C)</td>
+<td align="left">Inner</td>
+</tr>
+<tr class="odd">
+<td align="left">Strathbogie (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Surf Coast (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="odd">
+<td align="left">Swan Hill (RC)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Towong (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Wangaratta (RC)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Warrnambool (C)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Wellington (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">West Wimmera (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Whitehorse (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Whittlesea (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="odd">
+<td align="left">Wodonga (C)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Wyndham (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="odd">
+<td align="left">Yarra (C)</td>
+<td align="left">Inner</td>
+</tr>
+<tr class="even">
+<td align="left">Yarra Ranges (S)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="odd">
+<td align="left">Yarriambiack (S)</td>
+<td align="left">Rest of Victoria</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="results" class="section level1">
 <h1>4.0 Results</h1>
+<p>Changes in residential location 1 and 5 years before the 2016 and
+2021 censuses, by region, are shown in the following.</p>
+<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
+<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
 </div>
 
 

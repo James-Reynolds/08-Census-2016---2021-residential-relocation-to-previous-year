@@ -70,9 +70,9 @@ X2016_1yr_ago_State <- X2016_1yr_ago_State[,1:(ncol(X2016_1yr_ago_State)-4)]
 X2016_1yr_ago_Vic_LGA <- X2016_1yr_ago_Vic_LGA[,1:(ncol(X2016_1yr_ago_Vic_LGA)-7)]
 X2016_5yr_ago_State <- X2016_5yr_ago_State[,1:(ncol(X2016_5yr_ago_State)-4)]
 X2016_5yr_ago_Vic_LGA <- X2016_5yr_ago_Vic_LGA[,1:(ncol(X2016_5yr_ago_Vic_LGA)-7)]
-X2021_1yr_ago_State <- X2021_1yr_ago_State[,1:(ncol(X2021_1yr_ago_State)-4)]
+X2021_1yr_ago_State <- X2021_1yr_ago_State[,1:(ncol(X2021_1yr_ago_State)-3)]
 X2021_1yr_ago_Vic_LGA <- X2021_1yr_ago_Vic_LGA[,1:(ncol(X2021_1yr_ago_Vic_LGA)-6)]
-X2021_5yr_ago_State <- X2021_5yr_ago_State[,1:(ncol(X2021_5yr_ago_State)-4)]
+X2021_5yr_ago_State <- X2021_5yr_ago_State[,1:(ncol(X2021_5yr_ago_State)-3)]
 X2021_5yr_ago_Vic_LGA <- X2021_5yr_ago_Vic_LGA[,1:(ncol(X2021_5yr_ago_Vic_LGA)-6)]
 
 #delete last 3 to 4 rows from each table, as they contain ABS notes etc. 
@@ -158,9 +158,9 @@ X2021_usual_address_5yr_ago_indicator$`Same as in 2021` <- as.numeric(X2021_usua
 
 #change name of first column in all dataframes to LGA
 df.list <- list(X2016_usual_address_1yr_ago_indicator, X2016_usual_address_5yr_ago_indicator, X2021_usual_address_1yr_ago_indicator, X2021_usual_address_5yr_ago_indicator)
-res <- lapply(df.list, function(x) {colnames(x)[1] = "LGA"; x})
-names(res) <- c("X2016_usual_address_1yr_ago_indicator", "X2016_usual_address_5yr_ago_indicator", "X2021_usual_address_1yr_ago_indicator", "X2021_usual_address_5yr_ago_indicator")
-list2env(res,envir=.GlobalEnv)
+df.list <- lapply(df.list, function(x) {colnames(x)[1] = "LGA"; x})
+names(df.list) <- c("X2016_usual_address_1yr_ago_indicator", "X2016_usual_address_5yr_ago_indicator", "X2021_usual_address_1yr_ago_indicator", "X2021_usual_address_5yr_ago_indicator")
+list2env(df.list,envir=.GlobalEnv)
 
 
 knitr::kable(
@@ -172,25 +172,123 @@ knitr::kable(
 
 ```
 
-NEXT STEP IS TO DO THE CALCULATIONS TO INCLUDE SAME_AS_IN_2021 AS A SEPERATE COLUMN, AND CREATE ONE TABLE FOR EACH TIME TO RULE THEM ALL
+Next, need to incorporate the 'same as in YYYY' into the by State and by LGA tables. 
 
+```{r same_as_in_to_seperate_column, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
+
+#Move State dataframes  in list
+df.State.list <- list(X2016_1yr_ago_State, X2016_5yr_ago_State, X2021_1yr_ago_State,  X2021_5yr_ago_State)
+names(df.State.list) <- c("X2016_1yr_ago_State", "X2016_5yr_ago_State", "X2021_1yr_ago_State", "X2021_5yr_ago_State")
+#remove Victoria column from State dataframes list
+df.State.list <- lapply(df.State.list, function(x) {x[-c(3)]})
+#return State dataframes out of list
+list2env(df.State.list,envir=.GlobalEnv)
+
+
+#Move LGA dataframes  in list
+df.LGA.list <- list(X2016_1yr_ago_Vic_LGA, X2016_5yr_ago_Vic_LGA, X2021_1yr_ago_Vic_LGA,  X2021_5yr_ago_Vic_LGA)
+names(df.LGA.list) <- c("X2016_1yr_ago_Vic_LGA", "X2016_5yr_ago_Vic_LGA", "X2021_1yr_ago_Vic_LGA", "X2021_5yr_ago_Vic_LGA")
+
+
+#Move usual address indicator dataframes  in list
+df.usual_address.list <- list(X2016_usual_address_1yr_ago_indicator, X2016_usual_address_5yr_ago_indicator, X2021_usual_address_1yr_ago_indicator,  X2021_usual_address_5yr_ago_indicator)
+names(df.LGA.list) <- c("X2016_usual_address_1yr_ago_indicator", "X2016_usual_address_5yr_ago_indicator", "X2021_usual_address_1yr_ago_indicator", "X2021_usual_address_5yr_ago_indicator")
+
+
+
+
+
+
+#merge dataframes 2016 1 yr ago
+X2016_combined_1yr_ago <- merge(X2016_usual_address_1yr_ago_indicator, X2016_1yr_ago_Vic_LGA, by.x = "LGA", by.y = "LGA")
+X2016_combined_1yr_ago <- merge(X2016_combined_1yr_ago, X2016_1yr_ago_State, by.x = "LGA", by.y = "LGA")
+#merge dataframes 2016 5 yr ago
+X2016_combined_5yr_ago <- merge(X2016_usual_address_5yr_ago_indicator, X2016_5yr_ago_Vic_LGA, by.x = "LGA", by.y = "LGA")
+X2016_combined_5yr_ago <- merge(X2016_combined_5yr_ago, X2016_5yr_ago_State, by.x = "LGA", by.y = "LGA")
+
+#merge dataframes 2021 1 yr ago
+X2021_combined_1yr_ago <- merge(X2021_usual_address_1yr_ago_indicator, X2021_1yr_ago_Vic_LGA, by.x = "LGA", by.y = "LGA")
+X2021_combined_1yr_ago <- merge(X2021_combined_1yr_ago, X2021_1yr_ago_State, by.x = "LGA", by.y = "LGA")
+#merge dataframes 2021 5 yr ago
+X2021_combined_5yr_ago <- merge(X2021_usual_address_5yr_ago_indicator, X2021_5yr_ago_Vic_LGA, by.x = "LGA", by.y = "LGA")
+X2021_combined_5yr_ago <- merge(X2021_combined_5yr_ago, X2021_5yr_ago_State, by.x = "LGA", by.y = "LGA")
+
+
+#remove duplicated last (Overseas) columns from each dataframe
+X2016_combined_1yr_ago <- X2016_combined_1yr_ago[,1:(ncol(X2016_combined_1yr_ago)-1)]
+X2016_combined_5yr_ago <- X2016_combined_5yr_ago[,1:(ncol(X2016_combined_5yr_ago)-1)]
+X2021_combined_1yr_ago <- X2021_combined_1yr_ago[,1:(ncol(X2021_combined_1yr_ago)-1)]
+X2021_combined_5yr_ago <- X2021_combined_5yr_ago[,1:(ncol(X2021_combined_5yr_ago)-1)]
+
+
+#write function to subtract the "Same as in YYYY" column from the relevant LGA column for each (LGA) row
+function.subtract_same_as_in_YYYY_column <- function(df){
+for (i in 1:nrow(df)){
+    LGA_name <- df[i,1]
+    same_location_number <- df[i,2]
+    column_number_of_LGA_name <- which(colnames(df)==LGA_name)
+df[i,column_number_of_LGA_name] <- df[i,column_number_of_LGA_name]-same_location_number
+  }
+return(df)}
+
+#Move combined dataframes  into list
+df.combined_by_LGA.list <- list(X2016_combined_1yr_ago, X2016_combined_5yr_ago, X2021_combined_1yr_ago,  X2021_combined_5yr_ago)
+names(df.combined_by_LGA.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5yr_ago", "X2021_combined_1yr_ago", "X2021_combined_5yr_ago")
+
+#run function.subtract_same_as_in_YYYY_column on dataframes in the combined list
+df.combined_by_LGA.list <- lapply(df.combined_by_LGA.list, function(x) {function.subtract_same_as_in_YYYY_column(x)})
+names(df.combined_by_LGA.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5yr_ago", "X2021_combined_1yr_ago", "X2021_combined_5yr_ago")
+
+#push results of list back out to global environment
+list2env(df.combined_by_LGA.list,envir=.GlobalEnv)
+
+
+knitr::kable(
+  head(X2016_combined_1yr_ago[,1:8]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrr", caption = '2016 census, combined table, first 6 results for first 8 columns')
+
+
+```
+  
 # 3.0 Regions
-Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey as follows. 
+Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey, as shown in the following table. The additional zones of Peri-Urban Area and Rest of Victoria have been defined in the work to date for the forthcoming Regional Victoria COVID-19 survey, and the following table also shows allocation of LGAs to those zones as well^[Note that the Peri-Urban Area and Rest of Victoria zones have actually been defined using the Statistical Area 3 (SA3) boundaries, which are different to LGA boundaries. However, LGA boundaries are such that LGAs can be, and have been, assigned to one of the Peri-Urban Area and Rest of Victoria zones.]. 
 
 ```{r loadregions, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
 #Load dataset
 library(readr)
-Region <- read_csv("01 data/region.csv")
+region <- read_csv("01 data/region.csv")
+
+knitr::kable(region, caption = 'Victorian LGAs by region')
+```
+
+# 4.0 Results 
+Changes in residential location 1 and 5 years before the 2016 and 2021 censuses, by region, are shown in the following. 
 
 
-knitr::kable(
-  head(Region), align = "ll", caption = 'Victorian LGAs by region, first 6 results')
+```{r by_region, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
+#Join dataframe of regions with each of the dataframes in the list of combined dataframes
+df.combined_by_LGA.list <- lapply(df.combined_by_LGA.list, function(X) {merge(region, X)})
+#return combined dataframes out of list
+list2env(df.combined_by_LGA.list,envir=.GlobalEnv)
 
 
+#Make new list of dataframes for aggregated by region. 
+df.combined_by_region.list <- lapply(df.combined_by_LGA.list, function(X){
+  cbind(LGA = X[1], Region = X[2], NSW =X[87], QLD = X[88], SA = X[89], WA = X[90], TAS = X[91], NT = X[92], ACT = X[93], Other = X[94], Overseas = X[5], "Not stated" = X[6], "Not applicable" = X[7])
+})
+
+
+#STILL TO DO, AGREGATE LGA COLUMNS into INNER, MIDDLE, OUTER, PERi-URBAN, REST OF VICTORIA, and add to df.combined_by_region.list data frames - will need to use a function with a for loop as done above in line 225. 
+
+#STILL TO DO, AGREGATE LGA ROWS into INNER, MIDDLE, OUTER, PERi-URBAN, REST OF VICTORIA, and add to df.combined_by_region.list data frames
+
+
+
+#Export back to Global Environment  
+names(df.combined_by_region.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5yr_ago", "X2021_combined_1yr_ago", "X2021_combined_5yr_ago")
+list2env(df.combined_by_region.list,envir=.GlobalEnv)
 
 ```
 
 
-# 4.0 Results 
 
 
