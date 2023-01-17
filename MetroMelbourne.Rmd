@@ -104,11 +104,11 @@ names(res) <- c("X2016_1yr_ago_State", "X2016_1yr_ago_Vic_LGA", "X2016_5yr_ago_S
 list2env(res,envir=.GlobalEnv)
 
 
-knitr::kable(
-  head(X2016_1yr_ago_State), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, State/Territory of usual residence one year ago, results by LGA for Victoria, first 6 results')
+#knitr::kable(
+#  head(X2016_1yr_ago_State), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, State/Territory of usual residence one year ago, results by LGA for Victoria, first 6 results')
 
-knitr::kable(
-  head(X2016_1yr_ago_Vic_LGA[,1:11]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, LGA of usual residence one year ago, results by LGA for Victoria, first 6 results')
+#knitr::kable(
+#  head(X2016_1yr_ago_Vic_LGA[,1:11]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, LGA of usual residence one year ago, results by LGA for Victoria, first 6 results')
 
 
 ```
@@ -163,11 +163,11 @@ names(df.list) <- c("X2016_usual_address_1yr_ago_indicator", "X2016_usual_addres
 list2env(df.list,envir=.GlobalEnv)
 
 
-knitr::kable(
-  head(X2016_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2016 census, Usual address one year ago, results by LGA for Victoria, first 6 results')
+#knitr::kable(
+#  head(X2016_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2016 census, Usual address one year ago, results by LGA for Victoria, first 6 results')
 
-knitr::kable(
-  head(X2021_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2021 census, Usual residence one year ago, results by LGA for Victoria, first 6 results')
+#knitr::kable(
+#  head(X2021_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2021 census, Usual residence one year ago, results by LGA for Victoria, first 6 results')
 
 
 ```
@@ -243,8 +243,8 @@ names(df.combined_by_LGA.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5y
 list2env(df.combined_by_LGA.list,envir=.GlobalEnv)
 
 
-knitr::kable(
-  head(X2016_combined_1yr_ago[,1:8]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrr", caption = '2016 census, combined table, first 6 results for first 8 columns')
+#knitr::kable(
+#  head(X2016_combined_1yr_ago[,1:8]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrr", caption = '2016 census, combined table, first 6 results for first 8 columns')
 
 
 ```
@@ -257,7 +257,7 @@ Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 surv
 library(readr)
 region <- read_csv("01 data/region.csv")
 
-knitr::kable(region, caption = 'Victorian LGAs by region')
+#knitr::kable(region, caption = 'Victorian LGAs by region')
 ```
 
 # 4.0 Results 
@@ -341,16 +341,87 @@ df.rest_of_vic.list <- lapply(df.rest_of_vic.list, function(X) {
 
 
 #Then collect the Inner, middle, outer etc totals from each list and combine into one list of dataframes
-df.combined_by_region.list <- lapply(df.inner.list, tail, 1)
-})
+#By firest creating df.lists of just the "Total" rows from each
+df.inner_total.list <- lapply(df.inner.list, tail, 1)
+df.middle_total.list <- lapply(df.middle.list, tail, 1)
+df.outer_total.list <- lapply(df.outer.list, tail, 1)
+df.peri_urban_total.list <- lapply(df.peri_urban.list, tail, 1)
+df.rest_of_vic_total.list <- lapply(df.rest_of_vic.list, tail, 1)
+#Then combining them
+df.combined_by_region.list <- mapply(rbind, df.inner_total.list, df.middle_total.list, df.outer_total.list, df.peri_urban_total.list, df.rest_of_vic_total.list, SIMPLIFY = FALSE)
 
+####Next, work on combining the columns
+#Next collect all inner columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.inner_columns.list <- lapply(df.combined_by_region.list, function(X) {
+  X <- X[,LGAs_inner_position+7]})
+df.inner_columns.list <- lapply(df.inner_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.inner_columns.list <- lapply(df.inner_columns.list, rename, Inner = Total)
   
-#####NEED COMBINE THE COLUMNS, THEN REWRITE SO IT CAN ALL BE APPLIED TO LISTS
+#Next collect all middle columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.middle_columns.list <- lapply(df.combined_by_region.list, function(X) {
+  X <- X[,LGAs_middle_position+7]})
+df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.middle_columns.list <- lapply(df.middle_columns.list, rename, Middle = Total)
+  
+#Next collect all outer columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.outer_columns.list <- lapply(df.combined_by_region.list, function(X) {
+  X <- X[,LGAs_outer_position+7]})
+df.outer_columns.list <- lapply(df.outer_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.outer_columns.list <- lapply(df.outer_columns.list, rename, Outer = Total)
+  
+#Next collect all peri_urban columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.peri_urban_columns.list <- lapply(df.combined_by_region.list, function(X) {
+  X <- X[,LGAs_peri_urban_position+7]})
+df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, rename, "Peri-Urban Area" = Total)
+  
+#Next collect all rest_of_vic columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.rest_of_vic_columns.list <- lapply(df.combined_by_region.list, function(X) {
+  X <- X[,LGAs_rest_of_vic_position+7]})
+df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, rename, "Rest of Victoria" = Total)
+  
+
+
+#Then collect the Inner, middle, outer etc totals from each list and combine into one list of dataframes
+#By first creating df.lists of just the "Total" columns from each
+library(tidyverse)
+df.inner_columns_total.list <- lapply(df.inner_columns.list, function(x){x %>% select(last_col())})
+df.middle_columns_total.list <- lapply(df.middle_columns.list, function(x){x %>% select(last_col())})
+df.outer_columns_total.list <- lapply(df.outer_columns.list, function(x){x %>% select(last_col())})
+df.peri_urban_columns_total.list <- lapply(df.peri_urban_columns.list, function(x){x %>% select(last_col())})
+df.rest_of_vic_columns_total.list <- lapply(df.rest_of_vic_columns.list, function(x){x %>% select(last_col())})
+#Then combining them
+df.combined_by_region_columns.list <- mapply(cbind, df.inner_columns_total.list, df.middle_columns_total.list, df.outer_columns_total.list, df.peri_urban_columns_total.list, df.rest_of_vic_columns_total.list, SIMPLIFY = FALSE)
+
+
+
+####LAST THING TO DO - COMBINE DF.COMBINED_BY_REGION.LIST AND DF.COMBINED_BY_REGION_COLUMNS.LIST SO THAT WE HAVE FINAL TABLE
 
 #Make new list of dataframes for aggregated by region. 
-df.combined_by_region.list <- lapply(df.combined_by_LGA.list, function(X){
-  cbind(LGA = X[1], Region = X[2], NSW =X[87], QLD = X[88], SA = X[89], WA = X[90], TAS = X[91], NT = X[92], ACT = X[93], Other = X[94], Overseas = X[5], "Not stated" = X[6], "Not applicable" = X[7])
-})
+#df.combined_by_region.list <- lapply(df.combined_by_LGA.list, function(X){
+#  cbind(LGA = X[1], Region = X[2], NSW =X[87], QLD = X[88], SA = X[89], WA = X[90], TAS = X[91], NT = X[92], ACT = X[93], Other = X[94], Overseas = X[5], "Not stated" = X[6], "Not applicable" = X[7])
+#})
 
 
 
@@ -371,7 +442,7 @@ df.combined_by_region.list <- lapply(df.combined_by_LGA.list, function(X){
 
 
 
-```{r by_region, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
+{r by_region, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
 #Join dataframe of regions with each of the dataframes in the list of combined dataframes
 df.combined_by_LGA.list <- lapply(df.combined_by_LGA.list, function(X) {merge(region, X)})
 #return combined dataframes out of list
@@ -437,5 +508,3 @@ df.combined_by_region.list <- lapply(df.combined_by_LGA.list, function(X){
 #Export back to Global Environment  
 #names(df.combined_by_region.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5yr_ago", "X2021_combined_1yr_ago", "X2021_combined_5yr_ago")
 #list2env(df.combined_by_region.list,envir=.GlobalEnv)
-
-```
