@@ -12,7 +12,7 @@
 
 <meta name="author" content="Dr James Reynolds, Public Transport Research Group (PTRG), Monash University" />
 
-<meta name="date" content="2023-01-17" />
+<meta name="date" content="2023-01-19" />
 
 <title>Metro Melbourne COVID-19 2023 survey; Census 2016 &amp; 2021 residential relocation</title>
 
@@ -296,7 +296,7 @@ Census 2016 &amp; 2021 residential relocation</h1>
 <h3 class="subtitle">Data analysis</h3>
 <h4 class="author">Dr James Reynolds, Public Transport Research Group
 (PTRG), Monash University</h4>
-<h4 class="date">2023-01-17</h4>
+<h4 class="date">2023-01-19</h4>
 
 
 
@@ -306,35 +306,35 @@ Census 2016 &amp; 2021 residential relocation</h1>
 2023 (second) survey PTRG is comparing the usual place of residence
 results from the 2016 and 2021 Australian census. The analysis includes
 looking at Metro Melbourne as a whole, and also the inner, middle and
-outer regions individually, with those regions being as defined in the
-2020 (first) survey.</p>
+outer regions individually<label for="tufte-sn-1" class="margin-toggle sidenote-number">1</label><input type="checkbox" id="tufte-sn-1" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">1</span> With those regions being as defined in the 2020 (first)
+survey.</span>, as well as the Peri-Urban Area and Rest of
+Victoria regions that will be used for the forthcoming Regional Victoria
+COVID-19 2023 survey.</p>
 <p>This work note summarises the analysis and findings. The next section
 discusses the datasets retrieved from the Australian Bureau of
 Statistics (ABS) Table Builder. Section 3 shows the regions used in the
-2020 (first) survey and in this analysis. Section 4 presents the
-analysis results</p>
+2020 (first) survey and this analysis. Section 4 presents the analysis
+results.</p>
 </div>
 <div id="data" class="section level1">
 <h1>2.0 Data</h1>
 <p>Eight datasets were extracted as Comma-Separated Values (CSV) files
 using the ABS Table Builder online system. These were the results for
 the questions about usual place of residence 1 year ago and 5 years
-ago<label for="tufte-sn-1" class="margin-toggle sidenote-number">1</label><input type="checkbox" id="tufte-sn-1" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">1</span> Specifically the Place of usual residence one year ago
-(PUR1P) and Place of usual residence five years ago (PUR5P) variables.
+ago<label for="tufte-sn-2" class="margin-toggle sidenote-number">2</label><input type="checkbox" id="tufte-sn-2" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">2</span> Specifically the Place of Usual Residence one year ago
+(PUR1P) and Place of Usual Residence five years ago (PUR5P) variables.
 Details are avaiable at <a href="https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p" class="uri">https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p</a></span>,
 with data retrieved for the 2016 and 2021 censuses. Separate tables were
 extracted for respondents who answered that their previous place of
 residence was within a specific Victorian LGA, and for those whose
-previous place of residence was in another state or territory.</p>
-<p>Some minor edits were made directly to the CSV files prior to
-importation into R<label for="tufte-sn-2" class="margin-toggle sidenote-number">2</label><input type="checkbox" id="tufte-sn-2" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">2</span> The LGA name fields used for 2016 and 2021 were
-inconsistent. The 2016 version also showed the type of LGA, (Shire,
-Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV
-files were updated to adopt the 2016 approach.</span>. Examples of the data tables are shown
-below.</p>
-<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
+previous place of residence was in another state or territory. Examples
+from the data tables are shown below in Tables 1 and 2<label for="tufte-sn-3" class="margin-toggle sidenote-number">3</label><input type="checkbox" id="tufte-sn-3" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">3</span> Some minor edits were made directly to the CSV files
+prior to importation into R. This includes fixing the LGA name fields,
+which were inconsistent. The 2016 version also showed the type of LGA,
+(Shire, Regional City or City) as letters (S, RC, C) in brackets. The
+2021 CSV files were updated to adopt the 2016 approach.</span>.</p>
 <p><!--
-<caption>--><span class="marginnote shownote">2016 census, State/Territory of usual residence one year ago,results by LGA for Victoria, first 6 results</span><!--</caption>--></p>
+<caption>--><span class="marginnote shownote">Table 1: 2016 census, State/Territory of Usual Residence oneyear ago (PUR1P), results by LGA for Victoria, first 6 results</span><!--</caption>--></p>
 <table>
 
 <colgroup>
@@ -447,7 +447,7 @@ below.</p>
 </tbody>
 </table>
 <p><!--
-<caption>--><span class="marginnote shownote">2016 census, LGA of usual residence one year ago, results byLGA for Victoria, first 6 results</span><!--</caption>--></p>
+<caption>--><span class="marginnote shownote">Table 2: 2016 census, LGA of Usual Residence one year ago(PUR1P), results by LGA for Victoria, first 6 results</span><!--</caption>--></p>
 <table>
 
 <colgroup>
@@ -559,20 +559,21 @@ below.</p>
 </tr>
 </tbody>
 </table>
-<p>Unfortunately, the place of usual residence 1 and 5 years ago
-variables from the ABS datasets includes people who did not move in the
-values shown for each LGA and State/Territory. Hence it will be
-necessary to get the datasets for the Usual address one year ago
-indicator (UAI1P) and Usual address five years ago indicator (UAI5P)<label for="tufte-sn-3" class="margin-toggle sidenote-number">3</label><input type="checkbox" id="tufte-sn-3" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">3</span> See details at <a href="https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p" class="uri">https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p</a></span></p>
-<p>Some minor edits were made directly to the CSV files prior to
-importation into R<label for="tufte-sn-4" class="margin-toggle sidenote-number">4</label><input type="checkbox" id="tufte-sn-4" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">4</span> Again, the LGA name fields used for 2016 and 2021 were
-inconsistent. The 2016 version also showed the type of LGA, (Shire,
-Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV
-files were updated to adopt the 2016 approach.</span>. Examples of the data tables are shown
-below.</p>
-<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>The Place of Usual Residence (PURP1P, PUR5P) variables from the ABS
+datasets includes people who did not move in the values shown for each
+LGA and State/Territory. Therefore the datasets for the Usual address
+one year ago indicator (UAI1P) and Usual address five years ago
+indicator (UAI5P)<label for="tufte-sn-4" class="margin-toggle sidenote-number">4</label><input type="checkbox" id="tufte-sn-4" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">4</span> See details at <a href="https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p" class="uri">https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p</a>.
+As an example, the 10,359 people from Alpine Shire in 2016 whose place
+of usual residence was (also) within Alpine Shire one year prior to the
+2016 census (from Table 2) consist of 9,711 who had not moved house (see
+Table 3) and 648 who had moved house, but to somewhere else within the
+Alpine Shire (as 10,359-9,711-648.</span> were also extracted using the ABS Table
+Builder tool^{Again, some minor edits were made directly to the CSV
+files prior to importation into R]. An example of the UAI1P data table
+is shown below in Table 3.</p>
 <p><!--
-<caption>--><span class="marginnote shownote">2016 census, Usual address one year ago, results by LGA forVictoria, first 6 results</span><!--</caption>--></p>
+<caption>--><span class="marginnote shownote">Table 3: 2016 census, Usual Address one year ago Indicator(UAI1P), results by LGA for Victoria, first 6 results</span><!--</caption>--></p>
 <table>
 
 <colgroup>
@@ -644,85 +645,11 @@ below.</p>
 </tr>
 </tbody>
 </table>
+<p>Combining the tables (PUR1P by State and by LGA, and UAI1P) gives a
+single table for each census and time period<label for="tufte-sn-5" class="margin-toggle sidenote-number">5</label><input type="checkbox" id="tufte-sn-5" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">5</span> 2016 and 2021 census; 1 year ago and 5 years ago</span>. Table 4 shows an
+example of the combined tables.</p>
 <p><!--
-<caption>--><span class="marginnote shownote">2021 census, Usual residence one year ago, results by LGA forVictoria, first 6 results</span><!--</caption>--></p>
-<table>
-
-<colgroup>
-<col width="15%" />
-<col width="16%" />
-<col width="23%" />
-<col width="17%" />
-<col width="11%" />
-<col width="15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">LGA</th>
-<th align="right">Same as in 2021</th>
-<th align="right">Elsewhere in Australia</th>
-<th align="right">Overseas in 2020</th>
-<th align="right">Not stated</th>
-<th align="right">Not applicable</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Alpine (S)</td>
-<td align="right">10,526</td>
-<td align="right">1,590</td>
-<td align="right">33</td>
-<td align="right">978</td>
-<td align="right">97</td>
-</tr>
-<tr class="even">
-<td align="left">Ararat (RC)</td>
-<td align="right">8,958</td>
-<td align="right">1,227</td>
-<td align="right">64</td>
-<td align="right">1,512</td>
-<td align="right">111</td>
-</tr>
-<tr class="odd">
-<td align="left">Ballarat (C)</td>
-<td align="right">88,791</td>
-<td align="right">17,400</td>
-<td align="right">428</td>
-<td align="right">5,857</td>
-<td align="right">1,280</td>
-</tr>
-<tr class="even">
-<td align="left">Banyule (C)</td>
-<td align="right">106,240</td>
-<td align="right">13,910</td>
-<td align="right">689</td>
-<td align="right">4,027</td>
-<td align="right">1,374</td>
-</tr>
-<tr class="odd">
-<td align="left">Bass Coast (S)</td>
-<td align="right">31,306</td>
-<td align="right">5,957</td>
-<td align="right">107</td>
-<td align="right">3,083</td>
-<td align="right">333</td>
-</tr>
-<tr class="even">
-<td align="left">Baw Baw (S)</td>
-<td align="right">45,755</td>
-<td align="right">7,589</td>
-<td align="right">135</td>
-<td align="right">3,420</td>
-<td align="right">734</td>
-</tr>
-</tbody>
-</table>
-<p>Next, need to incorporate the ‘same as in YYYY’ into the by State and
-by LGA tables.</p>
-<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
-<p><!--
-<caption>--><span class="marginnote shownote">2016 census, combined table, first 6 results for first 8columns</span><!--</caption>--></p>
+<caption>--><span class="marginnote shownote">Table 4: 2016 census, place of usual residence 1 year agocombined table,first 6 results for first 8 columns</span><!--</caption>--></p>
 <table>
 
 <colgroup>
@@ -814,49 +741,441 @@ by LGA tables.</p>
 <div id="regions" class="section level1">
 <h1>3.0 Regions</h1>
 <p>Inner, middle and outer regions were defined in the 2020 Melbourne
-COVID-19 survey, as shown in the following table. The additional zones
-of Peri-Urban Area and Rest of Victoria have been defined in the work to
-date for the forthcoming Regional Victoria COVID-19 survey, and the
-following table also shows allocation of LGAs to those zones as well<label for="tufte-sn-5" class="margin-toggle sidenote-number">5</label><input type="checkbox" id="tufte-sn-5" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">5</span> Note that the Peri-Urban Area and Rest of Victoria zones
+COVID-19 survey, as shown in Table 5. The additional zones of Peri-Urban
+Area and Rest of Victoria have been defined in the work to date for the
+forthcoming Regional Victoria COVID-19 survey, and Table 5 also shows
+allocation of LGAs to those zones as well<label for="tufte-sn-6" class="margin-toggle sidenote-number">6</label><input type="checkbox" id="tufte-sn-6" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">6</span> Note that the Peri-Urban Area and Rest of Victoria zones
 have actually been defined using the Statistical Area 3 (SA3)
-boundaries, which are different to LGA boundaries. However, LGA
-boundaries are such that LGAs can be, and have been, assigned to one of
-the Peri-Urban Area and Rest of Victoria zones.</span>.</p>
+boundaries. These are slightly different to LGA boundaries, so LGAs have
+been assigned to one of the Peri-Urban Area and Rest of Victoria regions
+by inspection.</span>.</p>
+<p><!--
+<caption>--><span class="marginnote shownote">Table 5: Victorian LGAs by region, first 15 entries</span><!--</caption>--></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">LGA</th>
+<th align="left">Region</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alpine (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Ararat (RC)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Ballarat (C)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Banyule (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Bass Coast (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="even">
+<td align="left">Baw Baw (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+<tr class="odd">
+<td align="left">Bayside (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Benalla (RC)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Boroondara (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="even">
+<td align="left">Brimbank (C)</td>
+<td align="left">Middle</td>
+</tr>
+<tr class="odd">
+<td align="left">Buloke (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="even">
+<td align="left">Campaspe (S)</td>
+<td align="left">Rest of Victoria</td>
+</tr>
+<tr class="odd">
+<td align="left">Cardinia (S)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="even">
+<td align="left">Casey (C)</td>
+<td align="left">Outer</td>
+</tr>
+<tr class="odd">
+<td align="left">Central Goldfields (S)</td>
+<td align="left">Peri-Urban Area</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="results" class="section level1">
 <h1>4.0 Results</h1>
-<p>Changes in residential location 1 and 5 years before the 2016 and
-2021 censuses, by region, are shown in the following.</p>
-<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>The raw data from the ABS table builder (Table 4) and the allocation
+of LGAs to each region (Table 5) have been combined. This results in
+tables of usual address 1 or 5 years ago, by region. Results are
+summarised in Tables 6-9. <label for="tufte-sn-7" class="margin-toggle sidenote-number">7</label><input type="checkbox" id="tufte-sn-7" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">7</span> Note, the ‘not stated’ and ‘not applicable’ fields have
+been dropped.</span>.</p>
 <p><!--
-<caption>--><span class="marginnote shownote">2016 census, Usual address five years ago, by region</span><!--</caption>--></p>
+<caption>--><span class="marginnote shownote">Table 6: 2016 census, Usual address one year ago, byregion</span><!--</caption>--></p>
 <table>
+
 <colgroup>
-<col width="1%" />
-<col width="6%" />
-<col width="5%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
 <col width="5%" />
 <col width="6%" />
+<col width="4%" />
 <col width="5%" />
-<col width="3%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
 <col width="5%" />
 <col width="6%" />
-<col width="3%" />
+<col width="4%" />
 <col width="6%" />
 <col width="10%" />
 <col width="6%" />
-<col width="6%" />
-<col width="3%" />
 <col width="5%" />
-<col width="3%" />
+<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"></th>
+<th align="left">Region</th>
+<th align="right">Same as in 2016</th>
+<th align="right">Inner</th>
+<th align="right">Middle</th>
+<th align="right">Outer</th>
+<th align="right">Peri-Urban Area</th>
+<th align="right">Rest of Victoria</th>
+<th align="right">New South Wales</th>
+<th align="right">Queensland</th>
+<th align="right">South Australia</th>
+<th align="right">Western Australia</th>
+<th align="right">Tasmania</th>
+<th align="right">Northern Territory</th>
+<th align="right">Australian Capital Territory</th>
+<th align="right">Other Territories</th>
+<th align="right">Overseas in 2015</th>
+<th align="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Inner</td>
+<td align="right">264,649 (70.7%)</td>
+<td align="right">367 (0.1%)</td>
+<td align="right">4,379 (1.2%)</td>
+<td align="right">23,344 (6.2%)</td>
+<td align="right">6,463 (1.7%)</td>
+<td align="right">35,915 (9.6%)</td>
+<td align="right">3,933 (1.1%)</td>
+<td align="right">2,932 (0.8%)</td>
+<td align="right">1,054 (0.3%)</td>
+<td align="right">1,957 (0.5%)</td>
+<td align="right">534 (0.1%)</td>
+<td align="right">300 (0.1%)</td>
+<td align="right">705 (0.2%)</td>
+<td align="right">14 (0.0%)</td>
+<td align="right">27,844 (7.4%)</td>
+<td align="right">374,390 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Middle</td>
+<td align="right">1,605,376 (84.6%)</td>
+<td align="right">1,206 (0.1%)</td>
+<td align="right">33,254 (1.8%)</td>
+<td align="right">15,336 (0.8%)</td>
+<td align="right">53,571 (2.8%)</td>
+<td align="right">114,989 (6.1%)</td>
+<td align="right">6,911 (0.4%)</td>
+<td align="right">5,189 (0.3%)</td>
+<td align="right">2,598 (0.1%)</td>
+<td align="right">3,154 (0.2%)</td>
+<td align="right">1,008 (0.1%)</td>
+<td align="right">719 (0.0%)</td>
+<td align="right">1,155 (0.1%)</td>
+<td align="right">18 (0.0%)</td>
+<td align="right">53,493 (2.8%)</td>
+<td align="right">1,897,977 (100.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Outer</td>
+<td align="right">1,496,836 (87.5%)</td>
+<td align="right">10,166 (0.6%)</td>
+<td align="right">55,710 (3.3%)</td>
+<td align="right">3,649 (0.2%)</td>
+<td align="right">19,768 (1.2%)</td>
+<td align="right">84,288 (4.9%)</td>
+<td align="right">5,716 (0.3%)</td>
+<td align="right">4,262 (0.2%)</td>
+<td align="right">1,782 (0.1%)</td>
+<td align="right">2,144 (0.1%)</td>
+<td align="right">698 (0.0%)</td>
+<td align="right">641 (0.0%)</td>
+<td align="right">531 (0.0%)</td>
+<td align="right">12 (0.0%)</td>
+<td align="right">24,902 (1.5%)</td>
+<td align="right">1,711,105 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Peri-Urban Areas</td>
+<td align="right">636,792 (85.8%)</td>
+<td align="right">1,634 (0.2%)</td>
+<td align="right">30,981 (4.2%)</td>
+<td align="right">4,701 (0.6%)</td>
+<td align="right">24,082 (3.2%)</td>
+<td align="right">31,161 (4.2%)</td>
+<td align="right">2,429 (0.3%)</td>
+<td align="right">2,473 (0.3%)</td>
+<td align="right">932 (0.1%)</td>
+<td align="right">1,069 (0.1%)</td>
+<td align="right">438 (0.1%)</td>
+<td align="right">620 (0.1%)</td>
+<td align="right">256 (0.0%)</td>
+<td align="right">3 (0.0%)</td>
+<td align="right">4,937 (0.7%)</td>
+<td align="right">742,508 (100.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Rest of Victoria</td>
+<td align="right">522,054 (86.6%)</td>
+<td align="right">765 (0.1%)</td>
+<td align="right">9,732 (1.6%)</td>
+<td align="right">17,879 (3.0%)</td>
+<td align="right">16,543 (2.7%)</td>
+<td align="right">22,255 (3.7%)</td>
+<td align="right">4,624 (0.8%)</td>
+<td align="right">2,344 (0.4%)</td>
+<td align="right">1,188 (0.2%)</td>
+<td align="right">1,057 (0.2%)</td>
+<td align="right">334 (0.1%)</td>
+<td align="right">556 (0.1%)</td>
+<td align="right">246 (0.0%)</td>
+<td align="right">6 (0.0%)</td>
+<td align="right">3,507 (0.6%)</td>
+<td align="right">603,090 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Total</td>
+<td align="right">4,525,707 (84.9%)</td>
+<td align="right">14,138 (0.3%)</td>
+<td align="right">134,056 (2.5%)</td>
+<td align="right">64,909 (1.2%)</td>
+<td align="right">120,427 (2.3%)</td>
+<td align="right">288,608 (5.4%)</td>
+<td align="right">23,613 (0.4%)</td>
+<td align="right">17,200 (0.3%)</td>
+<td align="right">7,554 (0.1%)</td>
+<td align="right">9,381 (0.2%)</td>
+<td align="right">3,012 (0.1%)</td>
+<td align="right">2,836 (0.1%)</td>
+<td align="right">2,893 (0.1%)</td>
+<td align="right">53 (0.0%)</td>
+<td align="right">114,683 (2.2%)</td>
+<td align="right">5,329,070 (100.0%)</td>
+</tr>
+</tbody>
+</table>
+<p><!--
+<caption>--><span class="marginnote shownote">Table 7: 2021 census, Usual address one year ago, byregion</span><!--</caption>--></p>
+<table>
+
+<colgroup>
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="10%" />
+<col width="6%" />
+<col width="5%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Region</th>
+<th align="right">Same as in 2021</th>
+<th align="right">Inner</th>
+<th align="right">Middle</th>
+<th align="right">Outer</th>
+<th align="right">Peri-Urban Area</th>
+<th align="right">Rest of Victoria</th>
+<th align="right">New South Wales</th>
+<th align="right">Queensland</th>
+<th align="right">South Australia</th>
+<th align="right">Western Australia</th>
+<th align="right">Tasmania</th>
+<th align="right">Northern Territory</th>
+<th align="right">Australian Capital Territory</th>
+<th align="right">Other Territories</th>
+<th align="right">Overseas in 2020</th>
+<th align="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Inner</td>
+<td align="right">287,174 (69.2%)</td>
+<td align="right">544 (0.1%)</td>
+<td align="right">7,347 (1.8%)</td>
+<td align="right">37,043 (8.9%)</td>
+<td align="right">11,008 (2.7%)</td>
+<td align="right">52,169 (12.6%)</td>
+<td align="right">4,408 (1.1%)</td>
+<td align="right">2,892 (0.7%)</td>
+<td align="right">1,113 (0.3%)</td>
+<td align="right">1,383 (0.3%)</td>
+<td align="right">677 (0.2%)</td>
+<td align="right">333 (0.1%)</td>
+<td align="right">745 (0.2%)</td>
+<td align="right">4 (0.0%)</td>
+<td align="right">8,276 (2.0%)</td>
+<td align="right">415,116 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Middle</td>
+<td align="right">1,748,083 (86.0%)</td>
+<td align="right">1,638 (0.1%)</td>
+<td align="right">37,938 (1.9%)</td>
+<td align="right">16,831 (0.8%)</td>
+<td align="right">64,919 (3.2%)</td>
+<td align="right">131,633 (6.5%)</td>
+<td align="right">5,402 (0.3%)</td>
+<td align="right">3,507 (0.2%)</td>
+<td align="right">1,450 (0.1%)</td>
+<td align="right">1,292 (0.1%)</td>
+<td align="right">1,089 (0.1%)</td>
+<td align="right">578 (0.0%)</td>
+<td align="right">842 (0.0%)</td>
+<td align="right">0 (0.0%)</td>
+<td align="right">18,159 (0.9%)</td>
+<td align="right">2,033,361 (100.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Outer</td>
+<td align="right">1,819,216 (88.7%)</td>
+<td align="right">10,226 (0.5%)</td>
+<td align="right">63,157 (3.1%)</td>
+<td align="right">5,315 (0.3%)</td>
+<td align="right">22,749 (1.1%)</td>
+<td align="right">106,350 (5.2%)</td>
+<td align="right">4,426 (0.2%)</td>
+<td align="right">2,886 (0.1%)</td>
+<td align="right">1,210 (0.1%)</td>
+<td align="right">1,016 (0.0%)</td>
+<td align="right">782 (0.0%)</td>
+<td align="right">566 (0.0%)</td>
+<td align="right">418 (0.0%)</td>
+<td align="right">3 (0.0%)</td>
+<td align="right">12,384 (0.6%)</td>
+<td align="right">2,050,704 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Peri-Urban Areas</td>
+<td align="right">751,873 (86.2%)</td>
+<td align="right">1,842 (0.2%)</td>
+<td align="right">38,090 (4.4%)</td>
+<td align="right">5,441 (0.6%)</td>
+<td align="right">27,380 (3.1%)</td>
+<td align="right">38,089 (4.4%)</td>
+<td align="right">2,260 (0.3%)</td>
+<td align="right">1,851 (0.2%)</td>
+<td align="right">711 (0.1%)</td>
+<td align="right">682 (0.1%)</td>
+<td align="right">531 (0.1%)</td>
+<td align="right">367 (0.0%)</td>
+<td align="right">261 (0.0%)</td>
+<td align="right">0 (0.0%)</td>
+<td align="right">3,061 (0.4%)</td>
+<td align="right">872,439 (100.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Rest of Victoria</td>
+<td align="right">566,460 (87.3%)</td>
+<td align="right">922 (0.1%)</td>
+<td align="right">10,500 (1.6%)</td>
+<td align="right">17,770 (2.7%)</td>
+<td align="right">17,331 (2.7%)</td>
+<td align="right">24,419 (3.8%)</td>
+<td align="right">4,759 (0.7%)</td>
+<td align="right">2,022 (0.3%)</td>
+<td align="right">903 (0.1%)</td>
+<td align="right">501 (0.1%)</td>
+<td align="right">342 (0.1%)</td>
+<td align="right">437 (0.1%)</td>
+<td align="right">304 (0.0%)</td>
+<td align="right">0 (0.0%)</td>
+<td align="right">2,139 (0.3%)</td>
+<td align="right">648,809 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Total</td>
+<td align="right">5,172,806 (85.9%)</td>
+<td align="right">15,172 (0.3%)</td>
+<td align="right">157,032 (2.6%)</td>
+<td align="right">82,400 (1.4%)</td>
+<td align="right">143,387 (2.4%)</td>
+<td align="right">352,660 (5.9%)</td>
+<td align="right">21,255 (0.4%)</td>
+<td align="right">13,158 (0.2%)</td>
+<td align="right">5,387 (0.1%)</td>
+<td align="right">4,874 (0.1%)</td>
+<td align="right">3,421 (0.1%)</td>
+<td align="right">2,281 (0.0%)</td>
+<td align="right">2,570 (0.0%)</td>
+<td align="right">7 (0.0%)</td>
+<td align="right">44,019 (0.7%)</td>
+<td align="right">6,020,429 (100.0%)</td>
+</tr>
+</tbody>
+</table>
+<p><!--
+<caption>--><span class="marginnote shownote">Table 8: 2016 census, Usual address five years ago, byregion</span><!--</caption>--></p>
+<table>
+
+<colgroup>
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="9%" />
+<col width="6%" />
+<col width="5%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
 <th align="left">Region</th>
 <th align="right">Same as in 2016</th>
 <th align="right">Inner</th>
@@ -873,143 +1192,284 @@ the Peri-Urban Area and Rest of Victoria zones.</span>.</p>
 <th align="right">Australian Capital Territory</th>
 <th align="right">Other Territories</th>
 <th align="right">Overseas in 2011</th>
-<th align="right">Not stated</th>
-<th align="right">Not applicable</th>
 <th align="right">Total</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
 <td align="left">Inner</td>
-<td align="right">133,453</td>
-<td align="right">1,078</td>
-<td align="right">10,736</td>
-<td align="right">26,837</td>
-<td align="right">13,567</td>
-<td align="right">71,767</td>
-<td align="right">9,844</td>
-<td align="right">7,615</td>
-<td align="right">2,994</td>
-<td align="right">4,589</td>
-<td align="right">1,759</td>
-<td align="right">633</td>
-<td align="right">2,058</td>
-<td align="right">8</td>
-<td align="right">81,547</td>
-<td align="right">42,230</td>
-<td align="right">17,639</td>
-<td align="right">428,354</td>
+<td align="right">133,453 (36.2%)</td>
+<td align="right">1,078 (0.3%)</td>
+<td align="right">10,736 (2.9%)</td>
+<td align="right">26,837 (7.3%)</td>
+<td align="right">13,567 (3.7%)</td>
+<td align="right">71,767 (19.5%)</td>
+<td align="right">9,844 (2.7%)</td>
+<td align="right">7,615 (2.1%)</td>
+<td align="right">2,994 (0.8%)</td>
+<td align="right">4,589 (1.2%)</td>
+<td align="right">1,759 (0.5%)</td>
+<td align="right">633 (0.2%)</td>
+<td align="right">2,058 (0.6%)</td>
+<td align="right">8 (0.0%)</td>
+<td align="right">81,547 (22.1%)</td>
+<td align="right">368,485 (100.0%)</td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
 <td align="left">Middle</td>
-<td align="right">1,091,546</td>
-<td align="right">3,742</td>
-<td align="right">76,908</td>
-<td align="right">29,615</td>
-<td align="right">117,591</td>
-<td align="right">252,318</td>
-<td align="right">18,587</td>
-<td align="right">14,155</td>
-<td align="right">6,183</td>
-<td align="right">7,106</td>
-<td align="right">3,244</td>
-<td align="right">1,633</td>
-<td align="right">3,212</td>
-<td align="right">53</td>
-<td align="right">187,345</td>
-<td align="right">116,418</td>
-<td align="right">122,730</td>
-<td align="right">2,052,386</td>
+<td align="right">1,091,546 (60.2%)</td>
+<td align="right">3,742 (0.2%)</td>
+<td align="right">76,908 (4.2%)</td>
+<td align="right">29,615 (1.6%)</td>
+<td align="right">117,591 (6.5%)</td>
+<td align="right">252,318 (13.9%)</td>
+<td align="right">18,587 (1.0%)</td>
+<td align="right">14,155 (0.8%)</td>
+<td align="right">6,183 (0.3%)</td>
+<td align="right">7,106 (0.4%)</td>
+<td align="right">3,244 (0.2%)</td>
+<td align="right">1,633 (0.1%)</td>
+<td align="right">3,212 (0.2%)</td>
+<td align="right">53 (0.0%)</td>
+<td align="right">187,345 (10.3%)</td>
+<td align="right">1,813,238 (100.0%)</td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
 <td align="left">Outer</td>
-<td align="right">985,787</td>
-<td align="right">30,537</td>
-<td align="right">142,917</td>
-<td align="right">9,195</td>
-<td align="right">55,750</td>
-<td align="right">208,678</td>
-<td align="right">14,064</td>
-<td align="right">11,460</td>
-<td align="right">4,447</td>
-<td align="right">4,730</td>
-<td align="right">2,192</td>
-<td align="right">1,534</td>
-<td align="right">1,424</td>
-<td align="right">42</td>
-<td align="right">95,475</td>
-<td align="right">105,112</td>
-<td align="right">141,926</td>
-<td align="right">1,815,270</td>
+<td align="right">985,787 (62.9%)</td>
+<td align="right">30,537 (1.9%)</td>
+<td align="right">142,917 (9.1%)</td>
+<td align="right">9,195 (0.6%)</td>
+<td align="right">55,750 (3.6%)</td>
+<td align="right">208,678 (13.3%)</td>
+<td align="right">14,064 (0.9%)</td>
+<td align="right">11,460 (0.7%)</td>
+<td align="right">4,447 (0.3%)</td>
+<td align="right">4,730 (0.3%)</td>
+<td align="right">2,192 (0.1%)</td>
+<td align="right">1,534 (0.1%)</td>
+<td align="right">1,424 (0.1%)</td>
+<td align="right">42 (0.0%)</td>
+<td align="right">95,475 (6.1%)</td>
+<td align="right">1,568,232 (100.0%)</td>
 </tr>
 <tr class="even">
-<td align="left">4</td>
 <td align="left">Peri-Urban Areas</td>
-<td align="right">425,357</td>
-<td align="right">4,755</td>
-<td align="right">76,999</td>
-<td align="right">13,027</td>
-<td align="right">62,061</td>
-<td align="right">81,607</td>
-<td align="right">7,006</td>
-<td align="right">6,356</td>
-<td align="right">2,706</td>
-<td align="right">3,120</td>
-<td align="right">1,506</td>
-<td align="right">1,418</td>
-<td align="right">722</td>
-<td align="right">7</td>
-<td align="right">15,706</td>
-<td align="right">60,986</td>
-<td align="right">49,981</td>
-<td align="right">813,320</td>
+<td align="right">425,357 (60.6%)</td>
+<td align="right">4,755 (0.7%)</td>
+<td align="right">76,999 (11.0%)</td>
+<td align="right">13,027 (1.9%)</td>
+<td align="right">62,061 (8.8%)</td>
+<td align="right">81,607 (11.6%)</td>
+<td align="right">7,006 (1.0%)</td>
+<td align="right">6,356 (0.9%)</td>
+<td align="right">2,706 (0.4%)</td>
+<td align="right">3,120 (0.4%)</td>
+<td align="right">1,506 (0.2%)</td>
+<td align="right">1,418 (0.2%)</td>
+<td align="right">722 (0.1%)</td>
+<td align="right">7 (0.0%)</td>
+<td align="right">15,706 (2.2%)</td>
+<td align="right">702,353 (100.0%)</td>
 </tr>
 <tr class="odd">
-<td align="left">30.1</td>
 <td align="left">Rest of Victoria</td>
-<td align="right">369,309</td>
-<td align="right">2,547</td>
-<td align="right">24,516</td>
-<td align="right">43,030</td>
-<td align="right">40,441</td>
-<td align="right">57,839</td>
-<td align="right">11,736</td>
-<td align="right">6,711</td>
-<td align="right">3,408</td>
-<td align="right">2,726</td>
-<td align="right">1,103</td>
-<td align="right">1,364</td>
-<td align="right">576</td>
-<td align="right">3</td>
-<td align="right">11,040</td>
-<td align="right">59,162</td>
-<td align="right">38,523</td>
-<td align="right">674,034</td>
+<td align="right">369,309 (64.1%)</td>
+<td align="right">2,547 (0.4%)</td>
+<td align="right">24,516 (4.3%)</td>
+<td align="right">43,030 (7.5%)</td>
+<td align="right">40,441 (7.0%)</td>
+<td align="right">57,839 (10.0%)</td>
+<td align="right">11,736 (2.0%)</td>
+<td align="right">6,711 (1.2%)</td>
+<td align="right">3,408 (0.6%)</td>
+<td align="right">2,726 (0.5%)</td>
+<td align="right">1,103 (0.2%)</td>
+<td align="right">1,364 (0.2%)</td>
+<td align="right">576 (0.1%)</td>
+<td align="right">3 (0.0%)</td>
+<td align="right">11,040 (1.9%)</td>
+<td align="right">576,349 (100.0%)</td>
 </tr>
 <tr class="even">
-<td align="left">6</td>
 <td align="left">Total</td>
-<td align="right">3,005,452</td>
-<td align="right">42,659</td>
-<td align="right">332,076</td>
-<td align="right">121,704</td>
-<td align="right">289,410</td>
-<td align="right">672,209</td>
-<td align="right">61,237</td>
-<td align="right">46,297</td>
-<td align="right">19,738</td>
-<td align="right">22,271</td>
-<td align="right">9,804</td>
-<td align="right">6,582</td>
-<td align="right">7,992</td>
-<td align="right">113</td>
-<td align="right">391,113</td>
-<td align="right">383,908</td>
-<td align="right">370,799</td>
-<td align="right">5,783,364</td>
+<td align="right">3,005,452 (59.8%)</td>
+<td align="right">42,659 (0.8%)</td>
+<td align="right">332,076 (6.6%)</td>
+<td align="right">121,704 (2.4%)</td>
+<td align="right">289,410 (5.8%)</td>
+<td align="right">672,209 (13.4%)</td>
+<td align="right">61,237 (1.2%)</td>
+<td align="right">46,297 (0.9%)</td>
+<td align="right">19,738 (0.4%)</td>
+<td align="right">22,271 (0.4%)</td>
+<td align="right">9,804 (0.2%)</td>
+<td align="right">6,582 (0.1%)</td>
+<td align="right">7,992 (0.2%)</td>
+<td align="right">113 (0.0%)</td>
+<td align="right">391,113 (7.8%)</td>
+<td align="right">5,028,657 (100.0%)</td>
+</tr>
+</tbody>
+</table>
+<p><!--
+<caption>--><span class="marginnote shownote">Table 9: 2021 census, Usual address five years ago, byregion</span><!--</caption>--></p>
+<table>
+
+<colgroup>
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="9%" />
+<col width="6%" />
+<col width="5%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Region</th>
+<th align="right">Same as in 2021</th>
+<th align="right">Inner</th>
+<th align="right">Middle</th>
+<th align="right">Outer</th>
+<th align="right">Peri-Urban Area</th>
+<th align="right">Rest of Victoria</th>
+<th align="right">New South Wales</th>
+<th align="right">Queensland</th>
+<th align="right">South Australia</th>
+<th align="right">Western Australia</th>
+<th align="right">Tasmania</th>
+<th align="right">Northern Territory</th>
+<th align="right">Australian Capital Territory</th>
+<th align="right">Other Territories</th>
+<th align="right">Overseas in 2016</th>
+<th align="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Inner</td>
+<td align="right">151,929 (37.6%)</td>
+<td align="right">1,095 (0.3%)</td>
+<td align="right">12,261 (3.0%)</td>
+<td align="right">37,706 (9.3%)</td>
+<td align="right">16,348 (4.1%)</td>
+<td align="right">85,422 (21.2%)</td>
+<td align="right">11,216 (2.8%)</td>
+<td align="right">7,252 (1.8%)</td>
+<td align="right">3,015 (0.7%)</td>
+<td align="right">4,514 (1.1%)</td>
+<td align="right">1,536 (0.4%)</td>
+<td align="right">635 (0.2%)</td>
+<td align="right">1,877 (0.5%)</td>
+<td align="right">6 (0.0%)</td>
+<td align="right">68,815 (17.0%)</td>
+<td align="right">403,627 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Middle</td>
+<td align="right">1,172,227 (61.0%)</td>
+<td align="right">4,011 (0.2%)</td>
+<td align="right">85,504 (4.5%)</td>
+<td align="right">37,323 (1.9%)</td>
+<td align="right">134,052 (7.0%)</td>
+<td align="right">281,785 (14.7%)</td>
+<td align="right">18,637 (1.0%)</td>
+<td align="right">12,316 (0.6%)</td>
+<td align="right">6,254 (0.3%)</td>
+<td align="right">7,382 (0.4%)</td>
+<td align="right">2,655 (0.1%)</td>
+<td align="right">1,872 (0.1%)</td>
+<td align="right">2,925 (0.2%)</td>
+<td align="right">3 (0.0%)</td>
+<td align="right">154,053 (8.0%)</td>
+<td align="right">1,920,999 (100.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Outer</td>
+<td align="right">1,141,599 (61.7%)</td>
+<td align="right">30,828 (1.7%)</td>
+<td align="right">168,927 (9.1%)</td>
+<td align="right">13,891 (0.8%)</td>
+<td align="right">66,777 (3.6%)</td>
+<td align="right">270,054 (14.6%)</td>
+<td align="right">17,394 (0.9%)</td>
+<td align="right">11,010 (0.6%)</td>
+<td align="right">5,477 (0.3%)</td>
+<td align="right">5,832 (0.3%)</td>
+<td align="right">2,310 (0.1%)</td>
+<td align="right">2,218 (0.1%)</td>
+<td align="right">1,547 (0.1%)</td>
+<td align="right">17 (0.0%)</td>
+<td align="right">113,221 (6.1%)</td>
+<td align="right">1,851,102 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Peri-Urban Areas</td>
+<td align="right">477,371 (58.6%)</td>
+<td align="right">5,993 (0.7%)</td>
+<td align="right">95,281 (11.7%)</td>
+<td align="right">16,147 (2.0%)</td>
+<td align="right">71,817 (8.8%)</td>
+<td align="right">105,242 (12.9%)</td>
+<td align="right">7,979 (1.0%)</td>
+<td align="right">6,129 (0.8%)</td>
+<td align="right">2,652 (0.3%)</td>
+<td align="right">2,597 (0.3%)</td>
+<td align="right">1,497 (0.2%)</td>
+<td align="right">1,564 (0.2%)</td>
+<td align="right">907 (0.1%)</td>
+<td align="right">4 (0.0%)</td>
+<td align="right">20,121 (2.5%)</td>
+<td align="right">815,301 (100.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Rest of Victoria</td>
+<td align="right">385,404 (62.6%)</td>
+<td align="right">3,135 (0.5%)</td>
+<td align="right">28,135 (4.6%)</td>
+<td align="right">45,682 (7.4%)</td>
+<td align="right">45,682 (7.4%)</td>
+<td align="right">64,701 (10.5%)</td>
+<td align="right">13,289 (2.2%)</td>
+<td align="right">6,109 (1.0%)</td>
+<td align="right">3,056 (0.5%)</td>
+<td align="right">2,138 (0.3%)</td>
+<td align="right">1,044 (0.2%)</td>
+<td align="right">1,417 (0.2%)</td>
+<td align="right">688 (0.1%)</td>
+<td align="right">3 (0.0%)</td>
+<td align="right">15,182 (2.5%)</td>
+<td align="right">615,665 (100.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Total</td>
+<td align="right">3,328,530 (59.4%)</td>
+<td align="right">45,062 (0.8%)</td>
+<td align="right">390,108 (7.0%)</td>
+<td align="right">150,749 (2.7%)</td>
+<td align="right">334,676 (6.0%)</td>
+<td align="right">807,204 (14.4%)</td>
+<td align="right">68,515 (1.2%)</td>
+<td align="right">42,816 (0.8%)</td>
+<td align="right">20,454 (0.4%)</td>
+<td align="right">22,463 (0.4%)</td>
+<td align="right">9,042 (0.2%)</td>
+<td align="right">7,706 (0.1%)</td>
+<td align="right">7,944 (0.1%)</td>
+<td align="right">33 (0.0%)</td>
+<td align="right">371,392 (6.6%)</td>
+<td align="right">5,606,694 (100.0%)</td>
 </tr>
 </tbody>
 </table>

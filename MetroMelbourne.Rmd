@@ -28,15 +28,13 @@ options(htmltools.dir.version = FALSE)
 
 
 # 1.0 Introduction
-As part of the work program for the upcoming Metro Melbourne COVID-19 2023 (second) survey PTRG is comparing the usual place of residence results from the 2016 and 2021 Australian census. The analysis includes looking at Metro Melbourne as a whole, and also the inner, middle and outer regions individually, with those regions being as defined in the 2020 (first) survey. 
+As part of the work program for the upcoming Metro Melbourne COVID-19 2023 (second) survey PTRG is comparing the usual place of residence results from the 2016 and 2021 Australian census. The analysis includes looking at Metro Melbourne as a whole, and also the inner, middle and outer regions individually^[With those regions being as defined in the 2020 (first) survey.], as well as the Peri-Urban Area and Rest of Victoria regions that will be used for the forthcoming Regional Victoria COVID-19 2023 survey. 
 
-This work note summarises the analysis and findings. The next section discusses the datasets retrieved from the Australian Bureau of Statistics (ABS) Table Builder. Section 3 shows the regions used in the 2020 (first) survey and in this analysis. Section 4 presents the analysis results
+This work note summarises the analysis and findings. The next section discusses the datasets retrieved from the Australian Bureau of Statistics (ABS) Table Builder. Section 3 shows the regions used in the 2020 (first) survey and this analysis. Section 4 presents the analysis results.
 
 
 # 2.0 Data 
-Eight datasets were extracted as Comma-Separated Values (CSV) files using the ABS Table Builder online system. These were the results for the questions about usual place of residence 1 year ago and 5 years ago^[Specifically the Place of usual residence one year ago (PUR1P) and Place of usual residence five years ago (PUR5P) variables.  Details are avaiable at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p], with data retrieved for the 2016 and 2021 censuses. Separate tables were extracted for respondents who answered that their previous place of residence was within a specific Victorian LGA, and for those whose previous place of residence was in another state or territory. 
-
-Some minor edits were made directly to the CSV files prior to importation into R^[The LGA name fields used for 2016 and 2021 were inconsistent. The 2016 version also showed the type of LGA, (Shire, Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV files were updated to adopt the 2016 approach.]. Examples of the data tables are shown below. 
+Eight datasets were extracted as Comma-Separated Values (CSV) files using the ABS Table Builder online system. These were the results for the questions about usual place of residence 1 year ago and 5 years ago^[Specifically the Place of Usual Residence one year ago (PUR1P) and Place of Usual Residence five years ago (PUR5P) variables.  Details are avaiable at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p], with data retrieved for the 2016 and 2021 censuses. Separate tables were extracted for respondents who answered that their previous place of residence was within a specific Victorian LGA, and for those whose previous place of residence was in another state or territory. Examples from the data tables are shown below in Tables 1 and 2^[Some minor edits were made directly to the CSV files prior to importation into R. This includes fixing the LGA name fields, which were inconsistent. The 2016 version also showed the type of LGA, (Shire, Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV files were updated to adopt the 2016 approach.]. 
 
 ```{r loadsurveydata, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
 #Load datasets
@@ -101,21 +99,28 @@ X2021_5yr_ago_Vic_LGA$`Alpine (S)` <- as.numeric(X2021_5yr_ago_Vic_LGA$`Alpine (
 df.list <- list(X2016_1yr_ago_State, X2016_1yr_ago_Vic_LGA, X2016_5yr_ago_State, X2016_5yr_ago_Vic_LGA, X2021_1yr_ago_State, X2021_1yr_ago_Vic_LGA, X2021_5yr_ago_State, X2021_5yr_ago_Vic_LGA)
 res <- lapply(df.list, function(x) {colnames(x)[1] = "LGA"; x})
 names(res) <- c("X2016_1yr_ago_State", "X2016_1yr_ago_Vic_LGA", "X2016_5yr_ago_State", "X2016_5yr_ago_Vic_LGA", "X2021_1yr_ago_State", "X2021_1yr_ago_Vic_LGA", "X2021_5yr_ago_State", "X2021_5yr_ago_Vic_LGA")
-list2env(res,envir=.GlobalEnv)
+invisible(list2env(res,envir=.GlobalEnv))
 
 
 knitr::kable(
-  head(X2016_1yr_ago_State), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, State/Territory of usual residence one year ago, results by LGA for Victoria, first 6 results')
+  head(X2016_1yr_ago_State), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = 'Table 1: 2016 census, State/Territory of Usual Residence one year ago (PUR1P), results by LGA for Victoria, first 6 results')
+
+#knitr::kable(
+#  head(rowSums(X2016_1yr_ago_State[,2:ncol(X2016_1yr_ago_State)])), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = 'Table 1a: 2016 census, State/Territory of Usual Residence one year ago (PUR1P), results by LGA for Victoria, row sums, first 6 results')
+####This was just to check that the rows added up correctly. 
 
 knitr::kable(
-  head(X2016_1yr_ago_Vic_LGA[,1:11]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = '2016 census, LGA of usual residence one year ago, results by LGA for Victoria, first 6 results')
+  head(X2016_1yr_ago_Vic_LGA[,1:11]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrr", caption = 'Table 2: 2016 census, LGA of Usual Residence one year ago (PUR1P), results by LGA for Victoria, first 6 results')
+
+
+#knitr::kable(
+#  head(rowSums(X2016_1yr_ago_Vic_LGA[,2:ncol(X2016_1yr_ago_Vic_LGA)])), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = 'Table 2a: 2016 census, LGA of Usual Residence one year ago (PUR1P), results by LGA for Victoria, row sums, first 6 results')
+####This was just to check that the rows added up correctly.  In general, the sum here (10,743 for Apline) is close to matching the Victoria entry in Table 1 (10,802). Minor differences expect due to randomisation of ABS tables, and removal of Melbourne not specified, missing etc. 
 
 
 ```
 
-Unfortunately, the place of usual residence 1 and 5 years ago variables from the ABS datasets includes people who did not move in the values shown for each LGA and State/Territory.  Hence it will be necessary to get the datasets for the Usual address one year ago indicator (UAI1P) and Usual address five years ago indicator (UAI5P)^[See details at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p]
-
-Some minor edits were made directly to the CSV files prior to importation into R^[Again, the LGA name fields used for 2016 and 2021 were inconsistent. The 2016 version also showed the type of LGA, (Shire, Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV files were updated to adopt the 2016 approach.]. Examples of the data tables are shown below. 
+The Place of Usual Residence (PURP1P, PUR5P) variables from the ABS datasets includes people who did not move in the values shown for each LGA and State/Territory.  Therefore the datasets for the Usual address one year ago indicator (UAI1P) and Usual address five years ago indicator (UAI5P)^[See details at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p. As an example, the 10,359 people from Alpine Shire in 2016 whose place of usual residence was (also) within Alpine Shire one year prior to the 2016 census (from Table 2) consist of 9,711 who had not moved house (see Table 3) and 648 who had moved house, but to somewhere else within the Alpine Shire (as 10,359-9,711-648.] were also extracted using the ABS Table Builder tool^{Again, some minor edits were made directly to the CSV files prior to importation into R]. An example of the UAI1P data table is shown below in Table 3. 
 
 
 ```{r load_place_indicator, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
@@ -160,19 +165,19 @@ X2021_usual_address_5yr_ago_indicator$`Same as in 2021` <- as.numeric(X2021_usua
 df.list <- list(X2016_usual_address_1yr_ago_indicator, X2016_usual_address_5yr_ago_indicator, X2021_usual_address_1yr_ago_indicator, X2021_usual_address_5yr_ago_indicator)
 df.list <- lapply(df.list, function(x) {colnames(x)[1] = "LGA"; x})
 names(df.list) <- c("X2016_usual_address_1yr_ago_indicator", "X2016_usual_address_5yr_ago_indicator", "X2021_usual_address_1yr_ago_indicator", "X2021_usual_address_5yr_ago_indicator")
-list2env(df.list,envir=.GlobalEnv)
+invisible(list2env(df.list,envir=.GlobalEnv))
 
 
 knitr::kable(
-  head(X2016_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2016 census, Usual address one year ago, results by LGA for Victoria, first 6 results')
+  head(X2016_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = 'Table 3: 2016 census, Usual Address one year ago Indicator (UAI1P), results by LGA for Victoria, first 6 results')
 
-knitr::kable(
-  head(X2021_usual_address_1yr_ago_indicator), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = '2021 census, Usual residence one year ago, results by LGA for Victoria, first 6 results')
-
+#knitr::kable(
+#  head(rowSums(X2016_usual_address_1yr_ago_indicator[,2:ncol(X2016_usual_address_1yr_ago_indicator)])), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = 'Table 3a: 2016 census, Usual Address one year ago Indicator (UAI1P), results by LGA for Victoria, row sums, first 6 results')
+###Just checking totals again.  All good as Apline total (12,331) minus the Not Stated and Not applicables (1,107+94=1,201) matches the Table 1a total
 
 ```
 
-Next, need to incorporate the 'same as in YYYY' into the by State and by LGA tables. 
+Combining the tables (PUR1P by State and by LGA, and UAI1P) gives a single table for each census and time period^[2016 and 2021 census; 1 year ago and 5 years ago]. Table 4 shows an example of the combined tables. 
 
 ```{r same_as_in_to_seperate_column, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
 
@@ -182,7 +187,7 @@ names(df.State.list) <- c("X2016_1yr_ago_State", "X2016_5yr_ago_State", "X2021_1
 #remove Victoria column from State dataframes list
 df.State.list <- lapply(df.State.list, function(x) {x[-c(3)]})
 #return State dataframes out of list
-list2env(df.State.list,envir=.GlobalEnv)
+invisible(list2env(df.State.list,envir=.GlobalEnv))
 
 
 #Move LGA dataframes  in list
@@ -246,28 +251,35 @@ df.combined_by_LGA.list <- lapply(df.combined_by_LGA.list, function(x){cbind(x[1
 
 
 #push results of list back out to global environment
-list2env(df.combined_by_LGA.list,envir=.GlobalEnv)
+invisible(list2env(df.combined_by_LGA.list,envir=.GlobalEnv))
 
-
+library(janitor)
 knitr::kable(
-  head(X2016_combined_1yr_ago[,1:8]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrr", caption = '2016 census, combined table, first 6 results for first 8 columns')
+  head(X2016_combined_1yr_ago[,1:8]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrr", caption = 'Table 4: 2016 census, place of usual residence 1 year ago combined table,first 6 results for first 8 columns')
+
+
+#knitr::kable(
+#  head(rowSums(X2016_combined_1yr_ago[,2:ncol(X2016_combined_1yr_ago)])), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = 'Table 4a: 2016 census, place of usual residence 1 year ago combined table, first 6 results for first 8 columns')
+###Just checking totals again.  All good as Apline total (12,256) matches (plus minus the randomisation issues) the Table 3a total of 12,331)
+
+
 
 
 ```
   
 # 3.0 Regions
-Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey, as shown in the following table. The additional zones of Peri-Urban Area and Rest of Victoria have been defined in the work to date for the forthcoming Regional Victoria COVID-19 survey, and the following table also shows allocation of LGAs to those zones as well^[Note that the Peri-Urban Area and Rest of Victoria zones have actually been defined using the Statistical Area 3 (SA3) boundaries, which are different to LGA boundaries. However, LGA boundaries are such that LGAs can be, and have been, assigned to one of the Peri-Urban Area and Rest of Victoria zones.]. 
+Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey, as shown in Table 5. The additional zones of Peri-Urban Area and Rest of Victoria have been defined in the work to date for the forthcoming Regional Victoria COVID-19 survey, and Table 5 also shows allocation of LGAs to those zones as well^[Note that the Peri-Urban Area and Rest of Victoria zones have actually been defined using the Statistical Area 3 (SA3) boundaries. These are slightly different to LGA boundaries, so LGAs have been assigned to one of the Peri-Urban Area and Rest of Victoria regions by inspection.]. 
 
 ```{r loadregions, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
 #Load dataset
 library(readr)
 region <- read_csv("01 data/region.csv")
 
-#knitr::kable(region, caption = 'Victorian LGAs by region')
+knitr::kable(head(region, n=15), caption = 'Table 5: Victorian LGAs by region, first 15 entries')
 ```
 
 # 4.0 Results 
-Changes in residential location 1 and 5 years before the 2016 and 2021 censuses, by region, are shown in the following. 
+The raw data from the ABS table builder (Table 4) and the allocation of LGAs to each region (Table 5) have been combined. This results in tables of usual address 1 or 5 years ago, by region. Results are summarised in Tables 6-9. ^[Note, the 'not stated' and 'not applicable' fields have been dropped.].  
 
 
 ```{r by_region_inner_middle_etc, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
@@ -276,7 +288,7 @@ Changes in residential location 1 and 5 years before the 2016 and 2021 censuses,
 #First join the dataframe of regions with each of the dataframes in the list of combined dataframes
 df.combined_by_LGA.list <- lapply(df.combined_by_LGA.list, function(X) {merge(region, X)})
 #return combined dataframes out of list
-list2env(df.combined_by_LGA.list,envir=.GlobalEnv)
+invisible(list2env(df.combined_by_LGA.list,envir=.GlobalEnv))
 
 #Now obtain the position of inner, middle etc LGAs in the dataframes (ie row/column numbers)
 LGAs_inner_position <- which(region$Region == "Inner")
@@ -426,23 +438,38 @@ df.combined_by_region_columns.list <- mapply(cbind, df.inner_columns_total.list,
 df.combined_by_region.list <- mapply(cbind, df.combined_by_region.list, df.combined_by_region_columns.list, SIMPLIFY = FALSE)
 
 #then drop repeated columns
-df.combined_by_region.list <- lapply(df.combined_by_region.list, function(x){cbind(x[1],x[3], x[94:98], x[86:93], x[4:6])
+df.combined_by_region.list <- lapply(df.combined_by_region.list, function(x){cbind(x[1],x[3], x[94:98], x[86:93], x[4])
  })
 
 #rename first column as Region instead of LGA
 df.combined_by_region.list <- lapply(df.combined_by_region.list, rename, "Region" = "LGA")
 
 #Add total row and column
-df.combined_by_region.list <- lapply(df.combined_by_region.list, function(X) {
-  X <- X %>% adorn_totals(c("row","col"))})
+#df.combined_by_region.list <- lapply(df.combined_by_region.list, function(X) {
+# X <- X %>% adorn_totals(c("row","col"))})
 
 #Export back to Global Environment  
 names(df.combined_by_region.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5yr_ago", "X2021_combined_1yr_ago", "X2021_combined_5yr_ago")
-list2env(df.combined_by_region.list,envir=.GlobalEnv)
+invisible(list2env(df.combined_by_region.list,envir=.GlobalEnv))
+
+
+#knitr::kable(
+# X2016_combined_1yr_ago %>% adorn_totals(c("row", "col")), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), caption = 'Table 6: 2016 census, Usual address one years ago, by region')
 
 
 knitr::kable(
-  head(X2016_combined_5yr_ago), format.args = list(big.mark = ",", scientific = FALSE), caption = '2016 census, Usual address five years ago, by region')
+ X2016_combined_1yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2016_combined_1yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 6: 2016 census, Usual address one year ago, by region')
+
+knitr::kable(
+ X2021_combined_1yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2021_combined_1yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 7: 2021 census, Usual address one year ago, by region')
+
+knitr::kable(
+ X2016_combined_5yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2016_combined_5yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 8: 2016 census, Usual address five years ago, by region')
+
+knitr::kable(
+ X2021_combined_5yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2021_combined_5yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 9: 2021 census, Usual address five years ago, by region')
+
+
 
 
 ```
