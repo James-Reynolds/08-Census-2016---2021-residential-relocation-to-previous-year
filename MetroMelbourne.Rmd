@@ -486,8 +486,20 @@ colnames(X2016_combined_1yr_ago)[2] <- "Same address"
 colnames(X2021_combined_1yr_ago)[2] <- "Same address"
 colnames(X2016_combined_1yr_ago)[16] <- "Overseas"
 colnames(X2016_combined_1yr_ago)[16] <- "Overseas"
+names(X2016_combined_1yr_ago) <- names(X2021_combined_1yr_ago)
+#combined table
+inner_2016_2021_1yr_ago <- rbind(X2016_combined_1yr_ago[1,], X2021_combined_1yr_ago[1,])
+#change first column so that it shows the correct descriptions
+inner_2016_2021_1yr_ago[,1] <- c("2016", "2021") 
+colnames(inner_2016_2021_1yr_ago)[1] <- "Census"
 
-#inner_2016_2021_1yr_ago <- rbind(X2016_combined_1yr_ago[1,], X2021_combined_1yr_ago[1,])
+library(gplots)
+library(ggpubr)
+#dt <- as.table(as.matrix(inner_2016_2021_1yr_ago))
+#balloonplot(t(dt), xlab = "", ylab="", label = FALSE, show.margins = FALSE)
+#mosaicplot(as.tibble(inner_2016_2021_1yr_ago), shade = TRUE, las = 2)
 
+#NEXT USE GGBARSTATS and DATA ORGANISED BY COUNTS (see https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbarstats.html) 
+to do the 2-way contingency statistical tests. 7
 
 ```
