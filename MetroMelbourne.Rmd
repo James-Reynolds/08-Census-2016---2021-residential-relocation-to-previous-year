@@ -477,7 +477,7 @@ Tables 6, 7, 8 and 9 have a large amount of data, which makes comparison difficu
 ## 4.1 Moved address
 Table 10 and Figure 1 compare the rates of living in the same address as one year ago  for the inner region between the 2016 and 2021 censuses.  
 
-```{r chi_square_inner_change_1_yr, fig.fullwidth=FALSE, fig.margin = FALSE, fig.cap= "Figure 1: change residential location from one year prior to the census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+```{r chi_square_inner_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: change residential location from one year prior to the census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 
 
 #First extra Inner Regions from 2016 and 2021 tables and combine into a single contingency table
@@ -499,7 +499,25 @@ library(ggpubr)
 #balloonplot(t(dt), xlab = "", ylab="", label = FALSE, show.margins = FALSE)
 #mosaicplot(as.tibble(inner_2016_2021_1yr_ago), shade = TRUE, las = 2)
 
-#NEXT USE GGBARSTATS and DATA ORGANISED BY COUNTS (see https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbarstats.html) 
-to do the 2-way contingency statistical tests. 7
+#pivot inner_2016_2021 to be longer, so that it can be input into GGbarstats as a data table organised by counts
+inner_2016_2021_1yr_ago.longer <- pivot_longer(inner_2016_2021_1yr_ago, cols = 2:ncol(inner_2016_2021_1yr_ago), names_to = "Residence 1 yr ago", values_to = "People")
+
+library(ggstatsplot)
+ggbarstats(
+  data = inner_2016_2021_1yr_ago.longer,
+  x = Census,
+  y = "Residence 1 yr ago",
+  counts = People,
+  label = "both",
+  package = "ggsci",
+  palette = "default_jama",
+  title = "Place of usual residence one year before census by census, 2016 and 2021",
+  caption = "Source: author analysis of ABS data",
+  legend.title = "Census"
+)
+
+
+
+#NEXT USE GGBARSTATS and DATA ORGANISED BY COUNTS (see https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbarstats.html) to do the 2-way contingency statistical tests. 7
 
 ```
