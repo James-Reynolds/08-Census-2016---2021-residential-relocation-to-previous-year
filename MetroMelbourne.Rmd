@@ -279,7 +279,7 @@ knitr::kable(head(region, n=15), caption = 'Table 5: Victorian LGAs by region, f
 ```
 
 # 4.0 Results 
-The raw data from the ABS table builder (Table 4) and the allocation of LGAs to each region (Table 5) have been combined. This results in tables of usual address 1 or 5 years ago, by region. Results are summarised in Tables 6-9. ^[Note, the 'not stated' and 'not applicable' fields have been dropped.].  
+The raw data from the ABS table builder (Table 4) and the allocation of LGAs to each region (Table 5) have been combined. This results in tables of usual address 1 or 5 years ago, by region. Results are summarised in Tables 6-9^[Note, the 'not stated' and 'not applicable' fields have been dropped.].  
 
 
 ```{r by_region_inner_middle_etc, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
@@ -471,13 +471,14 @@ knitr::kable(
 
 ```
 
+Tables 6, 7, 8 and 9 have a large amount of data, which makes comparison difficult. Hence, the following sections examine various components of the usual address one and five years ago results to identify significant changes between pre- and during-COVID home relocation. 
 
-Tables 6, 7, 8 and 9 have a large amount of data, which makes comparison difficult. Hence, the following sections examine various components of the usual address one and five years ago results to identify significant changes between pre- and during-COVID home relocaiton. 
+## 4.1 Residential relocation to the Inner Region of Melbourne
 
-## 4.1 Moved address
-Table 10 and Figure 1 compare the rates of living in the same address as one year ago  for the inner region between the 2016 and 2021 censuses.  
+### 4.1.1 Compared to one year before the census
+Figure 1 compares the rates of living in the same address as one year ago  for the inner region between the 2016 and 2021 censuses.  
 
-```{r chi_square_inner_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: change residential location from one year prior to the census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+```{r chi_square_inner_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Inner region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 
 
 #First extra Inner Regions from 2016 and 2021 tables and combine into a single contingency table
@@ -485,7 +486,7 @@ Table 10 and Figure 1 compare the rates of living in the same address as one yea
 colnames(X2016_combined_1yr_ago)[2] <- "Same address"
 colnames(X2021_combined_1yr_ago)[2] <- "Same address"
 colnames(X2016_combined_1yr_ago)[16] <- "Overseas"
-colnames(X2016_combined_1yr_ago)[16] <- "Overseas"
+colnames(X2021_combined_1yr_ago)[16] <- "Overseas"
 names(X2016_combined_1yr_ago) <- names(X2021_combined_1yr_ago)
 #combined table
 inner_2016_2021_1yr_ago <- rbind(X2016_combined_1yr_ago[1,], X2021_combined_1yr_ago[1,])
@@ -493,31 +494,109 @@ inner_2016_2021_1yr_ago <- rbind(X2016_combined_1yr_ago[1,], X2021_combined_1yr_
 inner_2016_2021_1yr_ago[,1] <- c("2016", "2021") 
 colnames(inner_2016_2021_1yr_ago)[1] <- "Census"
 
+#combine other states and territories of Australia into Rest_of_Australia variable
+inner_2016_2021_1yr_ago <- cbind(inner_2016_2021_1yr_ago[1:7], rowSums(inner_2016_2021_1yr_ago[8:15]),inner_2016_2021_1yr_ago[16])
+colnames(inner_2016_2021_1yr_ago)[8] <- "Rest of Australia"
+
+#output table with percentages etc. 
+knitr::kable(
+ inner_2016_2021_1yr_ago %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(inner_2016_2021_1yr_ago %>% adorn_totals("col"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrr", caption = 'Table 10: Inner region: usual address one year before the census, by census')
+
 library(gplots)
 library(ggpubr)
-#dt <- as.table(as.matrix(inner_2016_2021_1yr_ago))
-#balloonplot(t(dt), xlab = "", ylab="", label = FALSE, show.margins = FALSE)
-#mosaicplot(as.tibble(inner_2016_2021_1yr_ago), shade = TRUE, las = 2)
-
 #pivot inner_2016_2021 to be longer, so that it can be input into GGbarstats as a data table organised by counts
 inner_2016_2021_1yr_ago.longer <- pivot_longer(inner_2016_2021_1yr_ago, cols = 2:ncol(inner_2016_2021_1yr_ago), names_to = "Residence 1 yr ago", values_to = "People")
 
+library(magrittr)
+inner_2016_2021_1yr_ago.longer$`Residence 1 yr ago` %<>% factor
+inner_2016_2021_1yr_ago.longer$`Residence 1 yr ago` <- factor(inner_2016_2021_1yr_ago.longer$`Residence 1 yr ago`, levels = c("Same address", "Inner", "Middle", "Outer", "Peri-Urban Area", "Rest of Victoria", "Rest of Australia", "Overseas"))
+       
+
+library(gginnards)  
 library(ggstatsplot)
-ggbarstats(
+p <- ggbarstats(
   data = inner_2016_2021_1yr_ago.longer,
-  x = Census,
-  y = "Residence 1 yr ago",
+  x = "Residence 1 yr ago",
+  y = Census,
   counts = People,
-  label = "both",
+  label = "percentage",
   package = "ggsci",
   palette = "default_jama",
-  title = "Place of usual residence one year before census by census, 2016 and 2021",
   caption = "Source: author analysis of ABS data",
-  legend.title = "Census"
+  legend.title = "Place of residence one year before census",
+)
+delete_layers(p, "GeomLabel")
+library(prmisc)
+```
+
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone in the inner region lived one year before the census was significat `r  print_chi2(as.matrix(inner_2016_2021_1yr_ago[,2:9]))`. From the bar chart shown in Figure 10 and the percentages in Table 1, it appears that the largest changes between the 2016 and 2021 censuses are in the percentage of people who were overseas one year earlier (7.4% versus 2.0%). The following examines each of the categories in turn. 
+
+
+```{r chi_square_inner_change_1_yr_same_address, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 2: Inner region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+
+  df <- cbind(inner_2016_2021_1yr_ago[1], inner_2016_2021_1yr_ago[2], rowSums(inner_2016_2021_1yr_ago[2:9])-inner_2016_2021_1yr_ago[2])
+  colnames(df)[3] <- "Other"
+
+  #output table with percentages etc. 
+knitr::kable(
+   df %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(df %>% adorn_totals("col"), big.mark=","), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE)), align = "lrrr", caption = 'Table 11: Inner region: usual address one year before the census, by census')
+#pivot inner_2016_2021 to be longer, so that it can be input into GGbarstats as a data table organised by counts
+df.longer <- pivot_longer(df, cols = 2:ncol(df), names_to = "Residence 1 yr ago", values_to = "People")
+
+ggbarstats(
+  data = df.longer,
+  x = "Residence 1 yr ago",
+  y = Census,
+  counts = People,
+  label = "percentage",
+  package = "ggsci",
+  palette = "default_jama",
+  caption = "Source: author analysis of ABS data",
+  legend.title = "Place of residence one year before census",
 )
 
 
 
-#NEXT USE GGBARSTATS and DATA ORGANISED BY COUNTS (see https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbarstats.html) to do the 2-way contingency statistical tests. 7
 
 ```
+
+
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone in the inner region had the same address as a year ago was significant `r  print_chi2(as.matrix(df[,2:3]))`. As shown in Figure 11 and Table 2, almost 71% of inner residents in 2016 had the same address as in 2015, whereas only a little over 69% had the same address in 2021 as in 2020.
+
+
+
+
+```{r chi_square_inner_change_1_yr_previous_address, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 3: Inner region: usual address one year before the census for those who had moved, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+
+  df <- cbind(inner_2016_2021_1yr_ago[1], inner_2016_2021_1yr_ago[3:9])
+
+
+  #output table with percentages etc. 
+knitr::kable(
+   df %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(df %>% adorn_totals("col"), big.mark=","), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE)), align = "lrrr", caption = 'Table 12: Inner region: usual address one year before the census for those who had moved, by census')
+#pivot inner_2016_2021 to be longer, so that it can be input into GGbarstats as a data table organised by counts
+df.longer <- pivot_longer(df, cols = 2:ncol(df), names_to = "Residence 1 yr ago", values_to = "People")
+
+library(magrittr)
+df.longer$`Residence 1 yr ago` %<>% factor
+df.longer$`Residence 1 yr ago` <- factor(df.longer$`Residence 1 yr ago`, levels = c("Inner", "Middle", "Outer", "Peri-Urban Area", "Rest of Victoria", "Rest of Australia", "Overseas"))
+
+p <- ggbarstats(
+  data = df.longer,
+  x = "Residence 1 yr ago",
+  y = Census,
+  counts = People,
+  label = "percentage",
+  package = "ggsci",
+  palette = "default_jama",
+  caption = "Source: author analysis of ABS data",
+  legend.title = "Place of residence one year before census",
+)
+
+delete_layers(p, "GeomLabel")
+
+
+```
+
+
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone in the inner region who had a different address to a year ago was significant `r  print_chi2(as.matrix(df[,2:8]))`. As shown in Figure 3 and Table 12, in 2016 of those people who had moved to the inner region since 2015: 33% had moved from ther rest of Victoria, 25% from overseas, 21% from the outer parts of Melbourne and 10% from the rest of Australia. In contrast, in 2021 of those people who had moved to the inner region since 2020: 41% had moved from the rest of Victoria, 29% from outer Melbourne and only 6% from overseas.
