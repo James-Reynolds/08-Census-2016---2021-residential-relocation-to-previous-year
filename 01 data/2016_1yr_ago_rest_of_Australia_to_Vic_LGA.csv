@@ -1,0 +1,28 @@
+Australian Bureau of Statistics
+
+"2016 Census - Internal Migration"
+"STATE (UR) by LGA (1YRS)"
+"Counting: Persons Place of Usual Residence"
+
+Filters:
+"Default Summation","Persons Place of Usual Residence"
+
+"LGA (1YRS)","Alpine (S)","Ararat (RC)","Ballarat (C)","Banyule (C)","Bass Coast (S)","Baw Baw (S)","Bayside (C)","Benalla (RC)","Boroondara (C)","Brimbank (C)","Buloke (S)","Campaspe (S)","Cardinia (S)","Casey (C)","Central Goldfields (S)","Colac-Otway (S)","Corangamite (S)","Darebin (C)","East Gippsland (S)","Frankston (C)","Gannawarra (S)","Glen Eira (C)","Glenelg (S)","Golden Plains (S)","Greater Bendigo (C)","Greater Dandenong (C)","Greater Geelong (C)","Greater Shepparton (C)","Hepburn (S)","Hindmarsh (S)","Hobsons Bay (C)","Horsham (RC)","Hume (C)","Indigo (S)","Kingston (C)","Knox (C)","Latrobe (C)","Loddon (S)","Macedon Ranges (S)","Manningham (C)","Mansfield (S)","Maribyrnong (C)","Maroondah (C)","Melbourne (C)","Melton (C)","Mildura (RC)","Mitchell (S)","Moira (S)","Monash (C)","Moonee Valley (C)","Moorabool (S)","Moreland (C)","Mornington Peninsula (S)","Mount Alexander (S)","Moyne (S)","Murrindindi (S)","Nillumbik (S)","Northern Grampians (S)","Port Phillip (C)","Pyrenees (S)","Queenscliffe (B)","South Gippsland (S)","Southern Grampians (S)","Stonnington (C)","Strathbogie (S)","Surf Coast (S)","Swan Hill (RC)","Towong (S)","Wangaratta (RC)","Warrnambool (C)","Wellington (S)","West Wimmera (S)","Whitehorse (C)","Whittlesea (C)","Wodonga (C)","Wyndham (C)","Yarra (C)","Yarra Ranges (S)","Yarriambiack (S)","Capital City Undefined (Greater Melbourne)","Unincorporated Vic","No Usual Address (Vic.)","Migratory - Offshore - Shipping (Vic.)","State Undefined (Vic.)","Total",
+"STATE (UR)",
+"New South Wales",89,15,229,288,93,95,292,66,549,350,22,412,156,488,26,52,38,490,185,269,85,445,31,18,284,359,463,229,26,17,204,67,363,250,285,273,122,14,75,190,23,386,147,1019,196,455,162,346,441,279,65,565,489,36,17,37,122,27,709,25,0,57,53,667,51,118,225,130,133,77,195,8,378,386,949,555,566,272,18,174,29,14,0,196,18783,
+"Queensland",47,28,337,312,102,135,238,43,377,280,17,141,235,610,39,61,30,337,148,413,30,317,68,49,337,296,646,263,35,18,247,73,333,45,381,277,233,24,154,215,29,283,240,540,308,182,297,105,358,288,62,422,582,55,38,33,102,45,447,14,4,93,32,374,29,108,40,35,77,159,238,11,293,402,524,661,294,387,8,170,29,24,0,193,16610,
+"South Australia",6,14,86,83,28,14,41,12,118,97,9,35,25,118,9,17,16,124,32,49,15,96,133,12,81,78,125,58,8,22,69,56,88,0,67,62,42,3,31,60,10,92,75,189,46,392,74,16,124,69,29,147,60,9,21,8,24,27,97,8,0,10,62,95,6,25,39,0,20,53,58,66,88,62,83,113,67,112,18,44,28,4,0,57,4651,
+"Tasmania",5,12,36,45,17,17,46,10,82,22,0,12,45,57,11,14,4,113,37,60,0,66,3,7,75,30,125,29,3,0,42,5,29,6,67,49,29,7,16,33,0,64,33,150,46,32,8,7,82,58,19,125,89,13,9,9,34,0,75,6,7,8,12,50,0,17,7,4,4,21,19,4,72,55,26,88,84,63,0,27,0,7,0,37,2746,
+"Western Australia",15,11,83,100,35,48,73,10,125,137,0,33,65,156,12,17,3,110,52,122,10,116,30,12,93,74,176,76,11,9,64,14,116,13,98,67,82,6,24,50,9,98,68,275,112,96,36,9,104,81,8,154,292,5,10,5,20,5,174,4,4,31,42,190,11,43,40,10,14,50,72,0,98,88,38,200,161,108,0,59,5,3,0,62,5253,
+"Northern Territory",4,3,50,67,24,23,32,5,29,37,0,17,30,49,6,11,12,57,22,50,3,36,19,11,62,22,98,20,5,3,20,3,29,13,39,24,56,0,18,25,3,30,22,53,26,35,59,14,38,41,4,66,109,8,3,4,31,11,34,0,0,21,6,39,5,20,9,0,13,14,63,3,25,62,150,51,54,50,6,22,0,0,0,28,2283,
+"Australian Capital Territory",6,0,32,47,0,11,54,8,137,37,0,13,15,95,0,3,0,93,12,23,0,79,6,0,32,37,70,6,0,0,48,9,27,6,29,36,12,0,14,47,3,98,27,174,23,9,26,0,100,68,6,133,63,5,4,0,19,0,82,0,0,5,11,83,6,9,3,3,3,5,26,0,62,68,46,129,76,26,0,22,0,0,0,22,2489,
+"Other Territories",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,
+"Total",177,91,860,937,299,333,775,146,1425,972,52,665,579,1579,116,181,102,1325,477,984,144,1144,285,111,962,899,1691,695,91,65,701,225,981,329,955,787,578,55,338,625,73,1062,625,2402,752,1204,667,504,1243,886,199,1612,1689,128,107,97,350,116,1617,46,16,223,217,1509,103,333,364,184,263,386,673,93,1014,1121,1817,1790,1304,1021,52,512,98,56,0,595,52846,
+
+"Dataset: Census of Population and Housing, 2016, TableBuilder"
+
+"INFO","Cells in this table have been randomly adjusted to avoid the release of confidential data. No reliance should be placed on small cells."
+
+
+"Copyright Commonwealth of Australia, 2021, see abs.gov.au/copyright"
+"ABS data licensed under Creative Commons, see abs.gov.au/ccby"

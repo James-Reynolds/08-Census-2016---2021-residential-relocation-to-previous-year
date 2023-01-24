@@ -34,7 +34,7 @@ This work note summarises the analysis and findings. The next section discusses 
 
 
 # 2.0 Data 
-Eight datasets were extracted as Comma-Separated Values (CSV) files using the ABS Table Builder online system. These were the results for the questions about usual place of residence 1 year ago and 5 years ago^[Specifically the Place of Usual Residence one year ago (PUR1P) and Place of Usual Residence five years ago (PUR5P) variables.  Details are avaiable at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p], with data retrieved for the 2016 and 2021 censuses. Separate tables were extracted for respondents who answered that their previous place of residence was within a specific Victorian LGA, and for those whose previous place of residence was in another state or territory. Examples from the data tables are shown below in Tables 1 and 2^[Some minor edits were made directly to the CSV files prior to importation into R. This includes fixing the LGA name fields, which were inconsistent. The 2016 version also showed the type of LGA, (Shire, Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV files were updated to adopt the 2016 approach.]. 
+Sixteen datasets were extracted as Comma-Separated Values (CSV) files using the ABS Table Builder online system. The first eight datasets were the results for Victorian residents by Local Government Area for the questions about usual place of residence 1 year ago and 5 years ago^[Specifically the Place of Usual Residence one year ago (PUR1P) and Place of Usual Residence five years ago (PUR5P) variables.  Details are avaiable at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/place-usual-residence-one-year-ago-pur1p], with data retrieved for the 2016 and 2021 censuses. Separate tables were extracted for respondents who answered that their previous place of residence was within a specific Victorian LGA, and for those whose previous place of residence was in another state or territory. Examples from the data tables are shown below in Tables 1 and 2^[Some minor edits were made directly to the CSV files prior to importation into R. This includes fixing the LGA name fields, which were inconsistent. The 2016 version also showed the type of LGA, (Shire, Regional City or City) as letters (S, RC, C) in brackets. The 2021 CSV files were updated to adopt the 2016 approach.]. 
 
 ```{r loadsurveydata, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
 #Load datasets
@@ -120,7 +120,7 @@ knitr::kable(
 
 ```
 
-The Place of Usual Residence (PURP1P, PUR5P) variables from the ABS datasets includes people who did not move in the values shown for each LGA and State/Territory.  Therefore the datasets for the Usual address one year ago indicator (UAI1P) and Usual address five years ago indicator (UAI5P)^[See details at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p. As an example, the 10,359 people from Alpine Shire in 2016 whose place of usual residence was (also) within Alpine Shire one year prior to the 2016 census (from Table 2) consist of 9,711 who had not moved house (see Table 3) and 648 who had moved house, but to somewhere else within the Alpine Shire (as 10,359-9,711-648.] were also extracted using the ABS Table Builder tool^{Again, some minor edits were made directly to the CSV files prior to importation into R]. An example of the UAI1P data table is shown below in Table 3. 
+The Place of Usual Residence (PURP1P, PUR5P) variables from the ABS datasets includes people who did not move in the values shown for each LGA and State/Territory.  Therefore a further four^[Running total is 8+4=12 of 16] datasets were extracted for the Usual address one year ago indicator (UAI1P) and Usual address five years ago indicator (UAI5P)^[See details at https://www.abs.gov.au/census/guide-census-data/census-dictionary/2021/variables-topic/location/usual-address-one-year-ago-indicator-uai1p. As an example, the 10,359 people from Alpine Shire in 2016 whose place of usual residence was (also) within Alpine Shire one year prior to the 2016 census (from Table 2) consist of 9,711 who had not moved house (see Table 3) and 648 who had moved house, but to somewhere else within the Alpine Shire (as 10,359-9,711-648.] were also extracted using the ABS Table Builder tool^{Again, some minor edits were made directly to the CSV files prior to importation into R]. An example of the UAI1P data table is shown below in Table 3. 
 
 
 ```{r load_place_indicator, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
@@ -266,20 +266,76 @@ knitr::kable(
 
 
 ```
+
+Finally, four more datasets^[8+4+4=16] were extracted for states and territories that are not Victoria^[The rest of Australia, being New South Wales, Queensland etc.] for people moving from Victorian LGAs one and five years before each of the 2016 and 2021 censuses. These datasets a needed to be able to calculate the regions that people resident in Victorian LGAS in 2011, 2015, 2016 and 2021 moved to, allowing analysis of residential relocation from the inner, middle, outer, peri-urban and rest of Victoria regions^[Note, that it is not possible to include analysis of people who moved from Victorian LGAs to places overseas, as these people are not in the census data. But, at least this analysis can consider residential relocation FROM our regions of interest TO other places in (all of) Australia.].
+
+
+```{r loadsurveydata_rest_of_australia, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
+#Load datasets
+library(readr)
+X2016_1yr_ago_rest_of_Australia_to_Vic_LGA <- read_csv("01 data/2016_1yr_ago_rest_of_Australia_to_Vic_LGA.csv", skip = 8)
+X2016_5yr_ago_rest_of_Australia_to_Vic_LGA <- read_csv("01 data/2016_5yr_ago_rest_of_Australia_to_Vic_LGA.csv", skip = 9)
+X2021_1yr_ago_rest_of_Australia_to_Vic_LGA <- read_csv("01 data/2021_1yr_ago_rest_of_Australia_to_Vic_LGA.csv", skip = 9)
+X2021_5yr_ago_rest_of_Australia_to_Vic_LGA <- read_csv("01 data/2021_5yr_ago_rest_of_Australia_to_Vic_LGA.csv", skip = 9)
+
+
+#delete empty first rows from each table
+X2016_1yr_ago_rest_of_Australia_to_Vic_LGA <- X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[-1,]
+X2016_5yr_ago_rest_of_Australia_to_Vic_LGA <- X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[-1,]
+X2021_1yr_ago_rest_of_Australia_to_Vic_LGA <- X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[-1,]
+X2021_5yr_ago_rest_of_Australia_to_Vic_LGA <- X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[-1,]
+
+#delete empty last column from each table
+#delete total column from each table
+#also delete Not Stated, and Not Applicable; from State tables
+#also delete: Capital City Undefined (Greater Melbourne),	Unincorporated Vic,	No Usual Address (Vic.),	Migratory - Offshore - Shipping (Vic.), and	State Undefined (Vic.); from LGA tables
+#delete last 5 rows from each table (the totals and ABS details)
+X2016_1yr_ago_rest_of_Australia_to_Vic_LGA <- X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[1:(nrow(X2016_1yr_ago_rest_of_Australia_to_Vic_LGA)-5),1:(ncol(X2016_1yr_ago_rest_of_Australia_to_Vic_LGA)-7)]
+X2016_5yr_ago_rest_of_Australia_to_Vic_LGA <- X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[1:(nrow(X2016_5yr_ago_rest_of_Australia_to_Vic_LGA)-9),1:(ncol(X2016_5yr_ago_rest_of_Australia_to_Vic_LGA)-6)]
+X2021_1yr_ago_rest_of_Australia_to_Vic_LGA <- X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[1:(nrow(X2021_1yr_ago_rest_of_Australia_to_Vic_LGA)-8),1:(ncol(X2021_1yr_ago_rest_of_Australia_to_Vic_LGA)-6)]
+X2021_5yr_ago_rest_of_Australia_to_Vic_LGA <- X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[1:(nrow(X2021_5yr_ago_rest_of_Australia_to_Vic_LGA)-8),1:(ncol(X2021_5yr_ago_rest_of_Australia_to_Vic_LGA)-6)]
+
+#Convert second column to numeric, as it is a character for some reason
+X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[,2] <- as.numeric(unlist(X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[,2]))
+X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,2] <- as.numeric(unlist(X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,2]))
+X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[,2] <- as.numeric(unlist(X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[,2]))
+X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[,2] <- as.numeric(unlist(X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[,2]))
+
+
+
+
+#change name of first column in all dataframes to Location
+df.rest_of_australia.list <- list(
+  X2016_1yr_ago_rest_of_Australia_to_Vic_LGA, 
+  X2016_5yr_ago_rest_of_Australia_to_Vic_LGA,
+  X2021_1yr_ago_rest_of_Australia_to_Vic_LGA,
+  X2021_5yr_ago_rest_of_Australia_to_Vic_LGA)
+df.rest_of_australia.list <- lapply(df.rest_of_australia.list, function(x) {colnames(x)[1] = "Location"; x})
+names(df.rest_of_australia.list) <- c("X2016_1yr_ago_rest_of_Australia_to_Vic_LGA", 
+                "X2016_5yr_ago_rest_of_Australia_to_Vic_LGA", 
+                "X2021_1yr_ago_rest_of_Australia_to_Vic_LGA",
+                "X2021_5yr_ago_rest_of_Australia_to_Vic_LGA")
+invisible(list2env(df.rest_of_australia.list,envir=.GlobalEnv))
+
+
+knitr::kable(
+  head(X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[,1:6]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrr", caption = 'Table 5: 2016 census, LGA of residence one year before census for those who moved to Victoria, results by State and Territory for non-Victorian locations, first 6 results and first 6 LGAs')
+```
+
   
 # 3.0 Regions
-Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey, as shown in Table 5. The additional zones of Peri-Urban Area and Rest of Victoria have been defined in the work to date for the forthcoming Regional Victoria COVID-19 survey, and Table 5 also shows allocation of LGAs to those zones as well^[Note that the Peri-Urban Area and Rest of Victoria zones have actually been defined using the Statistical Area 3 (SA3) boundaries. These are slightly different to LGA boundaries, so LGAs have been assigned to one of the Peri-Urban Area and Rest of Victoria regions by inspection.]. 
+Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 survey, as shown in Table 6. The additional zones of Peri-Urban Area and Rest of Victoria have been defined in the work to date for the forthcoming Regional Victoria COVID-19 survey, and Table 6 also shows allocation of LGAs to those zones as well^[Note that the Peri-Urban Area and Rest of Victoria zones have actually been defined using the Statistical Area 3 (SA3) boundaries. These are slightly different to LGA boundaries, so LGAs have been assigned to one of the Peri-Urban Area and Rest of Victoria regions by inspection.]. 
 
 ```{r loadregions, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
 #Load dataset
 library(readr)
 region <- read_csv("01 data/region.csv")
 
-knitr::kable(head(region, n=15), caption = 'Table 5: Victorian LGAs by region, first 15 entries')
+knitr::kable(head(region, n=15), caption = 'Table 6: Victorian LGAs by region, first 15 entries')
 ```
 
 # 4.0 Results 
-The raw data from the ABS table builder (Table 4) and the allocation of LGAs to each region (Table 5) have been combined. This results in tables of usual address 1 or 5 years ago, by region. Results are summarised in Tables 6-9^[Note, the 'not stated' and 'not applicable' fields have been dropped.].  
+The raw data from the ABS table builder (Table 4) and the allocation of LGAs to each region (Table 6) have been combined. This results in tables of usual address 1 or 5 years ago, by region. Results are summarised in Tables 7-10^[Note, the 'not stated' and 'not applicable' fields have been dropped.].  
 
 
 ```{r by_region_inner_middle_etc, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
@@ -452,30 +508,146 @@ df.combined_by_region.list <- lapply(df.combined_by_region.list, rename, "Region
 names(df.combined_by_region.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5yr_ago", "X2021_combined_1yr_ago", "X2021_combined_5yr_ago")
 invisible(list2env(df.combined_by_region.list,envir=.GlobalEnv))
 
-
-#knitr::kable(
-# X2016_combined_1yr_ago %>% adorn_totals(c("row", "col")), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), caption = 'Table 6: 2016 census, Usual address one years ago, by region')
-
+knitr::kable(
+ X2016_combined_1yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2016_combined_1yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 7: 2016 census, Usual address one year ago, by region')
 
 knitr::kable(
- X2016_combined_1yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2016_combined_1yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 6: 2016 census, Usual address one year ago, by region')
+ X2021_combined_1yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2021_combined_1yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 8: 2021 census, Usual address one year ago, by region')
 
 knitr::kable(
- X2021_combined_1yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2021_combined_1yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 7: 2021 census, Usual address one year ago, by region')
+ X2016_combined_5yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2016_combined_5yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 9: 2016 census, Usual address five years ago, by region')
 
 knitr::kable(
- X2016_combined_5yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2016_combined_5yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 8: 2016 census, Usual address five years ago, by region')
-
-knitr::kable(
- X2021_combined_5yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2021_combined_5yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 9: 2021 census, Usual address five years ago, by region')
+ X2021_combined_5yr_ago %>% adorn_totals(c("row","col")) %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(X2021_combined_5yr_ago %>% adorn_totals(c("row","col")), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrrrrrrrrr", caption = 'Table 10: 2021 census, Usual address five years ago, by region')
 
 ```
 
-Tables 6, 7, 8 and 9 have a large amount of data, which makes comparison difficult. Hence, the following sections examine various components of the usual address one and five years ago results to identify significant changes between pre- and during-COVID home relocation. 
+Tables 7-10 have a large amount of data, which makes comparison difficult. Hence, the following sections examine various components of the usual address one and five years ago results to identify significant changes between pre- and during-COVID home relocation. 
 
-## 4.1 Residential relocation to the Inner Region of Melbourne
+## 4.1 Residential relocation within the year before the census
 
-### 4.1.1 Compared to one year before the census
+### 4.1.1 From the inner region of Melbourne
+The third columns of Tables 7-10 provide details of where people who where living in the inner region one and five years before the 2016 and 2021^[i.e. in 2011, 2015, 2016 and 2020] had moved to in 2016 and 2021, respectively. Table 11 collects this data.
+
+
+```{r moving_from_inner, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Inner region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+moving_from_inner <- cbind(X2016_combined_1yr_ago[,1], X2016_combined_5yr_ago[,3], X2016_combined_1yr_ago[3], X2021_combined_5yr_ago[,3], X2021_combined_1yr_ago[,3])
+names(moving_from_inner) <- c("Destination", "Moving 2011-16", "Moving 2015-16", "Moving 2016-21", "Moving 2020-21")
+
+
+#output table with percentages etc. 
+knitr::kable(
+ moving_from_inner %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(moving_from_inner %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 11: Destinations of those moving FROM the Inner region to locations within Victoria prior to the census')
+
+
+```
+
+However, the 'Rest of Australia' data^[This was imported from the ABS data above, see Table 5] needs to be added as well, so that it is possible to see people who moved from inner to other parts of Australia. This revision is shown in Table 11. 
+
+```{r moving_from_inner_rest_of_australia, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Inner region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+#Combining the columns
+#Next collect all inner columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.inner_columns.list <- lapply(df.rest_of_australia.list, function(X) {
+  X <- as.data.frame(X[,LGAs_inner_position+1])})
+df.inner_columns.list <- lapply(df.inner_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.inner_columns.list <- lapply(df.inner_columns.list, rename, Inner = Total)
+  
+#Next collect all middle columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.middle_columns.list <- lapply(df.rest_of_australia.list, function(X) {
+  X <- X[,LGAs_middle_position+1]})
+df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.middle_columns.list <- lapply(df.middle_columns.list, rename, Middle = Total)
+  
+#Next collect all outer columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.outer_columns.list <- lapply(df.rest_of_australia.list, function(X) {
+  X <- X[,LGAs_outer_position+1]})
+df.outer_columns.list <- lapply(df.outer_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.outer_columns.list <- lapply(df.outer_columns.list, rename, Outer = Total)
+  
+#Next collect all peri_urban columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.peri_urban_columns.list <- lapply(df.rest_of_australia.list, function(X) {
+  X <- X[,LGAs_peri_urban_position+1]})
+df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, rename, "Peri-Urban Area" = Total)
+  
+#Next collect all rest_of_vic columns, and add them together
+library(janitor)
+library(dplyr)
+library(purrr)
+df.rest_of_vic_columns.list <- lapply(df.rest_of_australia.list, function(X) {
+  X <- X[,LGAs_rest_of_vic_position+1]})
+df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, function(X) {
+  X <- X %>% adorn_totals("col")})
+df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, rename, "Rest of Victoria" = Total)
+  
+
+
+#Then collect the Inner, middle, outer etc totals from each list and combine into one list of dataframes
+#By first creating df.lists of just the "Total" columns from each
+library(tidyverse)
+df.inner_columns_total.list <- lapply(df.inner_columns.list, function(x){x %>% select(last_col())})
+df.middle_columns_total.list <- lapply(df.middle_columns.list, function(x){x %>% select(last_col())})
+df.outer_columns_total.list <- lapply(df.outer_columns.list, function(x){x %>% select(last_col())})
+df.peri_urban_columns_total.list <- lapply(df.peri_urban_columns.list, function(x){x %>% select(last_col())})
+df.rest_of_vic_columns_total.list <- lapply(df.rest_of_vic_columns.list, function(x){x %>% select(last_col())})
+#Then combining them
+df.combined_by_region_columns_rest_of_australia.list <- mapply(cbind, df.inner_columns_total.list, df.middle_columns_total.list, df.outer_columns_total.list, df.peri_urban_columns_total.list, df.rest_of_vic_columns_total.list, SIMPLIFY = FALSE)
+
+
+#Make new list of dataframes for aggregated by region. 
+#first combine dataframes
+df.combined_by_regions_rest_of_australia.list <- mapply(cbind, df.rest_of_australia.list, df.combined_by_region_columns_rest_of_australia.list, SIMPLIFY = FALSE)
+
+#then drop repeated columns
+df.combined_by_regions_rest_of_australia.list <- lapply(df.combined_by_regions_rest_of_australia.list, function(x){cbind(x[1],x[81:85])
+ })
+
+#rename first column as Region instead of Location
+df.combined_by_regions_rest_of_australia.list <- lapply(df.combined_by_regions_rest_of_australia.list, rename, "Region" = "Location")
+
+#Export back to Global Environment  
+names(df.combined_by_regions_rest_of_australia.list) <- names(df.rest_of_australia.list)
+invisible(list2env(df.combined_by_regions_rest_of_australia.list,envir=.GlobalEnv))
+
+#combine rest_of_Australia in the same format as moving_from_inner
+moving_from_inner_rest_of_Australia <- cbind(
+  X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,1:2],
+  X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[,2],
+  X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[,2],
+  X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[,2])
+names(moving_from_inner_rest_of_Australia) <- names(moving_from_inner)
+
+moving_from_inner <- rbind(moving_from_inner, moving_from_inner_rest_of_Australia)
+
+#output table with percentages etc. 
+knitr::kable(
+ as.data.frame(moving_from_inner) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_inner) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 11: Destinations of those moving FROM the Inner region to locations within Australia prior to the census')
+
+
+```
+
+NEXT STEPS:
+1. Statistical tests comparing 2011-16 to 2016-21 
+2. Statistical tests comparing 2015-16 to 2020-21 
+3. Then renumber tables from here onwards
+
+### 4.1.2 To the inner region of Melbourne
 Figure 1 compares the rates of living in the same address as one year ago  for the inner region between the 2016 and 2021 censuses.  
 
 ```{r chi_square_inner_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Inner region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
@@ -500,7 +672,7 @@ colnames(inner_2016_2021_1yr_ago)[8] <- "Rest of Australia"
 
 #output table with percentages etc. 
 knitr::kable(
- inner_2016_2021_1yr_ago %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(inner_2016_2021_1yr_ago %>% adorn_totals("col"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrr", caption = 'Table 10: Inner region: usual address one year before the census, by census')
+ inner_2016_2021_1yr_ago %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(inner_2016_2021_1yr_ago %>% adorn_totals("col"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrrr", caption = 'Table 11: Inner region: usual address one year before the census, by census')
 
 library(gplots)
 library(ggpubr)
@@ -539,7 +711,7 @@ A Person's chi-squared test indicated that the relationship between which census
 
   #output table with percentages etc. 
 knitr::kable(
-   df %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(df %>% adorn_totals("col"), big.mark=","), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE)), align = "lrrr", caption = 'Table 11: Inner region: usual address one year before the census, by census')
+   df %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(df %>% adorn_totals("col"), big.mark=","), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE)), align = "lrrr", caption = 'Table 12: Inner region: usual address one year before the census, by census')
 #pivot inner_2016_2021 to be longer, so that it can be input into GGbarstats as a data table organised by counts
 df.longer <- pivot_longer(df, cols = 2:ncol(df), names_to = "Residence 1 yr ago", values_to = "People")
 
@@ -561,7 +733,7 @@ ggbarstats(
 ```
 
 
-A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone in the inner region had the same address as a year ago was significant `r  print_chi2(as.matrix(df[,2:3]))`. As shown in Figure 11 and Table 2, almost 71% of inner residents in 2016 had the same address as in 2015, whereas only a little over 69% had the same address in 2021 as in 2020.
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone in the inner region had the same address as a year ago was significant `r  print_chi2(as.matrix(df[,2:3]))`. As shown in Figure 2 and Table 12, almost 71% of inner residents in 2016 had the same address as in 2015, whereas only a little over 69% had the same address in 2021 as in 2020.
 
 
 
@@ -573,7 +745,7 @@ A Person's chi-squared test indicated that the relationship between which census
 
   #output table with percentages etc. 
 knitr::kable(
-   df %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(df %>% adorn_totals("col"), big.mark=","), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE)), align = "lrrr", caption = 'Table 12: Inner region: usual address one year before the census for those who had moved, by census')
+   df %>% adorn_totals("col") %>% adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns(ns = format(df %>% adorn_totals("col"), big.mark=","), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE)), align = "lrrr", caption = 'Table 13: Inner region: usual address one year before the census for those who had moved, by census')
 #pivot inner_2016_2021 to be longer, so that it can be input into GGbarstats as a data table organised by counts
 df.longer <- pivot_longer(df, cols = 2:ncol(df), names_to = "Residence 1 yr ago", values_to = "People")
 
@@ -599,4 +771,27 @@ delete_layers(p, "GeomLabel")
 ```
 
 
-A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone in the inner region who had a different address to a year ago was significant `r  print_chi2(as.matrix(df[,2:8]))`. As shown in Figure 3 and Table 12, in 2016 of those people who had moved to the inner region since 2015: 33% had moved from ther rest of Victoria, 25% from overseas, 21% from the outer parts of Melbourne and 10% from the rest of Australia. In contrast, in 2021 of those people who had moved to the inner region since 2020: 41% had moved from the rest of Victoria, 29% from outer Melbourne and only 6% from overseas.
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone in the inner region who had a different address to a year ago was significant `r  print_chi2(as.matrix(df[,2:8]))`. As shown in Figure 3 and Table 13, in 2016 of those people who had moved to the inner region since 2015: 33% had moved from ther rest of Victoria, 25% from overseas, 21% from the outer parts of Melbourne and 10% from the rest of Australia. In contrast, in 2021 of those people who had moved to the inner region since 2020: 41% had moved from the rest of Victoria, 29% from outer Melbourne and only 6% from overseas.
+
+In summary, for those living in the inner region of Melbourne the census data suggests that:
+
+* there was a small, but significant, increase in the proportion of people who had changed address in the previous year in 2021 (31%) compared to 2016 (29%).
+* for those who had changed address in the previous year in 2021 the proportion of people was: 
+  + largest for those had moved from the rest of Victoria (41%), followed by,
+  + those moving from the outer parts of Melbourne (29%), 
+  + the rest of Australia (9%), 
+  + the peri-urban area of Victoria (9%), 
+  + overseas (7%), 
+  + the middle suburbs (6%), and with those moving 
+  + from another residence within the inner part of Melbourne consisting of the smallest proportion (<1%) of those who had moved in the previous year. In contrast, 
+* in 2016 the proportion of people was: 
+  + largest for those had moved from the rest of Victoria (33%), followed by,
+  + those moving from overseas (25%), 
+  + the outer parts of Melbourne (21%), 
+  + the rest of Australia (10%), 
+  + the peri-urban area of Victoria (6%), 
+  + the middle suburbs (4%), and with those moving 
+  + from another residence within the inner part of Melbourne again being the smallest proportion (<1%). 
+
+Hence, the biggest changes appears to be the reduction of the proportion of people moving to inner Melbourne from overseas (down by 18%), and increases in the proportion of people moving from outer Melbourne and from the rest of Victoria (both up by 8%).
+
