@@ -1111,16 +1111,119 @@ A Person's chi-squared test indicated that the relationship between which census
 This suggests that those who were relocating from the outer surburbs of Melbourne after the start of COVID-19 were more likely to be moving to the inner parts of Melbourne and Queensland, and less likely to be moving to the middle suburbs and the rest of Victoria. 
 
 
-
-
-
-
-
-
-
 ###4.1.4 Summary of destinations of people moving FROM inner, middle and outer regions of Melbourne
 
-DO THIS NEXT
+
+
+
+```{r chi_square_move_from_all_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 7: Residential relocation from all regions of Melbourne in the year prior to the census, by destination", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+
+moving_from_list <- list(
+  as_tibble(moving_from_inner[,1:3]), 
+  as_tibble(moving_from_middle[,1:3]),
+  as_tibble(moving_from_outer[,1:3])
+)
+ 
+names(moving_from_list) <- c("Inner", "Middle", "Outer") 
+moving_from_all <- bind_rows(moving_from_list, .id = "Region")
+moving_from_total <- cbind(
+  aggregate(moving_from_all$`2015-16`, by=list(Category=moving_from_all$Destination), FUN=sum),
+  aggregate(moving_from_all$`2020-21`, by=list(Category=moving_from_all$Destination), FUN=sum)[,2]
+)
+names(moving_from_total) <- c("Destination", "2015-16", "2020-21")
+#reorder as per others  
+moving_from_total <- rbind(
+  moving_from_total[2, ], 
+  moving_from_total[3, ], 
+  moving_from_total[4, ], 
+  moving_from_total[8, ],
+  moving_from_total[9, ],
+  moving_from_total[11, ],
+  moving_from_total[5, ],
+  moving_from_total[10, ],
+  moving_from_total[12:14, ],  
+  moving_from_total[6, ],  
+  moving_from_total[1, ],
+  moving_from_total[7, ]
+  )
+
+moving_from_all_wider <- pivot_wider(moving_from_all, names_from = Region, values_from = c("2015-16", "2020-21"))
+names(moving_from_all_wider) <- c(
+  "Destination", 
+  "Inner 2015-16", 
+  "Middle 2015-16", 
+  "Outer 2015-16", 
+  "Inner 2020-21",
+  "Middle 2020-21",
+  "Outer 2020-21"
+  )
+
+moving_from_all_wider <- as_tibble(cbind(
+  moving_from_all_wider[, 1:2],
+  moving_from_all_wider[, 5],
+  moving_from_all_wider[, 3],
+  moving_from_all_wider[, 6],
+  moving_from_all_wider[, 4],
+  moving_from_all_wider[, 7]
+))
+
+moving_from_all_and_total <- cbind(
+     moving_from_all_wider,
+     moving_from_total[, 2:3]
+     )
+names(moving_from_all_and_total) <- c("Destination", "Inner 2015-16", "Inner 2020-21", "Middle 2015-16",
+                                      "Middle 2020-21", "Outer 2015-16","Outer 2020-21", 
+                                      "Total 2015-16", "Total 2020-21")
+
+knitr::kable(
+ as.data.frame(moving_from_all_and_total) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_all_and_total) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrr", caption = 'Table 21: Destinations of those moving FROM Melbourne locations within Australia in the year prior to the census (excluding other territories), by region')
+
+  
+  
+
+
+
+library(gplots)
+library(ggpubr)
+#pivot moving_from_all 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
+# exclude final row with "Other Territories" as the numbers are very small
+moving_from_total.longer <- pivot_longer(moving_from_total, cols = 2:3, names_to = "Census", values_to = "People")
+
+library(magrittr)
+moving_from_total.longer$Destination %<>% factor
+moving_from_total.longer$Destination <- factor(moving_from_total.longer$Destination, levels = c(
+  "Did not move",
+  "Inner",
+  "Middle",
+  "Outer", 
+  "Peri-Urban Areas", 
+  "Rest of Victoria", 
+  "New South Wales", 
+  "Queensland",
+  "South Australia",
+  "Tasmania",
+  "Western Australia",
+  "Northern Territory",
+  "Australian Capital Territory"))
+library(RColorBrewer)
+library(gginnards)  
+library(ggstatsplot)
+p <- ggbarstats(
+  data = moving_from_total.longer,
+  x = Destination,
+  y = Census,
+  counts = People,
+  label = "percentage",
+  package = "RColorBrewer",
+  palette = "Paired",
+  caption = "Source: author analysis of ABS data",
+  legend.title = "Destination",
+)
+delete_layers(p, "GeomLabel")
+library(prmisc)
+
+
+```
 
 
 
@@ -1131,7 +1234,8 @@ DO THIS NEXT
 
 
 
-
+<!---
+The stuff in this comment was all early work looking at where people were moving to, and is probably of less relavence. 
 
 ### 4.2 Destinations of people moving from the inner, middle and outer regions of Melbourne. 
 
@@ -1281,3 +1385,4 @@ In summary, for those living in the inner region of Melbourne the census data su
 
 Hence, the biggest changes appears to be the reduction of the proportion of people moving to inner Melbourne from overseas (down by 18%), and increases in the proportion of people moving from outer Melbourne and from the rest of Victoria (both up by 8%).
 
+-->
