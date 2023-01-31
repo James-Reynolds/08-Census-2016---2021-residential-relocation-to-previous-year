@@ -539,10 +539,10 @@ names(moving_from_inner) <- c("Destination", "2011-16", "2015-16", "2016-21", "2
 #add same house row to top of table
 moving_from_inner <- rbind(c(
   "Did not move", 
-  X2016_combined_5yr_ago[2,2],
-  X2016_combined_1yr_ago[2,2], 
-  X2021_combined_5yr_ago[2,2], 
-  X2021_combined_1yr_ago[2,2]),
+  X2016_combined_5yr_ago[1,2],
+  X2016_combined_1yr_ago[1,2], 
+  X2021_combined_5yr_ago[1,2], 
+  X2021_combined_1yr_ago[1,2]),
   moving_from_inner)
 
 moving_from_inner[,2:5] <- apply(moving_from_inner[,2:5], 2, function(x) as.numeric(as.character(x)))
@@ -664,7 +664,7 @@ knitr::kable(
 
 ```
 
-Figure 1 and Table 12 compare the proportion those who were inner residents one year prior to each census who moved within Australia^[[People who moved overseas are not included as they are not present in the census data] in the year before each census.  
+Figure 1 and Table 12 compare the proportion those who were inner residents one year prior to each census who moved within Australia^[People who moved overseas are not included as they are not present in the census data] in the year before each census.  
 
 ```{r chi_square_did_not_move_from_inner_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Did or did not move residences in the year prior to the census, inner region (moving to destinations within Australia)", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 
@@ -697,8 +697,7 @@ ggbarstats(
   y = Census,
   counts = People,
   label = "percentage",
-  package = "ggsci",
-  palette = "default_jco",
+  package = "RColorBrewer",   palette = "Paired",
   caption = "Source: author analysis of ABS data",
   legend.title = "Destination",
 )
@@ -709,9 +708,9 @@ library(prmisc)
 ```
 
 
-A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone living in the inner region one year prior to the census moved was significant `r  print_chi2(as.matrix(moving_inner_yes_no_1yr_ago[,2:3]))`. However, Figure 1 and Table 12 indicate that the actual amount of change in the proportion of people moving was only 0.2% (from 1.1% to 1.3%), and that this change is small compared to the overall number of inner region residents. 
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone living in the inner region one year prior to the census moved was significant `r  print_chi2(as.matrix(moving_inner_yes_no_1yr_ago[,2:3]))`. However, Figure 1 and Table 12 indicate that the actual amount of change in the proportion of people moving was only 0.7% (from 6.6% to 7.3%), and that this change is small compared to the overall number of inner region residents. 
 
-Table 12 and Figure 2 looks specifically at those who did move from the inner region within the year before each census^[And again, does not include those who moved overseas are they are not included in the census.]^[Those moving to 'Other territories' are excluded, as there were very few of them]. It compares the destinations of people moving away from the inner region of Melbourne to other places in Australia in the year prior to the 2016 and 2021 censuses. 
+Table 13 and Figure 2 looks specifically at those who did move from the inner region^[Those moving overseas not included as they are not counted in the census. Those moving to 'Other Territories' of Australia are also not included as there are less than 5.] within the year before each census. It compares the destinations of people moving away from the inner region of Melbourne to other places in Australia in the year prior to the 2016 and 2021 censuses. 
 
 ```{r chi_square_move_from_inner_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 2: Residential relocation from the inner reigion in the year prior to the census, by destination", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 
@@ -750,8 +749,7 @@ p <- ggbarstats(
   y = Census,
   counts = People,
   label = "percentage",
-  package = "ggsci",
-  palette = "default_jco",
+  package = "RColorBrewer",   palette = "Paired",
   caption = "Source: author analysis of ABS data",
   legend.title = "Destination",
 )
@@ -761,16 +759,16 @@ library(prmisc)
 
 ```
 
-A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the inner region in the year prior to the census was significant `r  print_chi2(as.matrix(moving_from_inner[2:13,2:3]))`. Figure 2 and Table 13 indicate that:
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the inner region in the year prior to the census moved to was significant `r  print_chi2(as.matrix(moving_from_inner[2:13,2:3]))`. Figure 2 and Table 13 indicate that:
 
-* In 2020-21 45% of residential relocating from the inner region of Melbourne moved to the outer region, compared to 55% in 2015-16,
-* In 2020-21 11% of residential relocating from the inner region of Melbourne moved to Queensland, almost twice the rate in 2015-16 (6%).
+* In 2015-16 55% of inner Melbourne residents who moved moved to the outer region, compared to just 45% in 2015-16,
+* In 2015-16 6% of inner Melbourne residents who moved moved to Queensland, where as the proportion had almost doubled (11%) in 2020-21.
 
 This suggests that there is less movement from the inner to outer regions of Melbounre than before COVID, and more movement to Queensland. 
 
 
 ### 4.1.2 FROM the middle region of Melbourne
-The fouth columns of Tables 7-10 provide details of where people who where living in the middle region of Melbourne one and five years before the 2016 and 2021^[i.e. in 2011, 2015, 2016 and 2020] had moved to by 2016 and 2021, respectively. The second column, second row of each table shows the number of people who were living in the middle region and who did not move. Table 14 collects this data.
+The fourth columns of Tables 7-10 provide details of where people who where living in the middle region of Melbourne one and five years before the 2016 and 2021^[i.e. in 2011, 2015, 2016 and 2020] had moved to by 2016 and 2021, respectively. The second column, second row of each table shows the number of people who were living in the middle region and who did not move. Table 14 collects this data.
 
 
 ```{r moving_from_middle, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 3: Middle region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
@@ -781,10 +779,10 @@ names(moving_from_middle) <- c("Destination", "2011-16", "2015-16", "2016-21", "
 #add same house row to top of table
 moving_from_middle <- rbind(c(
   "Did not move", 
-  X2016_combined_5yr_ago[3,2],
-  X2016_combined_1yr_ago[3,2], 
-  X2021_combined_5yr_ago[3,2], 
-  X2021_combined_1yr_ago[3,2]),
+  X2016_combined_5yr_ago[2,2],
+  X2016_combined_1yr_ago[2,2], 
+  X2021_combined_5yr_ago[2,2], 
+  X2021_combined_1yr_ago[2,2]),
   moving_from_middle)
 
 moving_from_middle [,2:5] <- apply(moving_from_middle[,2:5], 2, function(x) as.numeric(as.character(x)))
@@ -801,146 +799,73 @@ However, the 'Rest of Australia' data^[This was imported from the ABS data above
 
 ```{r moving_from_middle_rest_of_australia, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Inner region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 #Combining the columns
-#Next collect all inner columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
-df.middle_columns.list <- lapply(df.rest_of_australia.list, function(X) {
-  X <- as.data.frame(X[,LGAs_middle_position+1])})
-df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
-  X <- X %>% adorn_totals("col")})
-df.middle_columns.list <- lapply(df.middle_columns.list, rename, Middle = Total)
-  
-#Next collect all middle columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
-df.middle_columns.list <- lapply(df.rest_of_australia.list, function(X) {
-  X <- X[,LGAs_middle_position+1]})
-df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
-  X <- X %>% adorn_totals("col")})
-df.middle_columns.list <- lapply(df.middle_columns.list, rename, Middle = Total)
-  
-#Next collect all outer columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
-df.outer_columns.list <- lapply(df.rest_of_australia.list, function(X) {
-  X <- X[,LGAs_outer_position+1]})
-df.outer_columns.list <- lapply(df.outer_columns.list, function(X) {
-  X <- X %>% adorn_totals("col")})
-df.outer_columns.list <- lapply(df.outer_columns.list, rename, Outer = Total)
-  
-#Next collect all peri_urban columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
-df.peri_urban_columns.list <- lapply(df.rest_of_australia.list, function(X) {
-  X <- X[,LGAs_peri_urban_position+1]})
-df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, function(X) {
-  X <- X %>% adorn_totals("col")})
-df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, rename, "Peri-Urban Area" = Total)
-  
-#Next collect all rest_of_vic columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
-df.rest_of_vic_columns.list <- lapply(df.rest_of_australia.list, function(X) {
-  X <- X[,LGAs_rest_of_vic_position+1]})
-df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, function(X) {
-  X <- X %>% adorn_totals("col")})
-df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, rename, "Rest of Victoria" = Total)
-  
-
-
-#Then collect the Inner, middle, outer etc totals from each list and combine into one list of dataframes
-#By first creating df.lists of just the "Total" columns from each
-library(tidyverse)
-df.inner_columns_total.list <- lapply(df.inner_columns.list, function(x){x %>% select(last_col())})
-df.middle_columns_total.list <- lapply(df.middle_columns.list, function(x){x %>% select(last_col())})
-df.outer_columns_total.list <- lapply(df.outer_columns.list, function(x){x %>% select(last_col())})
-df.peri_urban_columns_total.list <- lapply(df.peri_urban_columns.list, function(x){x %>% select(last_col())})
-df.rest_of_vic_columns_total.list <- lapply(df.rest_of_vic_columns.list, function(x){x %>% select(last_col())})
-#Then combining them
-df.combined_by_region_columns_rest_of_australia.list <- mapply(cbind, df.inner_columns_total.list, df.middle_columns_total.list, df.outer_columns_total.list, df.peri_urban_columns_total.list, df.rest_of_vic_columns_total.list, SIMPLIFY = FALSE)
-
-
-#Make new list of dataframes for aggregated by region. 
-#first combine dataframes
-df.combined_by_regions_rest_of_australia.list <- mapply(cbind, df.rest_of_australia.list, df.combined_by_region_columns_rest_of_australia.list, SIMPLIFY = FALSE)
-
-#then drop repeated columns
-df.combined_by_regions_rest_of_australia.list <- lapply(df.combined_by_regions_rest_of_australia.list, function(x){cbind(x[1],x[81:85])
- })
-
-#rename first column as Region instead of Location
-df.combined_by_regions_rest_of_australia.list <- lapply(df.combined_by_regions_rest_of_australia.list, rename, "Region" = "Location")
-
-#Export back to Global Environment  
-names(df.combined_by_regions_rest_of_australia.list) <- names(df.rest_of_australia.list)
-invisible(list2env(df.combined_by_regions_rest_of_australia.list,envir=.GlobalEnv))
 
 #combine rest_of_Australia in the same format as moving_from_inner
-moving_from_inner_rest_of_Australia <- cbind(
-  X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,1:2],
-  X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[,2],
-  X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[,2],
-  X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[,2])
-names(moving_from_inner_rest_of_Australia) <- names(moving_from_inner)
+moving_from_middle_rest_of_Australia <- as_tibble(
+  cbind(
+  X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,1],
+  X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,3],
+  X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[,3],
+  X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[,3],
+  X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[,3])
+)
+names(moving_from_middle_rest_of_Australia) <- names(moving_from_middle)
 
-moving_from_inner <- as_tibble(rbind(moving_from_inner, moving_from_inner_rest_of_Australia))
+moving_from_middle <- as_tibble(rbind(moving_from_middle, moving_from_middle_rest_of_Australia))
 
 #reorder columns so that 1 and 5 yr periods are next to each other
-moving_from_inner <- cbind(
-  moving_from_inner[,1], 
-  moving_from_inner[,3], 
-  moving_from_inner[,5],
-  moving_from_inner[,2],
-  moving_from_inner[,4])
-
+moving_from_middle <- as_tibble(
+  cbind(
+  moving_from_middle[,1], 
+  moving_from_middle[,3], 
+  moving_from_middle[,5],
+  moving_from_middle[,2],
+  moving_from_middle[,4]
+  )
+)
+moving_from_middle[,2:5] <- sapply(moving_from_middle[,2:5], as.numeric)
 
 #output table with percentages etc. 
 knitr::kable(
- as.data.frame(moving_from_inner) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_inner) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 11: Destinations of those moving FROM the Inner region to locations within Australia prior to the census')
+ as.data.frame(moving_from_middle) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_middle) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 15: Destinations of those moving FROM the middle region to locations within Australia prior to the census')
 
 
 ```
 
-Figure 1 and Table 12 compare the proportion those who were inner residents one year prior to each census who moved within Australia^[[People who moved overseas are not included as they are not present in the census data] in the year before each census.  
+Figure 3 and Table 16 compare the proportion of those who were middle region residents one year prior to each census who moved within Australia^[People who moved overseas are not included as they are not present in the census data] in the year before each census.  
 
-```{r chi_square_did_not_move_from_middle_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Did or did not move residences in the year prior to the census, inner region (moving to destinations within Australia)", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+```{r chi_square_did_not_move_from_middle_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 3: Did or did not move residences in the year prior to the census, middle region (moving to destinations within Australia)", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 
 
 library(gplots)
 library(ggpubr)
-#pivot moving_from_inner 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
+#pivot moving_from_middle 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
-moving_inner_yes_no_1yr_ago <- rbind(moving_from_inner[1,], (adorn_totals(moving_from_inner[2:14,], where = "row")[14,]))
-moving_inner_yes_no_1yr_ago[2,1] <- "Moved"
-moving_from_inner_1yr_ago.longer <- pivot_longer(moving_inner_yes_no_1yr_ago[,1:3], cols = 2:3, names_to = "Census", values_to = "People")
+moving_middle_yes_no_1yr_ago <- rbind(moving_from_middle[1,], (adorn_totals(moving_from_middle[2:14,], where = "row")[14,]))
+moving_middle_yes_no_1yr_ago[2,1] <- "Moved"
+moving_from_middle_1yr_ago.longer <- pivot_longer(moving_middle_yes_no_1yr_ago[,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
 library(magrittr)
-moving_from_inner_1yr_ago.longer$Destination %<>% factor
-moving_from_inner_1yr_ago.longer$Destination <- factor(moving_from_inner_1yr_ago.longer$Destination, levels = c(
+moving_from_middle_1yr_ago.longer$Destination %<>% factor
+moving_from_middle_1yr_ago.longer$Destination <- factor(moving_from_middle_1yr_ago.longer$Destination, levels = c(
   "Did not move",
   "Moved"))
 
 
 #output table with percentages etc. 
 knitr::kable(
- as.data.frame(moving_inner_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_inner_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 12: Inner residents one year prior to the census, residential relocation in the year prior to the census, by census')
+ as.data.frame(moving_middle_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_middle_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 16: Middle region residents one year prior to the census, residential relocation in the year prior to the census, by census')
 
 
 library(gginnards)  
 library(ggstatsplot)
 ggbarstats(
-  data = moving_from_inner_1yr_ago.longer,
+  data = moving_from_middle_1yr_ago.longer,
   x = Destination,
   y = Census,
   counts = People,
   label = "percentage",
-  package = "ggsci",
-  palette = "default_jco",
+  package = "RColorBrewer",   palette = "Paired",
   caption = "Source: author analysis of ABS data",
   legend.title = "Destination",
 )
@@ -951,25 +876,25 @@ library(prmisc)
 ```
 
 
-A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone living in the inner region one year prior to the census moved was significant `r  print_chi2(as.matrix(moving_inner_yes_no_1yr_ago[,2:3]))`. However, Figure 1 and Table 12 indicate that the actual amount of change in the proportion of people moving was only 0.2% (from 1.1% to 1.3%), and that this change is small compared to the overall number of inner region residents. 
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone living in the middle region one year prior to the census moved was significant `r  print_chi2(as.matrix(moving_middle_yes_no_1yr_ago[,2:3]))`. However, Figure 3 and Table 16 indicate that the actual amount of change in the proportion of people moving was only 1.0% (from 8.5% to 9.5%), and that this change is small compared to the overall number of inner region residents. 
 
-Table 12 and Figure 2 looks specifically at those who did move from the inner region within the year before each census^[And again, does not include those who moved overseas are they are not included in the census.]^[Those moving to 'Other territories' are excluded, as there were very few of them]. It compares the destinations of people moving away from the inner region of Melbourne to other places in Australia in the year prior to the 2016 and 2021 censuses. 
+Table 17 and Figure 4 looks specifically at those who did move from the middle region within the year before each census^[And again, does not include those who moved overseas as they are not included in the census. Those moving to 'Other territories' are also excluded, as there were very few of them]. It compares the destinations of people moving away from the middle region of Melbourne to other places in Australia in the year prior to the 2016 and 2021 censuses. 
 
-```{r chi_square_move_from_middle_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 2: Residential relocation from the inner reigion in the year prior to the census, by destination", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+```{r chi_square_move_from_middle_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 4: Residential relocation from the middle reigion in the year prior to the census, by destination", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 
 knitr::kable(
- as.data.frame(moving_from_inner[2:13,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_inner[2:13, 1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 13: Destinations of those moving FROM the Inner region to locations within Australia in the year prior to the census (excluding other territories)')
+ as.data.frame(moving_from_middle[2:13,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_middle[2:13, 1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 17: Destinations of those moving FROM the middle region to locations within Australia in the year prior to the census (excluding other territories)')
 
 
 library(gplots)
 library(ggpubr)
-#pivot moving_from_inner 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
+#pivot moving_from_midde 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
-moving_from_inner_1yr_ago.longer <- pivot_longer(moving_from_inner[2:13,1:3], cols = 2:3, names_to = "Census", values_to = "People")
+moving_from_middle_1yr_ago.longer <- pivot_longer(moving_from_middle[2:13,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
 library(magrittr)
-moving_from_inner_1yr_ago.longer$Destination %<>% factor
-moving_from_inner_1yr_ago.longer$Destination <- factor(moving_from_inner_1yr_ago.longer$Destination, levels = c(
+moving_from_middle_1yr_ago.longer$Destination %<>% factor
+moving_from_middle_1yr_ago.longer$Destination <- factor(moving_from_middle_1yr_ago.longer$Destination, levels = c(
   "Did not move",
   "Inner",
   "Middle",
@@ -987,13 +912,12 @@ moving_from_inner_1yr_ago.longer$Destination <- factor(moving_from_inner_1yr_ago
 library(gginnards)  
 library(ggstatsplot)
 p <- ggbarstats(
-  data = moving_from_inner_1yr_ago.longer,
+  data = moving_from_middle_1yr_ago.longer,
   x = Destination,
   y = Census,
   counts = People,
   label = "percentage",
-  package = "ggsci",
-  palette = "default_jco",
+  package = "RColorBrewer",   palette = "Paired",
   caption = "Source: author analysis of ABS data",
   legend.title = "Destination",
 )
@@ -1003,20 +927,303 @@ library(prmisc)
 
 ```
 
-A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the inner region in the year prior to the census was significant `r  print_chi2(as.matrix(moving_from_inner[2:13,2:3]))`. Figure 2 and Table 13 indicate that:
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the middle region in the year prior to the census was significant `r  print_chi2(as.matrix(moving_from_middle[2:13,2:3]))`. Figure 4 and Table 17 indicate that:
 
-* In 2020-21 45% of residential relocating from the inner region of Melbourne moved to the outer region, compared to 55% in 2015-16,
-* In 2020-21 11% of residential relocating from the inner region of Melbourne moved to Queensland, almost twice the rate in 2015-16 (6%).
+* In 2015-16 37.5% of middle Melbourne residents who moved moved to the outer region, compared to just 34.5%% in 2015-16,
+* THe proportion of inner residents who moved moving to the inner region (2.9% to 4.0%) Queensland (2.9% to 4.5%) and Tasmania (0.6% to 1.5%) all increased by at least 0.9%, but these changes are all relatively small.
 
-This suggests that there is less movement from the inner to outer regions of Melbounre than before COVID, and more movement to Queensland. 
-
-
+This suggests that there was proportionally less movement from the middle to outer regions of Melbourne than before COVID, and proportionally more movement to the inner region, Queensland and Tasmania. 
 
 
 
 
 
 
+### 4.1.3 FROM the outer region of Melbourne
+The fifth columns of Tables 7-10 provide details of where people who where living in the outer region of Melbourne one and five years before the 2016 and 2021^[i.e. in 2011, 2015, 2016 and 2020] had moved to by 2016 and 2021, respectively. The second column, third row of each table shows the number of people who were living in the outer region and who did not move. Table 18 collects this data.
+
+
+```{r moving_from_outer, fig.fullwidth=TRUE, fig.margin = FALSE, fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+moving_from_outer <- as_tibble(cbind(X2016_combined_1yr_ago[,1], X2016_combined_5yr_ago[,5], X2016_combined_1yr_ago[5], X2021_combined_5yr_ago[,5], X2021_combined_1yr_ago[,5]))
+
+names(moving_from_outer) <- c("Destination", "2011-16", "2015-16", "2016-21", "2020-21")
+
+#add same house row to top of table
+moving_from_outer <- rbind(c(
+  "Did not move", 
+  X2016_combined_5yr_ago[3,2],
+  X2016_combined_1yr_ago[3,2], 
+  X2021_combined_5yr_ago[3,2], 
+  X2021_combined_1yr_ago[3,2]),
+  moving_from_outer)
+
+moving_from_outer [,2:5] <- apply(moving_from_outer[,2:5], 2, function(x) as.numeric(as.character(x)))
+
+
+#output table with percentages etc. 
+knitr::kable(
+ as.data.frame(moving_from_outer) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_outer) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 18: Destinations of those moving FROM the Outer region to locations within Victoria prior to the census')
+
+
+```
+
+However, the 'Rest of Australia' data^[This was imported from the ABS data above, see Table 5] needs to be added as well, so that it is possible to see people who moved from outer Melbourne to other parts of Australia. This revision is shown in Table 19. 
+
+```{r moving_from_outer_rest_of_australia, fig.fullwidth=TRUE, fig.margin = FALSE, fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+#Combining the columns
+
+#combine rest_of_Australia in the same format as moving_from_inner
+moving_from_outer_rest_of_Australia <- as_tibble(
+  cbind(
+  X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,1],
+  X2016_5yr_ago_rest_of_Australia_to_Vic_LGA[,4],
+  X2016_1yr_ago_rest_of_Australia_to_Vic_LGA[,4],
+  X2021_5yr_ago_rest_of_Australia_to_Vic_LGA[,4],
+  X2021_1yr_ago_rest_of_Australia_to_Vic_LGA[,4])
+)
+names(moving_from_outer_rest_of_Australia) <- names(moving_from_outer)
+
+moving_from_outer <- as_tibble(rbind(moving_from_outer, moving_from_outer_rest_of_Australia))
+
+#reorder columns so that 1 and 5 yr periods are next to each other
+moving_from_outer <- as_tibble(
+  cbind(
+  moving_from_outer[,1], 
+  moving_from_outer[,3], 
+  moving_from_outer[,5],
+  moving_from_outer[,2],
+  moving_from_outer[,4]
+  )
+)
+moving_from_outer[,2:5] <- sapply(moving_from_outer[,2:5], as.numeric)
+
+#output table with percentages etc. 
+knitr::kable(
+ as.data.frame(moving_from_outer) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_outer) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 19: Destinations of those moving FROM the Outer region to locations within Australia prior to the census')
+
+
+```
+
+Figure 5 and Table 19 compare the proportion of those who were outer region residents one year prior to each census who moved within Australia^[People who moved overseas are not included as they are not present in the census data] in the year before each census.  
+
+```{r chi_square_did_not_move_from_outer_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 5: Did or did not move residences in the year prior to the census, outer region (moving to destinations within Australia)", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+
+
+library(gplots)
+library(ggpubr)
+#pivot moving_from_outer 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
+# exclude final row with "Other Territories" as the numbers are very small
+moving_outer_yes_no_1yr_ago <- rbind(moving_from_outer[1,], (adorn_totals(moving_from_outer[2:14,], where = "row")[14,]))
+moving_outer_yes_no_1yr_ago[2,1] <- "Moved"
+moving_from_outer_1yr_ago.longer <- pivot_longer(moving_outer_yes_no_1yr_ago[,1:3], cols = 2:3, names_to = "Census", values_to = "People")
+
+library(magrittr)
+moving_from_outer_1yr_ago.longer$Destination %<>% factor
+moving_from_outer_1yr_ago.longer$Destination <- factor(moving_from_outer_1yr_ago.longer$Destination, levels = c(
+  "Did not move",
+  "Moved"))
+
+
+#output table with percentages etc. 
+knitr::kable(
+ as.data.frame(moving_outer_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_outer_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 19: Outer region residents one year prior to the census, residential relocation in the year prior to the census, by census')
+
+
+library(gginnards)  
+library(ggstatsplot)
+ggbarstats(
+  data = moving_from_outer_1yr_ago.longer,
+  x = Destination,
+  y = Census,
+  counts = People,
+  label = "percentage",
+  package = "RColorBrewer",   
+  palette = "Paired",
+  caption = "Source: author analysis of ABS data",
+  legend.title = "Destination",
+)
+
+library(prmisc)
+
+
+```
+
+
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and whether someone living in the outer region one year prior to the census moved was significant `r  print_chi2(as.matrix(moving_outer_yes_no_1yr_ago[,2:3]))`. However, Figure 5 and Table 19 indicate that the actual amount of change in the proportion of people moving was less than 1.0% (from 4.9% to 5.4%), and that this change is small compared to the overall number of outer region residents. 
+
+Table 20 and Figure 6 looks specifically at those who did move from the outer region within the year before each census^[And again, does not include those who moved overseas as they are not included in the census. Those moving to 'Other territories' are also excluded, as there were very few of them]. It compares the destinations of people moving away from the outer region of Melbourne to other places in Australia in the year prior to the 2016 and 2021 censuses. 
+
+```{r chi_square_move_from_outer_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 6: Residential relocation from the outer reigion in the year prior to the census, by destination", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+
+knitr::kable(
+ as.data.frame(moving_from_outer[2:13,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_outer[2:13, 1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 20: Destinations of those moving FROM the outer region to locations within Australia in the year prior to the census (excluding other territories)')
+
+
+library(gplots)
+library(ggpubr)
+#pivot moving_from_outter 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
+# exclude final row with "Other Territories" as the numbers are very small
+moving_from_outer_1yr_ago.longer <- pivot_longer(moving_from_outer[2:13,1:3], cols = 2:3, names_to = "Census", values_to = "People")
+
+library(magrittr)
+moving_from_outer_1yr_ago.longer$Destination %<>% factor
+moving_from_outer_1yr_ago.longer$Destination <- factor(moving_from_outer_1yr_ago.longer$Destination, levels = c(
+  "Did not move",
+  "Inner",
+  "Middle",
+  "Outer", 
+  "Peri-Urban Areas", 
+  "Rest of Victoria", 
+  "New South Wales", 
+  "Queensland",
+  "South Australia",
+  "Tasmania",
+  "Western Australia",
+  "Northern Territory",
+  "Australian Capital Territory"))
+library(RColorBrewer)
+library(gginnards)  
+library(ggstatsplot)
+p <- ggbarstats(
+  data = moving_from_outer_1yr_ago.longer,
+  x = Destination,
+  y = Census,
+  counts = People,
+  label = "percentage",
+  package = "RColorBrewer",
+  palette = "Paired",
+  caption = "Source: author analysis of ABS data",
+  legend.title = "Destination",
+)
+delete_layers(p, "GeomLabel")
+library(prmisc)
+
+
+```
+
+A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the outer region in the year prior to the census moved to was significant `r  print_chi2(as.matrix(moving_from_outer[2:13,2:3]))`. Figure 6 and Table 20 indicate that:
+
+* In 2015-16 30.5% of outer Melbourne residents who moved from the outer region moved to the inner region, but this increased to 35.9% in 2020-21,
+* There were also increases in the proportion of outer Melbourne residents who moved who moved to Queensland (5.6% to 7.8%, Tasmania (0.8% to 2.3%))
+* In 2015-16 20.%of outer Melbourne residents who moved from the outer region moved to the middle region of Melbourne, but this fell to 16.3% in 2020-21.
+* There were also falls in the propotion of outer Melbourne residents who moved who moved to the rest of Victoria (23.3% to 17.2%)
+
+This suggests that those who were relocating from the outer surburbs of Melbourne after the start of COVID-19 were more likely to be moving to the inner parts of Melbourne and Queensland, and less likely to be moving to the middle suburbs and the rest of Victoria. 
+
+
+###4.1.4 Summary of destinations of people moving FROM inner, middle and outer regions of Melbourne
+
+
+
+
+```{r chi_square_move_from_all_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 7: Residential relocation from all regions of Melbourne in the year prior to the census, by destination", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
+
+moving_from_list <- list(
+  as_tibble(moving_from_inner[,1:3]), 
+  as_tibble(moving_from_middle[,1:3]),
+  as_tibble(moving_from_outer[,1:3])
+)
+ 
+names(moving_from_list) <- c("Inner", "Middle", "Outer") 
+moving_from_all <- bind_rows(moving_from_list, .id = "Region")
+moving_from_total <- cbind(
+  aggregate(moving_from_all$`2015-16`, by=list(Category=moving_from_all$Destination), FUN=sum),
+  aggregate(moving_from_all$`2020-21`, by=list(Category=moving_from_all$Destination), FUN=sum)[,2]
+)
+names(moving_from_total) <- c("Destination", "2015-16", "2020-21")
+#reorder as per others  
+moving_from_total <- rbind(
+  moving_from_total[2, ], 
+  moving_from_total[3, ], 
+  moving_from_total[4, ], 
+  moving_from_total[8, ],
+  moving_from_total[9, ],
+  moving_from_total[11, ],
+  moving_from_total[5, ],
+  moving_from_total[10, ],
+  moving_from_total[12:14, ],  
+  moving_from_total[6, ],  
+  moving_from_total[1, ],
+  moving_from_total[7, ]
+  )
+
+moving_from_all_wider <- pivot_wider(moving_from_all, names_from = Region, values_from = c("2015-16", "2020-21"))
+names(moving_from_all_wider) <- c(
+  "Destination", 
+  "Inner 2015-16", 
+  "Middle 2015-16", 
+  "Outer 2015-16", 
+  "Inner 2020-21",
+  "Middle 2020-21",
+  "Outer 2020-21"
+  )
+
+moving_from_all_wider <- as_tibble(cbind(
+  moving_from_all_wider[, 1:2],
+  moving_from_all_wider[, 5],
+  moving_from_all_wider[, 3],
+  moving_from_all_wider[, 6],
+  moving_from_all_wider[, 4],
+  moving_from_all_wider[, 7]
+))
+
+moving_from_all_and_total <- cbind(
+     moving_from_all_wider,
+     moving_from_total[, 2:3]
+     )
+names(moving_from_all_and_total) <- c("Destination", "Inner 2015-16", "Inner 2020-21", "Middle 2015-16",
+                                      "Middle 2020-21", "Outer 2015-16","Outer 2020-21", 
+                                      "Total 2015-16", "Total 2020-21")
+
+knitr::kable(
+ as.data.frame(moving_from_all_and_total) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_all_and_total) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrr", caption = 'Table 21: Destinations of those moving FROM Melbourne locations within Australia in the year prior to the census (excluding other territories), by region')
+
+  
+  
+
+
+
+library(gplots)
+library(ggpubr)
+#pivot moving_from_all 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
+# exclude final row with "Other Territories" as the numbers are very small
+moving_from_total.longer <- pivot_longer(moving_from_total, cols = 2:3, names_to = "Census", values_to = "People")
+
+library(magrittr)
+moving_from_total.longer$Destination %<>% factor
+moving_from_total.longer$Destination <- factor(moving_from_total.longer$Destination, levels = c(
+  "Did not move",
+  "Inner",
+  "Middle",
+  "Outer", 
+  "Peri-Urban Areas", 
+  "Rest of Victoria", 
+  "New South Wales", 
+  "Queensland",
+  "South Australia",
+  "Tasmania",
+  "Western Australia",
+  "Northern Territory",
+  "Australian Capital Territory"))
+library(RColorBrewer)
+library(gginnards)  
+library(ggstatsplot)
+p <- ggbarstats(
+  data = moving_from_total.longer,
+  x = Destination,
+  y = Census,
+  counts = People,
+  label = "percentage",
+  package = "RColorBrewer",
+  palette = "Paired",
+  caption = "Source: author analysis of ABS data",
+  legend.title = "Destination",
+)
+delete_layers(p, "GeomLabel")
+library(prmisc)
+
+
+```
 
 
 
@@ -1027,16 +1234,10 @@ This suggests that there is less movement from the inner to outer regions of Mel
 
 
 
+<!---
+The stuff in this comment was all early work looking at where people were moving to, and is probably of less relavence. 
 
-
-
-
-
-
-
-
-
-
+### 4.2 Destinations of people moving from the inner, middle and outer regions of Melbourne. 
 
 
 ### 4.2.1 To the inner region of Melbourne
@@ -1084,8 +1285,7 @@ p <- ggbarstats(
   y = Census,
   counts = People,
   label = "percentage",
-  package = "ggsci",
-  palette = "default_jama",
+  package = "RColorBrewer",   palette = "Paired",
   caption = "Source: author analysis of ABS data",
   legend.title = "Place of residence one year before census",
 )
@@ -1113,8 +1313,7 @@ ggbarstats(
   y = Census,
   counts = People,
   label = "percentage",
-  package = "ggsci",
-  palette = "default_jama",
+  package = "RColorBrewer",   palette = "Paired",
   caption = "Source: author analysis of ABS data",
   legend.title = "Place of residence one year before census",
 )
@@ -1151,8 +1350,7 @@ p <- ggbarstats(
   y = Census,
   counts = People,
   label = "percentage",
-  package = "ggsci",
-  palette = "default_jama",
+  package = "RColorBrewer",   palette = "Paired",
   caption = "Source: author analysis of ABS data",
   legend.title = "Place of residence one year before census",
 )
@@ -1187,3 +1385,4 @@ In summary, for those living in the inner region of Melbourne the census data su
 
 Hence, the biggest changes appears to be the reduction of the proportion of people moving to inner Melbourne from overseas (down by 18%), and increases in the proportion of people moving from outer Melbourne and from the rest of Victoria (both up by 8%).
 
+-->
