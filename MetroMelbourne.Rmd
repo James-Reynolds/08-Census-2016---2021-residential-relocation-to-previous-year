@@ -21,6 +21,20 @@ link-citations: yes
 
 ```{r setup, include=FALSE}
 library(tufte)
+library(readr)
+library(janitor)
+library(dplyr)
+library(purrr)
+library(tidyverse)
+library(gplots)
+library(ggpubr)
+library(magrittr)
+library(gginnards)  
+library(ggstatsplot)
+library(prmisc)
+library(RColorBrewer)
+library(vcd)
+library(vcdExtra)
 # invalidate cache when the tufte version changes
 knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
 options(htmltools.dir.version = FALSE)
@@ -39,7 +53,6 @@ Sixteen datasets were extracted as Comma-Separated Values (CSV) files using the 
 
 ```{r loadsurveydata, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
 #Load datasets
-library(readr)
 X2016_1yr_ago_State <- read_csv("01 data/2016_1yr_ago_State.csv", skip = 8)
 X2016_1yr_ago_Vic_LGA <- read_csv("01 data/2016_1yr_ago_Vic_LGA.csv", skip = 8)
 X2016_5yr_ago_State <- read_csv("01 data/2016_5yr_ago_State.csv", skip = 8)
@@ -126,7 +139,6 @@ The Place of Usual Residence (PURP1P, PUR5P) variables from the ABS datasets inc
 
 ```{r load_place_indicator, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
 #Load datasets
-library(readr)
 X2016_usual_address_1yr_ago_indicator <- read_csv("01 data/2016_usual_address_1yr_ago_indicator.csv", skip = 8)
 X2016_usual_address_5yr_ago_indicator <- read_csv("01 data/2016_usual_address_5yr_ago_indicator.csv", skip = 8)
 X2021_usual_address_1yr_ago_indicator <- read_csv("01 data/2021_usual_address_1yr_ago_indicator.csv", skip = 9)
@@ -249,12 +261,9 @@ names(df.combined_by_LGA.list) <- c("X2016_combined_1yr_ago", "X2016_combined_5y
 df.combined_by_LGA.list <- lapply(df.combined_by_LGA.list, function(x){cbind(x[1:2],x[4:93])
   })
 
-
-
 #push results of list back out to global environment
 invisible(list2env(df.combined_by_LGA.list,envir=.GlobalEnv))
 
-library(janitor)
 knitr::kable(
   head(X2016_combined_1yr_ago[,1:8]), format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrr", caption = 'Table 4: 2016 census, place of usual residence 1 year ago combined table,first 6 results for first 8 columns')
 
@@ -273,7 +282,6 @@ Finally, four more datasets^[8+4+4=16] were extracted for states and territories
 
 ```{r loadsurveydata_rest_of_australia, echo=FALSE, warning = FALSE, message = FALSE, include = TRUE} 
 #Load datasets
-library(readr)
 X2016_1yr_ago_rest_of_Australia_to_Vic_LGA <- read_csv("01 data/2016_1yr_ago_rest_of_Australia_to_Vic_LGA.csv", skip = 8)
 X2016_5yr_ago_rest_of_Australia_to_Vic_LGA <- read_csv("01 data/2016_5yr_ago_rest_of_Australia_to_Vic_LGA.csv", skip = 9)
 X2021_1yr_ago_rest_of_Australia_to_Vic_LGA <- read_csv("01 data/2021_1yr_ago_rest_of_Australia_to_Vic_LGA.csv", skip = 9)
@@ -329,7 +337,6 @@ Inner, middle and outer regions were defined in the 2020 Melbourne COVID-19 surv
 
 ```{r loadregions, echo=FALSE, warning=FALSE, message=FALSE, include = TRUE} 
 #Load dataset
-library(readr)
 region <- read_csv("01 data/region.csv")
 
 knitr::kable(head(region, n=15), caption = 'Table 6: Victorian LGAs by region, first 15 entries')
@@ -356,7 +363,6 @@ LGAs_rest_of_vic_position <- which(region$Region == "Rest of Victoria")
 
 
 #Next collect all inner rows, and add them together
-library(janitor)
 df.inner.list <- lapply(df.combined_by_LGA.list, function(X) {
   X <- X[LGAs_inner_position,]})
 df.inner.list <- lapply(df.inner.list, function(X) {
@@ -368,7 +374,6 @@ df.inner.list <- lapply(df.inner.list, function(X) {
 
 
 #Next collect all middle rows, and add them together
-library(janitor)
 df.middle.list <- lapply(df.combined_by_LGA.list, function(X) {
   X <- X[LGAs_middle_position,]})
 df.middle.list <- lapply(df.middle.list, function(X) {
@@ -380,7 +385,6 @@ df.middle.list <- lapply(df.middle.list, function(X) {
 
 
 #Next collect all outer rows, and add them together
-library(janitor)
 df.outer.list <- lapply(df.combined_by_LGA.list, function(X) {
   X <- X[LGAs_outer_position,]})
 df.outer.list <- lapply(df.outer.list, function(X) {
@@ -392,7 +396,6 @@ df.outer.list <- lapply(df.outer.list, function(X) {
 
 
 #Next collect all peri_urban rows, and add them together
-library(janitor)
 df.peri_urban.list <- lapply(df.combined_by_LGA.list, function(X) {
   X <- X[LGAs_peri_urban_position,]})
 df.peri_urban.list <- lapply(df.peri_urban.list, function(X) {
@@ -404,7 +407,6 @@ df.peri_urban.list <- lapply(df.peri_urban.list, function(X) {
 
 
 #Next collect all rest_of_vic rows, and add them together
-library(janitor)
 df.rest_of_vic.list <- lapply(df.combined_by_LGA.list, function(X) {
   X <- X[LGAs_rest_of_vic_position,]})
 df.rest_of_vic.list <- lapply(df.rest_of_vic.list, function(X) {
@@ -427,9 +429,8 @@ df.combined_by_region.list <- mapply(rbind, df.inner_total.list, df.middle_total
 
 ####Next, work on combining the columns
 #Next collect all inner columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
+
+
 df.inner_columns.list <- lapply(df.combined_by_region.list, function(X) {
   X <- X[,LGAs_inner_position+7]})
 df.inner_columns.list <- lapply(df.inner_columns.list, function(X) {
@@ -437,9 +438,6 @@ df.inner_columns.list <- lapply(df.inner_columns.list, function(X) {
 df.inner_columns.list <- lapply(df.inner_columns.list, rename, Inner = Total)
   
 #Next collect all middle columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.middle_columns.list <- lapply(df.combined_by_region.list, function(X) {
   X <- X[,LGAs_middle_position+7]})
 df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
@@ -447,9 +445,6 @@ df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
 df.middle_columns.list <- lapply(df.middle_columns.list, rename, Middle = Total)
   
 #Next collect all outer columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.outer_columns.list <- lapply(df.combined_by_region.list, function(X) {
   X <- X[,LGAs_outer_position+7]})
 df.outer_columns.list <- lapply(df.outer_columns.list, function(X) {
@@ -457,9 +452,6 @@ df.outer_columns.list <- lapply(df.outer_columns.list, function(X) {
 df.outer_columns.list <- lapply(df.outer_columns.list, rename, Outer = Total)
   
 #Next collect all peri_urban columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.peri_urban_columns.list <- lapply(df.combined_by_region.list, function(X) {
   X <- X[,LGAs_peri_urban_position+7]})
 df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, function(X) {
@@ -467,9 +459,6 @@ df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, function(X) {
 df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, rename, "Peri-Urban Area" = Total)
   
 #Next collect all rest_of_vic columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.rest_of_vic_columns.list <- lapply(df.combined_by_region.list, function(X) {
   X <- X[,LGAs_rest_of_vic_position+7]})
 df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, function(X) {
@@ -480,7 +469,6 @@ df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, rename, "Rest
 
 #Then collect the Inner, middle, outer etc totals from each list and combine into one list of dataframes
 #By first creating df.lists of just the "Total" columns from each
-library(tidyverse)
 df.inner_columns_total.list <- lapply(df.inner_columns.list, function(x){x %>% select(last_col())})
 df.middle_columns_total.list <- lapply(df.middle_columns.list, function(x){x %>% select(last_col())})
 df.outer_columns_total.list <- lapply(df.outer_columns.list, function(x){x %>% select(last_col())})
@@ -560,9 +548,6 @@ However, the 'Rest of Australia' data^[This was imported from the ABS data above
 ```{r moving_from_inner_rest_of_australia, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Inner region: usual address one year before the census, by census", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 #Combining the columns
 #Next collect all inner columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.inner_columns.list <- lapply(df.rest_of_australia.list, function(X) {
   X <- as.data.frame(X[,LGAs_inner_position+1])})
 df.inner_columns.list <- lapply(df.inner_columns.list, function(X) {
@@ -570,9 +555,6 @@ df.inner_columns.list <- lapply(df.inner_columns.list, function(X) {
 df.inner_columns.list <- lapply(df.inner_columns.list, rename, Inner = Total)
   
 #Next collect all middle columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.middle_columns.list <- lapply(df.rest_of_australia.list, function(X) {
   X <- X[,LGAs_middle_position+1]})
 df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
@@ -580,9 +562,6 @@ df.middle_columns.list <- lapply(df.middle_columns.list, function(X) {
 df.middle_columns.list <- lapply(df.middle_columns.list, rename, Middle = Total)
   
 #Next collect all outer columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.outer_columns.list <- lapply(df.rest_of_australia.list, function(X) {
   X <- X[,LGAs_outer_position+1]})
 df.outer_columns.list <- lapply(df.outer_columns.list, function(X) {
@@ -590,9 +569,6 @@ df.outer_columns.list <- lapply(df.outer_columns.list, function(X) {
 df.outer_columns.list <- lapply(df.outer_columns.list, rename, Outer = Total)
   
 #Next collect all peri_urban columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.peri_urban_columns.list <- lapply(df.rest_of_australia.list, function(X) {
   X <- X[,LGAs_peri_urban_position+1]})
 df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, function(X) {
@@ -600,9 +576,6 @@ df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, function(X) {
 df.peri_urban_columns.list <- lapply(df.peri_urban_columns.list, rename, "Peri-Urban Area" = Total)
   
 #Next collect all rest_of_vic columns, and add them together
-library(janitor)
-library(dplyr)
-library(purrr)
 df.rest_of_vic_columns.list <- lapply(df.rest_of_australia.list, function(X) {
   X <- X[,LGAs_rest_of_vic_position+1]})
 df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, function(X) {
@@ -613,7 +586,6 @@ df.rest_of_vic_columns.list <- lapply(df.rest_of_vic_columns.list, rename, "Rest
 
 #Then collect the Inner, middle, outer etc totals from each list and combine into one list of dataframes
 #By first creating df.lists of just the "Total" columns from each
-library(tidyverse)
 df.inner_columns_total.list <- lapply(df.inner_columns.list, function(x){x %>% select(last_col())})
 df.middle_columns_total.list <- lapply(df.middle_columns.list, function(x){x %>% select(last_col())})
 df.outer_columns_total.list <- lapply(df.outer_columns.list, function(x){x %>% select(last_col())})
@@ -667,30 +639,21 @@ knitr::kable(
 Figure 1 and Table 12 compare the proportion those who were inner residents one year prior to each census who moved within Australia^[People who moved overseas are not included as they are not present in the census data] in the year before each census.  
 
 ```{r chi_square_did_not_move_from_inner_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 1: Did or did not move residences in the year prior to the census, inner region (moving to destinations within Australia)", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
-
-
-library(gplots)
-library(ggpubr)
 #pivot moving_from_inner 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
 moving_inner_yes_no_1yr_ago <- rbind(moving_from_inner[1,], (adorn_totals(moving_from_inner[2:14,], where = "row")[14,]))
 moving_inner_yes_no_1yr_ago[2,1] <- "Moved"
 moving_from_inner_1yr_ago.longer <- pivot_longer(moving_inner_yes_no_1yr_ago[,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
-library(magrittr)
+
 moving_from_inner_1yr_ago.longer$Destination %<>% factor
 moving_from_inner_1yr_ago.longer$Destination <- factor(moving_from_inner_1yr_ago.longer$Destination, levels = c(
   "Did not move",
   "Moved"))
 
-
 #output table with percentages etc. 
 knitr::kable(
  as.data.frame(moving_inner_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_inner_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 12: Inner residents one year prior to the census, residential relocation in the year prior to the census, by census')
-
-
-library(gginnards)  
-library(ggstatsplot)
 ggbarstats(
   data = moving_from_inner_1yr_ago.longer,
   x = Destination,
@@ -701,10 +664,6 @@ ggbarstats(
   caption = "Source: author analysis of ABS data",
   legend.title = "Destination",
 )
-
-library(prmisc)
-
-
 ```
 
 
@@ -717,14 +676,10 @@ Table 13 and Figure 2 looks specifically at those who did move from the inner re
 knitr::kable(
  as.data.frame(moving_from_inner[2:13,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_inner[2:13, 1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 13: Destinations of those moving FROM the Inner region to locations within Australia in the year prior to the census (excluding other territories)')
 
-
-library(gplots)
-library(ggpubr)
 #pivot moving_from_inner 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
 moving_from_inner_1yr_ago.longer <- pivot_longer(moving_from_inner[2:13,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
-library(magrittr)
 moving_from_inner_1yr_ago.longer$Destination %<>% factor
 moving_from_inner_1yr_ago.longer$Destination <- factor(moving_from_inner_1yr_ago.longer$Destination, levels = c(
   "Did not move",
@@ -741,8 +696,6 @@ moving_from_inner_1yr_ago.longer$Destination <- factor(moving_from_inner_1yr_ago
   "Northern Territory",
   "Australian Capital Territory"))
 
-library(gginnards)  
-library(ggstatsplot)
 p <- ggbarstats(
   data = moving_from_inner_1yr_ago.longer,
   x = Destination,
@@ -754,9 +707,6 @@ p <- ggbarstats(
   legend.title = "Destination",
 )
 delete_layers(p, "GeomLabel")
-library(prmisc)
-
-
 ```
 
 A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the inner region in the year prior to the census moved to was significant `r  print_chi2(as.matrix(moving_from_inner[2:13,2:3]))`. Figure 2 and Table 13 indicate that:
@@ -836,16 +786,12 @@ Figure 3 and Table 16 compare the proportion of those who were middle region res
 
 ```{r chi_square_did_not_move_from_middle_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 3: Did or did not move residences in the year prior to the census, middle region (moving to destinations within Australia)", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
 
-
-library(gplots)
-library(ggpubr)
 #pivot moving_from_middle 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
 moving_middle_yes_no_1yr_ago <- rbind(moving_from_middle[1,], (adorn_totals(moving_from_middle[2:14,], where = "row")[14,]))
 moving_middle_yes_no_1yr_ago[2,1] <- "Moved"
 moving_from_middle_1yr_ago.longer <- pivot_longer(moving_middle_yes_no_1yr_ago[,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
-library(magrittr)
 moving_from_middle_1yr_ago.longer$Destination %<>% factor
 moving_from_middle_1yr_ago.longer$Destination <- factor(moving_from_middle_1yr_ago.longer$Destination, levels = c(
   "Did not move",
@@ -856,9 +802,6 @@ moving_from_middle_1yr_ago.longer$Destination <- factor(moving_from_middle_1yr_a
 knitr::kable(
  as.data.frame(moving_middle_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_middle_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 16: Middle region residents one year prior to the census, residential relocation in the year prior to the census, by census')
 
-
-library(gginnards)  
-library(ggstatsplot)
 ggbarstats(
   data = moving_from_middle_1yr_ago.longer,
   x = Destination,
@@ -869,10 +812,6 @@ ggbarstats(
   caption = "Source: author analysis of ABS data",
   legend.title = "Destination",
 )
-
-library(prmisc)
-
-
 ```
 
 
@@ -885,14 +824,10 @@ Table 17 and Figure 4 looks specifically at those who did move from the middle r
 knitr::kable(
  as.data.frame(moving_from_middle[2:13,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_middle[2:13, 1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 17: Destinations of those moving FROM the middle region to locations within Australia in the year prior to the census (excluding other territories)')
 
-
-library(gplots)
-library(ggpubr)
 #pivot moving_from_midde 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
 moving_from_middle_1yr_ago.longer <- pivot_longer(moving_from_middle[2:13,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
-library(magrittr)
 moving_from_middle_1yr_ago.longer$Destination %<>% factor
 moving_from_middle_1yr_ago.longer$Destination <- factor(moving_from_middle_1yr_ago.longer$Destination, levels = c(
   "Did not move",
@@ -909,8 +844,6 @@ moving_from_middle_1yr_ago.longer$Destination <- factor(moving_from_middle_1yr_a
   "Northern Territory",
   "Australian Capital Territory"))
 
-library(gginnards)  
-library(ggstatsplot)
 p <- ggbarstats(
   data = moving_from_middle_1yr_ago.longer,
   x = Destination,
@@ -922,9 +855,6 @@ p <- ggbarstats(
   legend.title = "Destination",
 )
 delete_layers(p, "GeomLabel")
-library(prmisc)
-
-
 ```
 
 A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the middle region in the year prior to the census was significant `r  print_chi2(as.matrix(moving_from_middle[2:13,2:3]))`. Figure 4 and Table 17 indicate that:
@@ -1007,30 +937,21 @@ knitr::kable(
 Figure 5 and Table 19 compare the proportion of those who were outer region residents one year prior to each census who moved within Australia^[People who moved overseas are not included as they are not present in the census data] in the year before each census.  
 
 ```{r chi_square_did_not_move_from_outer_change_1_yr, fig.fullwidth=TRUE, fig.margin = FALSE, fig.cap= "Figure 5: Did or did not move residences in the year prior to the census, outer region (moving to destinations within Australia)", fig.height=4, warning=FALSE, echo=FALSE, message = FALSE, show_col_types = FALSE} 
-
-
-library(gplots)
-library(ggpubr)
 #pivot moving_from_outer 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
 moving_outer_yes_no_1yr_ago <- rbind(moving_from_outer[1,], (adorn_totals(moving_from_outer[2:14,], where = "row")[14,]))
 moving_outer_yes_no_1yr_ago[2,1] <- "Moved"
 moving_from_outer_1yr_ago.longer <- pivot_longer(moving_outer_yes_no_1yr_ago[,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
-library(magrittr)
 moving_from_outer_1yr_ago.longer$Destination %<>% factor
 moving_from_outer_1yr_ago.longer$Destination <- factor(moving_from_outer_1yr_ago.longer$Destination, levels = c(
   "Did not move",
   "Moved"))
 
-
 #output table with percentages etc. 
 knitr::kable(
  as.data.frame(moving_outer_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_outer_yes_no_1yr_ago[,1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 19: Outer region residents one year prior to the census, residential relocation in the year prior to the census, by census')
 
-
-library(gginnards)  
-library(ggstatsplot)
 ggbarstats(
   data = moving_from_outer_1yr_ago.longer,
   x = Destination,
@@ -1042,8 +963,6 @@ ggbarstats(
   caption = "Source: author analysis of ABS data",
   legend.title = "Destination",
 )
-
-library(prmisc)
 
 
 ```
@@ -1058,14 +977,10 @@ Table 20 and Figure 6 looks specifically at those who did move from the outer re
 knitr::kable(
  as.data.frame(moving_from_outer[2:13,1:3]) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_outer[2:13, 1:3]) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrr", caption = 'Table 20: Destinations of those moving FROM the outer region to locations within Australia in the year prior to the census (excluding other territories)')
 
-
-library(gplots)
-library(ggpubr)
 #pivot moving_from_outter 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
 # exclude final row with "Other Territories" as the numbers are very small
 moving_from_outer_1yr_ago.longer <- pivot_longer(moving_from_outer[2:13,1:3], cols = 2:3, names_to = "Census", values_to = "People")
 
-library(magrittr)
 moving_from_outer_1yr_ago.longer$Destination %<>% factor
 moving_from_outer_1yr_ago.longer$Destination <- factor(moving_from_outer_1yr_ago.longer$Destination, levels = c(
   "Did not move",
@@ -1081,9 +996,7 @@ moving_from_outer_1yr_ago.longer$Destination <- factor(moving_from_outer_1yr_ago
   "Western Australia",
   "Northern Territory",
   "Australian Capital Territory"))
-library(RColorBrewer)
-library(gginnards)  
-library(ggstatsplot)
+
 p <- ggbarstats(
   data = moving_from_outer_1yr_ago.longer,
   x = Destination,
@@ -1096,7 +1009,7 @@ p <- ggbarstats(
   legend.title = "Destination",
 )
 delete_layers(p, "GeomLabel")
-library(prmisc)
+
 
 
 ```
@@ -1110,8 +1023,8 @@ A Person's chi-squared test indicated that the relationship between which census
 
 This suggests that those who were relocating from the outer surburbs of Melbourne after the start of COVID-19 were more likely to be moving to the inner parts of Melbourne and Queensland, and less likely to be moving to the middle suburbs and the rest of Victoria. 
 
-
-###4.1.4 Summary of destinations of people moving FROM inner, middle and outer regions of Melbourne
+<!---
+### 4.1.4 Moving FROM residences in Greater Melbounre, comparing between the inner, middle and outer regions. 
 
 
 
@@ -1174,60 +1087,35 @@ moving_from_all_and_total <- cbind(
 names(moving_from_all_and_total) <- c("Destination", "Inner 2015-16", "Inner 2020-21", "Middle 2015-16",
                                       "Middle 2020-21", "Outer 2015-16","Outer 2020-21", 
                                       "Total 2015-16", "Total 2020-21")
-
 knitr::kable(
  as.data.frame(moving_from_all_and_total) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_all_and_total) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrr", caption = 'Table 21: Destinations of those moving FROM Melbourne locations within Australia in the year prior to the census (excluding other territories), by region')
 
-  
-  
+
+moving_from_all_longer_frequency <- pivot_longer(moving_from_all, cols = c("2015-16", "2020-21"), names_to = "Period", values_to = "People")
+
+moving_from_all_longer_table <- xtabs(People~Region+Period+Destination, data=moving_from_all_longer_frequency)
+moving_from_all_longer_structable <- structable(moving_from_all_longer_table)
+
+#collapse destinations into did and did not move
+moving_from_all_yes_no <- collapse.table(moving_from_all_longer_table, 
+                                         Destination = c("Y", "N", "Y", "Y", "Y", "Y",  "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y"))
+
+
+knitr::kable(
+ as.data.frame(moving_from_all_yes_no) %>% adorn_totals("row") %>% adorn_percentages("col") %>% adorn_pct_formatting() %>% adorn_ns(ns = format(as.data.frame(moving_from_all_yes_no) %>% adorn_totals("row"), big.mark=","), position = "front"), row.names = FALSE, format.args = list(big.mark = ",", scientific = FALSE), align = "lrrrrrrrr", caption = 'Table 21: Destinations of those moving versus not moving FROM Melbourne locations to places within Australia in the year prior to the census (excluding other territories), by region')
 
 
 
-library(gplots)
-library(ggpubr)
-#pivot moving_from_all 1 year ago columns to be longer, so that it can be input into GGbarstats as a data table organised by counts
-# exclude final row with "Other Territories" as the numbers are very small
-moving_from_total.longer <- pivot_longer(moving_from_total, cols = 2:3, names_to = "Census", values_to = "People")
 
-library(magrittr)
-moving_from_total.longer$Destination %<>% factor
-moving_from_total.longer$Destination <- factor(moving_from_total.longer$Destination, levels = c(
-  "Did not move",
-  "Inner",
-  "Middle",
-  "Outer", 
-  "Peri-Urban Areas", 
-  "Rest of Victoria", 
-  "New South Wales", 
-  "Queensland",
-  "South Australia",
-  "Tasmania",
-  "Western Australia",
-  "Northern Territory",
-  "Australian Capital Territory"))
-library(RColorBrewer)
-library(gginnards)  
-library(ggstatsplot)
-p <- ggbarstats(
-  data = moving_from_total.longer,
-  x = Destination,
-  y = Census,
-  counts = People,
-  label = "percentage",
-  package = "RColorBrewer",
-  palette = "Paired",
-  caption = "Source: author analysis of ABS data",
-  legend.title = "Destination",
-)
-delete_layers(p, "GeomLabel")
-library(prmisc)
 
+moving_from_all_yes_no_structable <- structable(moving_from_all_yes_no)
+mosaic(moving_from_all_yes_no_structable)
 
 ```
 
 
 
-
+--->
 
 
 
