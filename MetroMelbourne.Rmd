@@ -711,8 +711,9 @@ delete_layers(p, "GeomLabel")
 
 A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the inner region in the year prior to the census moved to was significant `r  print_chi2(as.matrix(moving_from_inner[2:13,2:3]))`. Figure 2 and Table 13 indicate that:
 
-* In 2015-16 55% of inner Melbourne residents who moved moved to the outer region, compared to just 45% in 2015-16,
-* In 2015-16 6% of inner Melbourne residents who moved moved to Queensland, where as the proportion had almost doubled (11%) in 2020-21.
+* In 2015-16 54.8% of inner Melbourne residents who moved, moved to the outer region, compared to just 45.1% in 2020-21,
+* In 2015-16, 6% of inner Melbourne residents who moved, moved to Queensland, whereas in 2020-21 this proportion had almost double to 11%.
+
 
 This suggests that there is less movement from the inner to outer regions of Melbounre than before COVID, and more movement to Queensland. 
 
@@ -859,8 +860,9 @@ delete_layers(p, "GeomLabel")
 
 A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the middle region in the year prior to the census was significant `r  print_chi2(as.matrix(moving_from_middle[2:13,2:3]))`. Figure 4 and Table 17 indicate that:
 
-* In 2015-16 37.5% of middle Melbourne residents who moved moved to the outer region, compared to just 34.5%% in 2015-16,
-* THe proportion of inner residents who moved moving to the inner region (2.9% to 4.0%) Queensland (2.9% to 4.5%) and Tasmania (0.6% to 1.5%) all increased by at least 0.9%, but these changes are all relatively small.
+* In 2015-16, 37.5% of middle Melbourne residents who moved, moved to the outer region, compared to just 34.5%% in 2020-21,
+* Of middle residents who moved, the proportions who moved to the inner region (2.9% to 4.0%), Queensland (2.9% to 4.5%) and Tasmania (0.6% to 1.5%) all increased by relatively small amounts between 2015-16 and 2020-21. 
+
 
 This suggests that there was proportionally less movement from the middle to outer regions of Melbourne than before COVID, and proportionally more movement to the inner region, Queensland and Tasmania. 
 
@@ -1016,10 +1018,10 @@ delete_layers(p, "GeomLabel")
 
 A Person's chi-squared test indicated that the relationship between which census it was (2016 or 2021) and where someone who moved from the outer region in the year prior to the census moved to was significant `r  print_chi2(as.matrix(moving_from_outer[2:13,2:3]))`. Figure 6 and Table 20 indicate that:
 
-* In 2015-16 30.5% of outer Melbourne residents who moved from the outer region moved to the inner region, but this increased to 35.9% in 2020-21,
-* There were also increases in the proportion of outer Melbourne residents who moved who moved to Queensland (5.6% to 7.8%, Tasmania (0.8% to 2.3%))
-* In 2015-16 20.%of outer Melbourne residents who moved from the outer region moved to the middle region of Melbourne, but this fell to 16.3% in 2020-21.
-* There were also falls in the propotion of outer Melbourne residents who moved who moved to the rest of Victoria (23.3% to 17.2%)
+* In 2015-16 30.5% of outer Melbourne residents who moved, moved to the inner region, but this increased to 35.9% in 2020-21,
+* There were also increases in the proportion of outer Melbourne residents who moved who moved to Queensland (5.6% to 7.8%) and Tasmania (0.8% to 2.3%),
+* In 2015-16 20.0%of outer Melbourne residents who moved, moved to the middle region of Melbourne, but this fell to only 16.3% in 2020-21,
+* There were also falls in the proportion of outer Melbourne residents who moved who moved to the rest of Victoria (23.3% to 17.2%). 
 
 This suggests that those who were relocating from the outer surburbs of Melbourne after the start of COVID-19 were more likely to be moving to the inner parts of Melbourne and Queensland, and less likely to be moving to the middle suburbs and the rest of Victoria. 
 
